@@ -1,0 +1,51 @@
+* {
+    margin: 0 auto;
+    padding: 0;
+	font-family: 'Wallpoet', sans-serif;
+    box-sizing: border-box;
+}
+
+h2, h3, p, span {
+    color: rgb(230, 226, 226);
+	margin: 8px;
+}
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+.btn {
+	padding: 7px 10px;
+	border-radius: 7px;
+	font-size: 2rem;
+	background-color: rgba(94, 255, 0, 0.582);	
+}
+
+/* ---- Start game page ---- */
+
+.joinGameWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+
+	.joinGameBox {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 70vw;
+		height: 30vh;
+		font-family: 'Wallpoet', sans-serif;
+		font-size: 10rem;
+		text-shadow: 40px 40px 10px rgba(255, 183, 0, 0.582);
+	}
+
+	.startGameBtn {
+		margin-top: 2rem;
+	}
+
+}
