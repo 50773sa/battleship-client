@@ -11,7 +11,6 @@ import WaitingroomPage from './pages/WaitingroomPage';
 
 /* const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL)  */
 
-
 const App = () => {
 
 	return (
