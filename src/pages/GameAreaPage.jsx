@@ -1,4 +1,4 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 function GameAreaPage() {
@@ -6,7 +6,12 @@ function GameAreaPage() {
     <div>
         <header>
             <h1>Battleship</h1>
-            <button className='btn leaveGameBtn'>Leave Game</button>
+			<Link to="/">
+				<button 
+					className='btn leaveGameBtn'
+					> Leave Game
+				</button>
+			</Link>
         </header>
 
         <main>
