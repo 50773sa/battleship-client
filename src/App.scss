@@ -49,3 +49,22 @@ h2, h3, p, span {
 	}
 
 }
+
+/* ---- Waitingroom Component ---- */
+
+.lightboxContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+
+	.lightbox {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 70vw;
+		height: 30vh;
+	}
+}
