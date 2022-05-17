@@ -1,0 +1,115 @@
+* {
+    margin: 0 auto;
+    padding: 0;
+	font-family: 'Wallpoet', sans-serif;
+    box-sizing: border-box;
+}
+
+h2, h3, p, span {
+    color: rgb(230, 226, 226);
+	margin: 8px;
+}
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+.btn {
+	padding: 7px 10px;
+	border-radius: 7px;
+	font-size: 2rem;
+	background-color: rgba(94, 255, 0, 0.582);	
+}
+
+/* ---- Enter game page ---- */
+
+.joinGameWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+
+	.joinGameBox {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 70vw;
+		height: 30vh;
+		font-family: 'Wallpoet', sans-serif;
+		font-size: 10rem;
+		text-shadow: 40px 40px 10px rgba(255, 183, 0, 0.582);
+	}
+
+	.startGameBtn {
+		margin-top: 2rem;
+	}
+
+}
+
+/* ---- Game area page ---- */
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    position: relative;
+    background-image: 
+        linear-gradient(to right, 
+		rgba(255, 183, 0, 0.44),
+		rgb(255, 183, 0),
+		rgba(255, 183, 0, 0.44));
+
+
+    h1 {
+      	font-size: 4rem;
+      	text-shadow: 2px 5px 5px grey;
+		letter-spacing: 7px;
+  	}
+
+	.leaveGameBtn{
+		font-size: 1.5rem;
+		background-color: rgba(247, 58, 41, 0.955);
+		position: absolute;
+		right: 20px;
+    }
+}
+
+/* ---- Game area page --- */
+
+.gameAreaWrapper {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+
+
+
+	.gameArea {
+		margin-top: 2rem;
+
+		p {
+			text-align: center;
+			font-size: 2rem;
+		}
+		
+		.box {
+			border: 1px solid rgba(248, 219, 105, 0.573);
+			box-shadow: 0px 0px 50px 1px rgb(248, 219, 105);
+			min-width: 450px;
+			min-height: 450px;
+
+
+		}
+		
+	}
+
+
+}
+
+
+
+
