@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Grid from '../components/Grid'
 
 
-function GameAreaPage() {
+function GameAreaPage(players) {
 	const [row, setRow] = useState([
 		"1",
 		"2",
@@ -43,6 +43,7 @@ function GameAreaPage() {
 		"J",
 	])
 
+
   return (
     <div>
         <header>
@@ -56,6 +57,15 @@ function GameAreaPage() {
         </header>
 
         <main>
+			<div>
+				<h2>Players</h2>
+				<ul id="online-players">
+					{Object.values(players).map((player, index) =>
+						<li key={index}>{player}</li>
+					)}
+				</ul>
+			</div>
+
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					<p>Player 1</p>
