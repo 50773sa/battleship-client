@@ -35,8 +35,6 @@ function GameAreaPage() {
 					<div className="whosTurn">
 						<p>Your/Opponents turn</p>
 					</div>
-
-
 				</div>
 
 
