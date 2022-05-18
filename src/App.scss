@@ -125,8 +125,13 @@ header {
 		.box {
 			border: 1px solid rgba(248, 219, 105, 0.573);
 			box-shadow: 0px 0px 50px 1px rgb(248, 219, 105);
+
+			min-width: 450px;
+			min-height: 450px;
+			color: white;
 			width: 400px;
 			height: 400px;
+
 
 		}
 	}

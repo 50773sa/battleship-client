@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Grid from '../components/Grid'
 
 
 function GameAreaPage( players ) {
@@ -28,7 +29,10 @@ function GameAreaPage( players ) {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					<p>Player 1</p>
-					<div className="box"></div>
+
+					<span>Ships left 4/4</span>
+					<div className="box"><Grid /></div> 
+
 				</div>
 
 				<div className="shipsLeftWrap">
@@ -50,7 +54,11 @@ function GameAreaPage( players ) {
 
 				<div className="gameArea">
 					<p>Player 2</p>
-					<div className="box"></div>
+
+					<span>Ships left 4/4</span>
+					<div className="box"><Grid /></div>
+
+
 				</div>
 			</section>
         </main>
