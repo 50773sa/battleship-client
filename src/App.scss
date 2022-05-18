@@ -90,11 +90,20 @@ header {
 		letter-spacing: 7px;
   	}
 
-	.leaveGameBtn{
+	a {
+		display: flex;
+		align-items: center;
+		width: 20%;
+		position: absolute;
+		right: 0px;
+	}  
+
+	.leaveGameBtn {
 		font-size: 1.5rem;
 		background-color: rgba(247, 58, 41, 0.955);
 		position: absolute;
 		right: 20px;
+		cursor: pointer;
     }
 }
 
