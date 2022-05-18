@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom'
 
 function StartGamePage() {
@@ -8,7 +9,12 @@ function StartGamePage() {
     <div className='joinGameWrapper'>
         <div className="joinGameBox">
             <p>Battleship</p>
-            <button className='btn startGameBtn' as={Link} to={'/waitingroom'}>Join Game</button>
+            <Link to="/waitingroom">
+				<button 
+					className='btn startGameBtn'
+					> Join Game
+				</button>
+			</Link>
         </div>
     </div>
   )
