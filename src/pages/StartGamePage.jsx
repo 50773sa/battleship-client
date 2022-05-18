@@ -27,7 +27,7 @@ function StartGamePage( { socket } ) { // tar emot socket från App.jsx
 
 		// lyssna efter en uppdaterad spelarlista
 		socket.on('player:list', onUpdatePlayers)
-	}, [socket]) // skicka in navigate också som dependecy????
+	}, [socket]) 
 
 
   return (

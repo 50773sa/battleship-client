@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 
 
-function GameAreaPage() {
+function GameAreaPage( players ) {
+
   return (
     <div>
         <header>
@@ -15,6 +16,15 @@ function GameAreaPage() {
         </header>
 
         <main>
+			<div>
+				<h2>Players</h2>
+				<ul id="online-players">
+					{Object.values(players).map((player, index) =>
+						<li key={index}>{player}</li>
+					)}
+				</ul>
+			</div>
+
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					<p>Player 1</p>
