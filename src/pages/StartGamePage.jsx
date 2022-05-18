@@ -1,13 +1,15 @@
-import { useEffect, /* useState */ } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom' 
 
 function StartGamePage( { socket } ) { // tar emot socket från App.jsx
- 	/* const [player1, setPlayer1] = useState(null)
-	const [player2, setPlayer2] = useState(null)  */
-
+ 	const [players, setPlayers] = useState([])
 
 	const navigate = useNavigate()
 
+	const onUpdatePlayers = playerlist => {
+		console.log("Updated playerlist", playerlist, players)
+		setPlayers(playerlist)
+	}
 
 	const handlePlayerClickedBtn = () => {
 		console.log(`Client ${socket.id} wants to join the game`)
@@ -22,6 +24,9 @@ function StartGamePage( { socket } ) { // tar emot socket från App.jsx
 	useEffect(() => {
 		// lyssna efter join:game events från servern
 		socket.on('join:game', onJoinGame)
+
+		// lyssna efter en uppdaterad spelarlista
+		socket.on('player:list', onUpdatePlayers)
 	}, [socket]) // skicka in navigate också som dependecy????
 
 
