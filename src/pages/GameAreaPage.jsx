@@ -1,19 +1,11 @@
 import Grid from '../components/Grid'
 
 
-function GameAreaPage( players ) {
+function GameAreaPage() {
 
   return (
     <div>
         <main>
-			<div>
-				<h2>Players</h2>
-				<ul id="online-players">
-					{Object.values(players).map((player, index) =>
-						<li key={index}>{player}</li>
-					)}
-				</ul>
-			</div>
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
