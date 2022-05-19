@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Cell from '../components/Cell'
 
-function GameAreaPage(players) {
+function GameAreaPage() {
 	const [ids, setIds] = useState([]);
 	const columns = ["1","2","3","4","5","6","7","8","9","10"];
 	const rows = ["A","B","C","D","E","F","G","H","I","J",];
