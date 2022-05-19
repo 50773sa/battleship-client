@@ -40,12 +40,19 @@ h2, h3, p, span {
 		width: 70vw;
 		height: 30vh;
 		font-family: 'Wallpoet', sans-serif;
-		font-size: 10rem;
-		text-shadow: 40px 40px 10px rgba(255, 183, 0, 0.582);
+		font-size: 5rem;
+		text-shadow: 20px 20px 10px rgba(255, 183, 0, 0.582);
 	}
 
-	.startGameBtn {
-		margin-top: 2rem;
+	.form-label {
+		color: rgb(230, 226, 226);
+		display: block;
+	}
+
+	.form-control {
+		padding: 15px;
+		width: 100%;
+		font-size: 2rem;
 	}
 
 }
@@ -97,14 +104,6 @@ header {
 		position: absolute;
 		right: 0px;
 	}  
-
-	.leaveGameBtn {
-		font-size: 1.5rem;
-		background-color: rgba(247, 58, 41, 0.955);
-		position: absolute;
-		right: 20px;
-		cursor: pointer;
-    }
 }
 
 /* ---- Game area --- */

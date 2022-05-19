@@ -1,11 +1,14 @@
+import Grid from '../components/Grid'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Cell from '../components/Cell'
 
+
 export const columns = ["1","2","3","4","5","6","7","8","9","10"];
 export const rows = ["A","B","C","D","E","F","G","H","I","J",];
 
-function GameAreaPage(players) {
+function GameAreaPage() {
+
 	const [ids, setIds] = useState([]);
 	
 	const getIds = () => {
@@ -23,25 +26,7 @@ function GameAreaPage(players) {
 	
   return (
     <div>
-        <header>
-            <h1>Battleship</h1>
-			<Link to="/">
-				<button 
-					className='btn leaveGameBtn'
-					> Leave Game
-				</button>
-			</Link>
-        </header>
-
         <main>
-			<div>
-				<h2>Players</h2>
-				<ul id="online-players">
-					{Object.values(players).map((player, index) =>
-						<li key={index}>{player}</li>
-					)}
-				</ul>
-			</div>
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
