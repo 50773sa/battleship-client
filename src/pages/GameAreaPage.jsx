@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import Grid from '../components/Grid'
 
 
@@ -6,16 +5,6 @@ function GameAreaPage( players ) {
 
   return (
     <div>
-        <header>
-            <h1>Battleship</h1>
-			<Link to="/">
-				<button 
-					className='btn leaveGameBtn'
-					> Leave Game
-				</button>
-			</Link>
-        </header>
-
         <main>
 			<div>
 				<h2>Players</h2>

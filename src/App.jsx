@@ -13,10 +13,14 @@ import WaitingroomPage from './pages/WaitingroomPage';
 
 /* const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL)  */
 
+import Header from './components/Header'
+
 const App = () => {
 
 	return (
 	    <div id="App">
+		<Header />
+		
 		<div className='main-wrapper'>
 			<div className="box">
 				

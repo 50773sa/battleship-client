@@ -37,7 +37,7 @@ const StartGamePage = () => {
         	<div className="joinGameBox">
 				<Form onSubmit={handleSubmit}>
 					<Form.Group className="mb-3" controlId="username">
-						<Form.Label><p>Username</p></Form.Label>
+						<Form.Label>Username</Form.Label>
 						<Form.Control
 							onChange={e => setUsername(e.target.value)}
 							placeholder="Enter your username"
