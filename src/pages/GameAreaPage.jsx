@@ -1,49 +1,24 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import Grid from '../components/Grid'
+import { useState, useEffect } from 'react'
+import Cell from '../components/Cell'
 
 
 function GameAreaPage(players) {
-	const [row, setRow] = useState([
-		"1",
-		"2",
-		"3",
-		"4",
-		"5",
-		"6",
-		"7",
-		"8",
-		"9",
-		"10"
-	])
+	const [ids, setIds] = useState([]);
+	const columns = ["1","2","3","4","5","6","7","8","9","10"];
+	const rows = ["A","B","C","D","E","F","G","H","I","J",];
+	const getIds = () => {
+		const cellIds = [];
+		columns.map((colmun) => {
+			rows.map((row) => cellIds.push(colmun + row));
+		});
+		setIds(cellIds);
+	};
+	useEffect(() => {
+		getIds();
+	},[])
 
-	const [col, setCol] = useState([
-		"A",
-		"B",
-		"C",
-		"D",
-		"E",
-		"F",
-		"G",
-		"H",
-		"I",
-		"J",
-	])
-
-	const [ref, setRef] = useState([
-		"A",
-		"B",
-		"C",
-		"D",
-		"E",
-		"F",
-		"G",
-		"H",
-		"I",
-		"J",
-	])
-
-
+	
   return (
     <div>
         <header>
@@ -71,7 +46,7 @@ function GameAreaPage(players) {
 					<p>Player 1</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box"><Grid rows = {row} columns = {col} refs = {ref} /></div> 
+					<div className="box">{ids}</div> 
 
 				</div>
 
@@ -96,7 +71,7 @@ function GameAreaPage(players) {
 					<p>Player 2</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box"><Grid rows = {row} columns = {col} refs = {ref} /></div> 
+					<div className="box">{ids}</div> 
 
 				</div>
 			</section>
