@@ -1,9 +1,10 @@
 import React from 'react'
 
-export default function Cell() {
+export default function Cell({ id }) {
+    console.log(id);
   return (
-    <div>
-      
+    <div className={id.isDefault ? "isDefault" : "isAction" }>
+      {id.isIcon ? <span>⭕️</span> : ""}
     </div>
   )
 }

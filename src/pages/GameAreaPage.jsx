@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Cell from '../components/Cell'
 
 
+
 function GameAreaPage(players) {
 	const [ids, setIds] = useState([]);
 	const columns = ["1","2","3","4","5","6","7","8","9","10"];
@@ -10,7 +11,7 @@ function GameAreaPage(players) {
 	const getIds = () => {
 		const cellIds = [];
 		columns.map((colmun) => {
-			rows.map((row) => cellIds.push(colmun + row));
+			rows.map((row) => cellIds.push({id:colmun + row, isIcon: true, isDefault: true}));
 		});
 		setIds(cellIds);
 	};
@@ -46,7 +47,14 @@ function GameAreaPage(players) {
 					<p>Player 1</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box">{ids}</div> 
+					<div className="box">
+						<div className='cell'>
+							{ids && ids.map((id, i) => 
+							<Cell key = {i} id = {id} />
+						)}
+						</div>
+						
+					</div> 
 
 				</div>
 
@@ -71,7 +79,13 @@ function GameAreaPage(players) {
 					<p>Player 2</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box">{ids}</div> 
+					<div className="box">
+						<div className='cell'>
+								{ids && ids.map((id, i) => 
+								<Cell key = {i} id = {id} />
+							)}
+						</div>
+					</div> 
 
 				</div>
 			</section>
