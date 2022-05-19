@@ -1,9 +1,25 @@
 import { Link } from 'react-router-dom'
-import Grid from '../components/Grid'
+import { useState, useEffect } from 'react'
+import Cell from '../components/Cell'
 
 
-function GameAreaPage() {
 
+function GameAreaPage(players) {
+	const [ids, setIds] = useState([]);
+	const columns = ["1","2","3","4","5","6","7","8","9","10"];
+	const rows = ["A","B","C","D","E","F","G","H","I","J",];
+	const getIds = () => {
+		const cellIds = [];
+		columns.map((colmun) => {
+			rows.map((row) => cellIds.push({id:colmun + row, isIcon: true, isDefault: true}));
+		});
+		setIds(cellIds);
+	};
+	useEffect(() => {
+		getIds();
+	},[])
+
+	
   return (
     <div>
         <header>
@@ -17,12 +33,28 @@ function GameAreaPage() {
         </header>
 
         <main>
+			<div>
+				<h2>Players</h2>
+				<ul id="online-players">
+					{Object.values(players).map((player, index) =>
+						<li key={index}>{player}</li>
+					)}
+				</ul>
+			</div>
+
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					<p>Player 1</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box"><Grid /></div> 
+					<div className="box">
+						<div className='cell'>
+							{ids && ids.map((id, i) => 
+							<Cell key = {i} id = {id} />
+						)}
+						</div>
+						
+					</div> 
 
 				</div>
 
@@ -47,8 +79,13 @@ function GameAreaPage() {
 					<p>Player 2</p>
 
 					<span>Ships left 4/4</span>
-					<div className="box"><Grid /></div>
-
+					<div className="box">
+						<div className='cell'>
+								{ids && ids.map((id, i) => 
+								<Cell key = {i} id = {id} />
+							)}
+						</div>
+					</div> 
 
 				</div>
 			</section>

@@ -131,11 +131,28 @@ header {
 			color: white;
 			width: 400px;
 			height: 400px;
+		}
 
+		.cell {
+			display: grid;
+			grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+			grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+			text-align: center;
+		}
 
+		.isDefault {
+			background-color: dimgrey;
+			border: 1px solid #fff;
+			height: 43px;
+			width: 43px;
+		}
+
+		.isAction {
+			background-color: darkorange;
 		}
 	}
 }
+
 
 .shipsLeftWrap {
 	display: flex;
