@@ -1,4 +1,3 @@
-import Grid from '../components/Grid'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Cell from '../components/Cell'
