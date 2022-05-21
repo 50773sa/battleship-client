@@ -137,13 +137,15 @@ header {
 			grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
 			grid-template-rows: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
 			text-align: center;
+			gap: 0;
+			margin: 0;
 		}
 
-		.isDefault {
-			background-color: dimgrey;
+		.isEmpty {
+			background-color: rgba(105, 105, 105, 0.5);
 			border: 1px solid #fff;
-			height: 43px;
-			width: 43px;
+			height: 45px;
+			width: 45px;
 		}
 
 		.isAction {
