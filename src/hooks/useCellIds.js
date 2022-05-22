@@ -9,7 +9,7 @@ function useCellIds() {
 	const getIds = () => {
 		const cellIds = [];
 		columns.forEach((colmun) => {
-			rows.forEach((row) => cellIds.push({id:colmun + row, isIcon: true, isEmpty: true}));
+			rows.forEach((row) => cellIds.push({id:colmun + row, defaultCellColor: true}));
 		});
 		setIds(cellIds);
 	};
