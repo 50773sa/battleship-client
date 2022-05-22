@@ -147,9 +147,16 @@ header {
 			height: 45px;
 			width: 45px;
 		}
+		
+		.isShip {
+			background-color: darkorange;
+			border: 1px solid #fff;
+			height: 45px;
+			width: 45px;
+		}
 
 		.isAction {
-			background-color: darkorange;
+			background-color: rgba(94, 255, 0, 0.582);
 			border: 1px solid #fff;
 			height: 45px;
 			width: 45px;

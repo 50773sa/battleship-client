@@ -2,11 +2,14 @@
 import { useState, useEffect } from 'react'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-import Ships from '../components/Ships';
+import useGetShips from '../hooks/useGetShips';
 
 function GameAreaPage() {
 
 	const ids = useCellIds()
+	const {ships} = useGetShips()
+	//debugger
+	console.log('test', ships)
 
 	console.log('ids: ',ids)
 	

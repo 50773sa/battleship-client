@@ -25,7 +25,11 @@ export default function Cell({ id }) {
 
 
   return (
-    <div className={id.isEmpty ? "isEmpty" : "isAction" } onClick={handleClickOnCell}>
+    <div className={id.isEmpty ? "isEmpty" 
+                    : id.isShip ? "isShip" 
+                    : "isAction" } 
+          onClick={handleClickOnCell}
+    >
       {id.isIcon ? <span></span> : ""}
 
     </div>
