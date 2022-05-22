@@ -144,15 +144,21 @@ header {
 	margin: 0;
 
 	.defaultCellColor {
-		background-color: rgba(105, 105, 105, 0.5);
 		border: 1px solid #fff;
 		height: 45px;
 		width: 45px;
 	}
 
 	// handle shot
-	.hit {
-		background-color: rgb(11, 172, 20);
+	.hit{
+		background-color: rgba(16, 157, 28, 0.886);
+		border: 1px solid #fff;
+		height: 45px;
+		width: 45px;
+	}
+
+	.miss{
+		background-color: rgba(156, 13, 13, 0.886);
 		border: 1px solid #fff;
 		height: 45px;
 		width: 45px;
