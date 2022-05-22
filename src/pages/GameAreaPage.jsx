@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-//import { Link } from 'react-router-dom'
->>>>>>> main
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
