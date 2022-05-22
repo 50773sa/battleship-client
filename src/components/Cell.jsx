@@ -4,17 +4,19 @@ const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
 
 
 export default function Cell({ id }) {
+  const [click, setClick] = useState(false)
+  const [defaultCellColor, setDefaultCellColor] = useState(true)
+  const [hit, setHit] = useState(false)
 
-    console.log('id:', id);
+    const handleClickOnCell = (e) => {
+    e.preventDefault()
+	
+    setClick(id)
+    setDefaultCellColor(false)
+    setHit(true)
 
-
-	const [click, setClick] = useState('false')
-
-    const handleClickOnCell = () => {
-		setClick(id)
-
-        socket.emit('cell:clicked', click, id)
-        console.log('CLICK ON ID', id, click)   
+    socket.emit('cell:clicked', click, id)
+    console.log('CLICK ON ID', id, click)   
     }
 
     useEffect(() => {
@@ -24,17 +26,16 @@ export default function Cell({ id }) {
     }, [click])
 
 
-  return (
-    <div className={id.isEmpty ? "isEmpty" 
-                    : id.isShip ? "isShip" 
-                    : "isAction" } 
-          onClick={handleClickOnCell}
-    >
-      {id.isIcon ? <span></span> : ""}
+ 	return (
+   		<div 
+			className={defaultCellColor 
+				? 'defaultCellColor' 
+				: 'hit'} 
+				onClick={handleClickOnCell} 
+			>
+      			{defaultCellColor}
+   		</div>
+  	)
 
-    </div>
-  )
 }
-
-
 
