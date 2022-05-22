@@ -27,7 +27,7 @@ const App = () => {
 			<Routes>
 				<Route path="/" element={<StartGamePage /* socket={socket} */ />} />
 				<Route path="/waitingroom" element={<WaitingroomPage />} />
-				<Route path="/games/:game_id" element={<GameAreaPage />} />
+				<Route path="/game" element={<GameAreaPage />} />
 				{/* <Route path="/game" element={<GameAreaPage />} />	 */}
 			</Routes> 
 			</div>
