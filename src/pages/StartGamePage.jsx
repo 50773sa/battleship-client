@@ -1,4 +1,4 @@
-import { /* useEffect */ useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'  
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -6,7 +6,7 @@ import { useGameContext } from '../contexts/GameContextProvider'
 
 const StartGamePage = () => {
 	const [username, setUsername] = useState('')
-	const { setGameUsername } = useGameContext()
+	const { setGameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 
 	const onHandleSubmit = e => {
@@ -16,6 +16,14 @@ const StartGamePage = () => {
 
 		navigate('/game')
 	}
+
+	useEffect(() => {
+		// listen after game:mounted event
+		socket.on('game:mounted', (welcome) => {
+			console.log(welcome); // welcome message from server.js
+			console.log(`Game is mounted and client with socket id '${socket.id}' connected to startpage`)
+		  });
+	})
 
 	return (
 		<div className='joinGameWrapper'>

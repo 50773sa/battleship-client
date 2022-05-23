@@ -7,7 +7,6 @@ import Ships from '../components/Ships';
 
 function GameAreaPage() {
 	const [player, setPlayer] = useState('') 
-	const [opponent, setOpponent] = useState('')
 /* 	const [playerList, setPlayerList] = useState([]) */
 /* 	const [fullGame, setFullGame] = useState(false) */
 	const { gameUsername, socket } = useGameContext()
@@ -20,10 +19,9 @@ function GameAreaPage() {
 	const ids = useCellIds()
 
 	//***** PLAYERS *****//
- 	const handleUpdatePlayers = (player, opponent) => {
-		console.log("Got new playerlist", player, opponent)
+ 	const handleUpdatePlayers = (player) => {
+		console.log("Got new playerlist", player)
 		setPlayer(player)
-		setOpponent(opponent)
 	} 
 
 	// Spara till senare när vi har id p spelarna
@@ -45,6 +43,7 @@ function GameAreaPage() {
 
 		// emit join request
 		socket.emit('player:joined', gameUsername)
+		console.log("username:", gameUsername)
 
 		// listen for updated playerlist
 		socket.on('update:players', handleUpdatePlayers) 
@@ -75,7 +74,7 @@ function GameAreaPage() {
 					</div>
 
 						<div className="shipsLeftPlayer2">
-							<h3>{opponent} ≫</h3>
+							<h3>opponent ≫</h3>
 							<p>Ships left: 4 / 4</p>
 						</div>
 
@@ -86,7 +85,7 @@ function GameAreaPage() {
 
 
 					<div className="gameArea">
-						<p>{opponent}</p>
+						<p>opponent</p>
 
 						<div className="box">
 							<div className='cell'>
