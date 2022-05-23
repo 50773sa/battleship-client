@@ -7,7 +7,6 @@ import useGetShips from '../hooks/useGetShips';
 
 function GameAreaPage() {
 	const [player, setPlayer] = useState('') 
-	const [opponent, setOpponent] = useState('')
 /* 	const [playerList, setPlayerList] = useState([]) */
 /* 	const [fullGame, setFullGame] = useState(false) */
 	const { gameUsername, socket } = useGameContext()
@@ -23,10 +22,9 @@ function GameAreaPage() {
 	console.log('ids: ',ids)
 
 	//***** PLAYERS *****//
- 	const handleUpdatePlayers = (player, opponent) => {
-		console.log("Got new playerlist", player, opponent)
+ 	const handleUpdatePlayers = (player) => {
+		console.log("Got new playerlist", player)
 		setPlayer(player)
-		setOpponent(opponent)
 	} 
 
 	// connect to game when component is mounted
@@ -38,6 +36,7 @@ function GameAreaPage() {
 
 		// emit join request
 		socket.emit('player:joined', gameUsername)
+		console.log("username:", gameUsername)
 
 		// listen for updated playerlist
 		socket.on('update:players', handleUpdatePlayers) 
@@ -69,7 +68,7 @@ function GameAreaPage() {
 					</div>
 
 						<div className="shipsLeftPlayer2">
-							<h3>{opponent} ≫</h3>
+							<h3>opponent ≫</h3>
 							<p>Ships left: 4 / 4</p>
 						</div>
 
@@ -80,7 +79,7 @@ function GameAreaPage() {
 
 
 					<div className="gameArea">
-						<p>{opponent}</p>
+						<p>opponent</p>
 
 						<span>Ships left 4/4</span>
 						<div className="box">
