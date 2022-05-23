@@ -5,7 +5,7 @@ const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
 
 export default function Cell({ id }) {
 
-    console.log('id:', id);
+/*     console.log('id:', id); */
 
 	const [click, setClick] = useState('false')
 
@@ -13,7 +13,7 @@ export default function Cell({ id }) {
 		setClick(id)
 
         socket.emit('cell:clicked', click, id)
-        console.log('CLICK ON ID', id, click)   
+   /*      console.log('CLICK ON ID', id, click)  */  
     }
 
     useEffect(() => {
