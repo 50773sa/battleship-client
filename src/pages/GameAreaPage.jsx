@@ -26,6 +26,8 @@ function GameAreaPage() {
 		setOpponent(opponent)
 	} 
 
+	// Spara till senare när vi har id p spelarna
+
  	const randomPlayerStarts = () => {
 		const random = Math.floor(Math.random() * 20 /10)
 		console.log('RANDOMPLAYER', random)
