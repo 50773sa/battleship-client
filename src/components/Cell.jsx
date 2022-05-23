@@ -27,15 +27,18 @@ export default function Cell({ id }) {
 
 
  	return (
-   		<div 
-			className={defaultCellColor 
-				? 'defaultCellColor' 
-				: 'hit'} 
-				onClick={handleClickOnCell} 
-			>
-      			{defaultCellColor}
-   		</div>
-  	)
 
-}
+        <div className="defaultCellColor">
+          	<div 
+              	className={hit
+                ? 'hit' 
+                : 'defaultCellColor'} 
+                onClick={handleClickOnCell} 
+            >
+                {defaultCellColor}
+          	</div>
+        </div>
+    )
+  }
+
 

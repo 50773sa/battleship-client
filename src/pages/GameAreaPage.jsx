@@ -12,6 +12,9 @@ function GameAreaPage() {
 	const { gameUsername, socket } = useGameContext()
 /* 	const [connected, setConnected] = useState(false) */
 	const navigate = useNavigate()
+	const players = ('sara', 'maria')
+
+
 
 	const ids = useCellIds()
 
@@ -21,11 +24,22 @@ function GameAreaPage() {
 
 	console.log('ids: ',ids)
 
+
 	//***** PLAYERS *****//
  	const handleUpdatePlayers = (player) => {
 		console.log("Got new playerlist", player)
 		setPlayer(player)
 	} 
+
+	// Spara till senare när vi har id p spelarna
+
+ 	const randomPlayerStarts = () => {
+		const random = Math.floor(Math.random() * 20 /10)
+		console.log('RANDOMPLAYER', random)
+	}	
+	randomPlayerStarts(players)	 
+
+
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -49,9 +63,8 @@ function GameAreaPage() {
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
-					<p>Player 1</p>
+					<p>{player}</p>
 
-					<span>Ships left 4/4</span>
 					<div className="box">
 						<div className='cell'>
 							{ids && ids.map((id, i) => 
@@ -81,7 +94,6 @@ function GameAreaPage() {
 					<div className="gameArea">
 						<p>opponent</p>
 
-						<span>Ships left 4/4</span>
 						<div className="box">
 							<div className='cell'>
 									{ids && ids.map((id, i) => 
