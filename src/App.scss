@@ -1,5 +1,5 @@
 * {
-    margin: 0 auto;
+    margin: auto 0;
     padding: 0;
 	font-family: 'Wallpoet', sans-serif;
     box-sizing: border-box;
@@ -110,8 +110,9 @@ header {
 
 .gameAreaWrapper {
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
+	height: 100%;
 
 	.gameArea {
 		margin-top: 2rem;
@@ -124,9 +125,6 @@ header {
 		.box {
 			border: 1px solid rgba(248, 219, 105, 0.573);
 			box-shadow: 0px 0px 50px 1px rgb(248, 219, 105);
-
-			min-width: 450px;
-			min-height: 450px;
 			color: white;
 			width: 400px;
 			height: 400px;
@@ -142,26 +140,63 @@ header {
 	text-align: center;
 	gap: 0;
 	margin: 0;
+	background-image: url('./assets/img/ocean-background.png');
+	background-color: rgba(0, 0, 0, 0.733);
+	background-blend-mode: color-burn;
+
+
+
+		.isEmpty {
+			background-color: rgba(105, 105, 105, 0.5);
+			border: 1px solid #fff;
+			height: 45px;
+			width: 45px;
+		}
+		
+		.isShip {
+			background-color: darkorange;
+			border: 1px solid #fff;
+			height: 45px;
+			width: 45px;
+		}
+
+		.isAction {
+			background-color: rgba(94, 255, 0, 0.582);
+			border: 1px solid #fff;
+			height: 45px;
+			width: 45px;
+	
+		}
 
 	.defaultCellColor {
-		border: 1px solid #fff;
-		height: 45px;
-		width: 45px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid rgb(191, 96, 7);
+		height: 40px;
+		width: 40px;
 	}
 
 	// handle shot
 	.hit{
-		background-color: rgba(16, 157, 28, 0.886);
-		border: 1px solid #fff;
-		height: 45px;
-		width: 45px;
+		width: 20px;
+		height: 20px;
+		background-color: rgba(94, 255, 0, 0.582);
+		border-radius: 100%;
+
 	}
 
 	.miss{
+		width: 20px;
+		height: 20px;
 		background-color: rgba(156, 13, 13, 0.886);
 		border: 1px solid #fff;
 		height: 45px;
 		width: 45px;
+
+
+		border-radius: 100%;
+
 	}
 }
 

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-import Ships from '../components/Ships';
+import useGetShips from '../hooks/useGetShips';
 
 function GameAreaPage() {
 	const [player, setPlayer] = useState('') 
@@ -13,11 +13,31 @@ function GameAreaPage() {
 	const { gameUsername, socket } = useGameContext()
 /* 	const [connected, setConnected] = useState(false) */
 	const navigate = useNavigate()
+	const players = ('sara', 'maria')
+
+
 
 	const ids = useCellIds()
 /* 	console.log('ids: ',ids) */
 
+	const {ships} = useGetShips()
+	//debugger
+	console.log('test', ships)
+
+	console.log('ids: ',ids)
+
+
 	//***** PLAYERS *****//
+
+	// Spara till senare när vi har id p spelarna
+
+ 	const randomPlayerStarts = () => {
+		const random = Math.floor(Math.random() * 20 /10)
+		console.log('RANDOMPLAYER', random)
+	}	
+	randomPlayerStarts(players)	 
+
+
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -62,7 +82,6 @@ function GameAreaPage() {
 				<div className="gameArea">
 					<p>You: {player}</p>
 
-					<span>Ships left 4/4</span>
 					<div className="box">
 						<div className='cell'>
 							{ids && ids.map((id, i) => 
@@ -92,7 +111,6 @@ function GameAreaPage() {
 					<div className="gameArea">
 						<p>Opponent: {opponent}</p>
 
-						<span>Ships left 4/4</span>
 						<div className="box">
 							<div className='cell'>
 									{ids && ids.map((id, i) => 
