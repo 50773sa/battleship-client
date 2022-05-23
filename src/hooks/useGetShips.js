@@ -28,9 +28,11 @@ function useGetShips() {
 
     const setPositions = () => {
       ships.map((ship) => {
-        const randomIndex = Math.floor(Math.random() * (columns.length - ship.block))
-        let col = columns[randomIndex]
-        const row = rows[randomIndex]
+        const randomIndexCol = Math.floor(Math.random() * (columns.length - ship.block))
+        const randomIndexRow = Math.floor(Math.random() * rows.length)
+        
+        let col = columns[randomIndexCol]
+        const row = rows[randomIndexRow]
 
         // Repeat for the number of blocks.
         for (let i = 0; i < ship.block; i++){ 

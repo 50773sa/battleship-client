@@ -5,7 +5,7 @@ function useRandom() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   
 
-  return getRandom
+  return getRandom()
 }
 
 export default useRandom
