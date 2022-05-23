@@ -12,7 +12,8 @@ const StartGamePage = () => {
 	const onHandleSubmit = e => {
 		e.preventDefault()
 
-		setGameUsername(username)
+	 	setGameUsername(username) 
+		setUsername("")
 
 		navigate('/game')
 	}

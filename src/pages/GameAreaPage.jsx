@@ -7,20 +7,17 @@ import Ships from '../components/Ships';
 
 function GameAreaPage() {
 	const [player, setPlayer] = useState('') 
-/* 	const [playerList, setPlayerList] = useState([]) */
-/* 	const [fullGame, setFullGame] = useState(false) */
+	const [opponent, setOpponent] = useState('')
+/*  const [playerList, setPlayerList] = useState([])  */
+ /* 	const [fullGame, setFullGame] = useState(false)  */
 	const { gameUsername, socket } = useGameContext()
 /* 	const [connected, setConnected] = useState(false) */
 	const navigate = useNavigate()
 
 	const ids = useCellIds()
-	console.log('ids: ',ids)
+/* 	console.log('ids: ',ids) */
 
 	//***** PLAYERS *****//
- 	const handleUpdatePlayers = (player) => {
-		console.log("Got new playerlist", player)
-		setPlayer(player)
-	} 
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -29,14 +26,33 @@ function GameAreaPage() {
 			navigate('/')
 		}
 
-		// emit join request
-		socket.emit('player:joined', gameUsername)
-		console.log("username:", gameUsername)
+		const handleUpdatePlayers = (players) => {
+			console.log(`players befor if-statement: ${players}`)
+	
+			if (players.lenggt === 2) {
+				const thisPlayer = players.find((player) => player.id === socket.id)
+				thisPlayer.currentPlayer = "player"
+	
+				const opponentPlayer = players.find((player) => player.id !== socket.id)
+				opponentPlayer.currentPlayer = "opponent"
+	
+				setPlayer(thisPlayer)
+				setOpponent(opponentPlayer)
+				console.log(`thisPlayer ${thisPlayer}, opponentPlayer ${opponentPlayer}`)
+			}
+		}
 
 		// listen for updated playerlist
-		socket.on('update:players', handleUpdatePlayers) 
-		
-	}, [gameUsername])
+		socket.on('update:players', handleUpdatePlayers)
+
+		// emit join request
+		socket.emit('player:joined', gameUsername)
+
+		console.log(`gameUsername after player:joined event : ${gameUsername}`) 
+
+	}, [gameUsername, navigate, socket])
+
+	console.log("gameUsername after useEffect", gameUsername)
 
   return (
     <div>
@@ -44,7 +60,7 @@ function GameAreaPage() {
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
-					<p>Player 1</p>
+					<p>You: {player}</p>
 
 					<span>Ships left 4/4</span>
 					<div className="box">
@@ -58,12 +74,12 @@ function GameAreaPage() {
 
 				<div className="shipsLeftWrap">
 					<div className="shipsLeftPlayer1">
-						<h3>≪ {player}</h3>
+						<h3>≪ Player 1</h3>
 						<p>Ships left: 4 / 4</p>
 					</div>
 
 						<div className="shipsLeftPlayer2">
-							<h3>opponent ≫</h3>
+							<h3>Opponent ≫</h3>
 							<p>Ships left: 4 / 4</p>
 						</div>
 
@@ -74,7 +90,7 @@ function GameAreaPage() {
 
 
 					<div className="gameArea">
-						<p>opponent</p>
+						<p>Opponent: {opponent}</p>
 
 						<span>Ships left 4/4</span>
 						<div className="box">
