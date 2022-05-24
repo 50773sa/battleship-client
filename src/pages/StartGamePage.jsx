@@ -4,32 +4,40 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { useGameContext } from '../contexts/GameContextProvider'
 
-const StartGamePage = () => {
-	const [username, setUsername] = useState('')
-	const { setGameUsername, socket } = useGameContext()
-	const navigate = useNavigate()
+const StartGamePage = () => { //! APP.js
+	 const [username, setUsername] = useState('')
+	 const [room, setRoom] = useState('')
+	 const { socket } = useGameContext()
+	 const navigate = useNavigate()
 
-	const onHandleSubmit = e => {
+
+    //! ***** PLAYERS AND ROOM *****//
+
+	 const handleJoinRoom = (e) => {
 		e.preventDefault()
 
-	 	setGameUsername(username) 
-		setUsername("")
+		// send 'room' as data to server - handleJoinGame
+		socket.emit('join:room', room)
+		console.log('ROOM', room)
 
 		navigate('/game')
-	}
 
+	 }
+
+	 	// connect to game when component is mounted
 	useEffect(() => {
-		// listen after game:mounted event
-		socket.on('game:mounted', (welcome) => {
-			console.log(welcome); // welcome message from server.js
-			console.log(`Game is mounted and client with socket id '${socket.id}' connected to startpage`)
-		  });
-	})
+		// if no username, redirect them to the login page
+			if (!username) {
+				navigate('/')
+			}
+
+	}, [navigate])
+
 
 	return (
 		<div className='joinGameWrapper'>
         	<div className="joinGameBox">
-				<Form onSubmit={onHandleSubmit}>
+				 <Form>
 					<Form.Group className="mb-3" controlId="username">
 						<Form.Label>Username</Form.Label>
 						<Form.Control
@@ -41,16 +49,28 @@ const StartGamePage = () => {
 						/>
 					</Form.Group>
 
+					<Form.Group className="mb-3" controlId="room">
+						<Form.Label>Room</Form.Label>
+						<Form.Control
+							onChange={e => setRoom(e.target.value)}
+							placeholder="Pick room"
+							required
+							type="text"
+							value={room}
+						/>
+					</Form.Group>
+
 					<div className="d-flex justify-content-between">
 						<Button 
+						onClick={handleJoinRoom}
 							variant="success" 
 							type="submit" 
 							className="w-100" 
 							disabled={!username}>
 								Join Game
-							</Button>
-					</div>
-				</Form>
+							</Button> 
+					 </div>
+				</Form> 
 				
        	 	</div>
     	</div>

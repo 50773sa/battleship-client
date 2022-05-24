@@ -5,74 +5,23 @@ import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
 import useGetShips from '../hooks/useGetShips';
 
-function GameAreaPage() {
+function GameAreaPage({ room }) {
 	const [player, setPlayer] = useState('') 
 	const [opponent, setOpponent] = useState('')
-/*  const [playerList, setPlayerList] = useState([])  */
- /* 	const [fullGame, setFullGame] = useState(false)  */
-	const { gameUsername, socket } = useGameContext()
-/* 	const [connected, setConnected] = useState(false) */
-	const navigate = useNavigate()
-	const players = ('sara', 'maria')
-
-
-
+	const { username, socket } = useGameContext()
 	const ids = useCellIds()
-/* 	console.log('ids: ',ids) */
-
 	const {ships} = useGetShips()
-	//debugger
-	console.log('test', ships)
-
-	console.log('ids: ',ids)
-
-
-	//***** PLAYERS *****//
-
-	// Spara till senare när vi har id p spelarna
-
- 	const randomPlayerStarts = () => {
-		const random = Math.floor(Math.random() * 20 /10)
-		console.log('RANDOMPLAYER', random)
-	}	
-	randomPlayerStarts(players)	 
 
 
 
-	// connect to game when component is mounted
-	useEffect(() => {
-	// if no username, redirect them to the login page
-		if (!gameUsername) {
-			navigate('/')
-		}
+	// // Spara till senare när vi har id p spelarna
 
-		const handleUpdatePlayers = (players) => {
-			console.log(`players befor if-statement: ${players}`)
-	
-			if (players.lenggt === 2) {
-				const thisPlayer = players.find((player) => player.id === socket.id)
-				thisPlayer.currentPlayer = "player"
-	
-				const opponentPlayer = players.find((player) => player.id !== socket.id)
-				opponentPlayer.currentPlayer = "opponent"
-	
-				setPlayer(thisPlayer)
-				setOpponent(opponentPlayer)
-				console.log(`thisPlayer ${thisPlayer}, opponentPlayer ${opponentPlayer}`)
-			}
-		}
+ 	// const randomPlayerStarts = () => {
+	// 	const random = Math.floor(Math.random() * 20 /10)
+	// 	console.log('RANDOMPLAYER', random)
+	// }	
+	// randomPlayerStarts(players)	 
 
-		// listen for updated playerlist
-		socket.on('update:players', handleUpdatePlayers)
-
-		// emit join request
-		socket.emit('player:joined', gameUsername)
-
-		console.log(`gameUsername after player:joined event : ${gameUsername}`) 
-
-	}, [gameUsername, navigate, socket])
-
-	console.log("gameUsername after useEffect", gameUsername)
 
   return (
     <div>
@@ -80,7 +29,7 @@ function GameAreaPage() {
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
-					<p>You: {player}</p>
+					<p>You: {username}</p>
 
 					<div className="box">
 						<div className='cell'>
@@ -109,7 +58,7 @@ function GameAreaPage() {
 
 
 					<div className="gameArea">
-						<p>Opponent: {opponent}</p>
+						<p>Opponent: {player.username}</p>
 
 						<div className="box">
 							<div className='cell'>
