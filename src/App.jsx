@@ -6,7 +6,6 @@ import { Routes, Route } from 'react-router-dom'
 // pages
 import StartGamePage from './pages/StartGamePage';
 import GameAreaPage from './pages/GameAreaPage';
-
 import Header from './components/Header'
 
 const App = () => {

@@ -6,6 +6,8 @@ import useCellIds from '../hooks/useCellIds';
 import useGetShips from '../hooks/useGetShips';
 
 function GameAreaPage() {
+
+	//**** PLAYERS ****/
 	const [player, setPlayer] = useState('') 
 	const [opponent, setOpponent] = useState('')
 /*  const [playerList, setPlayerList] = useState([])  */
@@ -13,31 +15,23 @@ function GameAreaPage() {
 	const { gameUsername, socket } = useGameContext()
 /* 	const [connected, setConnected] = useState(false) */
 	const navigate = useNavigate()
-	const players = ('sara', 'maria')
 
-
-
+	//**** GRIDS ****/
 	const ids = useCellIds()
 /* 	console.log('ids: ',ids) */
-
 	const {ships} = useGetShips()
 	//debugger
 	console.log('test', ships)
-
 	console.log('ids: ',ids)
 
 
-	//***** PLAYERS *****//
-
 	// Spara till senare när vi har id p spelarna
 
- 	const randomPlayerStarts = () => {
+/*  	const randomPlayerStarts = () => {
 		const random = Math.floor(Math.random() * 20 /10)
 		console.log('RANDOMPLAYER', random)
-	}	
-	randomPlayerStarts(players)	 
-
-
+	}	 */
+	/* randomPlayerStarts(players)	 */ 
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -49,7 +43,7 @@ function GameAreaPage() {
 		const handleUpdatePlayers = (players) => {
 			console.log(`players befor if-statement: ${players}`)
 	
-			if (players.lenggt === 2) {
+			if (players.length === 2) {
 				const thisPlayer = players.find((player) => player.id === socket.id)
 				thisPlayer.currentPlayer = "player"
 	
@@ -62,11 +56,14 @@ function GameAreaPage() {
 			}
 		}
 
+		// emit join request
+		socket.emit('player:joined', gameUsername)
+		console.log('gameUsername: ', gameUsername)
+
 		// listen for updated playerlist
 		socket.on('update:players', handleUpdatePlayers)
 
-		// emit join request
-		socket.emit('player:joined', gameUsername)
+		
 
 		console.log(`gameUsername after player:joined event : ${gameUsername}`) 
 
