@@ -1,4 +1,4 @@
-function useRandom() {
+function UseRandom() {
 
   
       const getRandom = ((arr) => Math.floor(Math.random() * arr.length))
@@ -8,4 +8,4 @@ function useRandom() {
   return getRandom()
 }
 
-export default useRandom
+export default UseRandom

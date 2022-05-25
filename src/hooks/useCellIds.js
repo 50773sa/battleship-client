@@ -3,7 +3,7 @@ import { useState, useEffect }from 'react'
 export const columns = [1,2,3,4,5,6,7,8,9,10];
 export const rows = ["A","B","C","D","E","F","G","H","I","J",];
 
-function useCellIds() {
+function UseCellIds() {
     const [ids, setIds] = useState([]);
 	
 	
@@ -22,4 +22,4 @@ function useCellIds() {
   return ids
 }
 
-export default useCellIds
+export default UseCellIds

@@ -1,7 +1,7 @@
 //import { useEffect, useState } from 'react'
-import { columns, rows }  from './useCellIds';
+import { columns, rows }  from './UseCellIds';
 
-function useGetShips() {
+function UseGetShips() {
 
     const ships = [
       {
@@ -35,7 +35,7 @@ function useGetShips() {
       ships.forEach((ship) => {
       
         // create random col and row
-        let col = getRandomIndex(columns, ship.block)
+        let col = getRandomIndex(columns, ship.block)+1
         let row = getRandomIndex(rows, 0)
 
         console.log('ships position', ship.position)
@@ -46,10 +46,11 @@ function useGetShips() {
             position.some((posi) => 
             posi === tempCol + tempRow ||
             posi === tempCol + 1 + tempRow ||
-            posi === tempCol - 1 + tempRow)
+            posi === tempCol - 1 + tempRow) 
           )
 
         if (hasDuplicates(col, row)) {
+          console.log('Duplicates')
           do{
             col = getRandomIndex(columns, ship.block)
             row = getRandomIndex(rows, 0)
@@ -69,10 +70,18 @@ function useGetShips() {
         // }
         
       })
-      return { ships }
+      return (
+
+        <div className="ships">
+        
+        { ships }
+        
+        </div>
+        
+        )
     } 
 
     setPositions()
 }
 
-export default useGetShips
+export default UseGetShips

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
-import useCellIds from '../hooks/useCellIds';
-import useGetShips from '../hooks/useGetShips';
+import useCellIds from '../hooks/UseCellIds';
+import useGetShips from '../hooks/UseGetShips';
 
 function GameAreaPage() {
 	const [player, setPlayer] = useState('') 
