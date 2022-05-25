@@ -3,7 +3,7 @@ import './App.scss';
 
 import { Routes, Route } from 'react-router-dom'
 
-// pages
+// pages and components
 import StartGamePage from './pages/StartGamePage';
 import GameAreaPage from './pages/GameAreaPage';
 import Header from './components/Header'

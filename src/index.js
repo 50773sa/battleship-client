@@ -13,4 +13,4 @@ root.render(
 			</GameContextProvider>
 		</BrowserRouter>
 	//</React.StrictMode>
-);
+)

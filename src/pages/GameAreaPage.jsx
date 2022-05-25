@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate, useParams } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
 import useGetShips from '../hooks/useGetShips';
 
-function GameAreaPage() {
+const GameAreaPage = () => {
 
 	//**** PLAYERS ****/
-	const [player, setPlayer] = useState('') 
-	const [opponent, setOpponent] = useState('')
-/*  const [playerList, setPlayerList] = useState([])  */
- /* 	const [fullGame, setFullGame] = useState(false)  */
+	const [players, setPlayers] = useState([]) 
+	const [connected, setConnected] = useState(false) 
 	const { gameUsername, socket } = useGameContext()
-/* 	const [connected, setConnected] = useState(false) */
+	const { room_id } = useParams()
 	const navigate = useNavigate()
 
 	//**** GRIDS ****/
@@ -25,13 +23,10 @@ function GameAreaPage() {
 	console.log('ids: ',ids)
 
 
-	// Spara till senare när vi har id p spelarna
-
-/*  	const randomPlayerStarts = () => {
-		const random = Math.floor(Math.random() * 20 /10)
-		console.log('RANDOMPLAYER', random)
-	}	 */
-	/* randomPlayerStarts(players)	 */ 
+	const handleUpdatePlayers = playerlist => {
+		console.log("Got new playerlist", playerlist)
+		setPlayers(playerlist)
+	}
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -40,36 +35,23 @@ function GameAreaPage() {
 			navigate('/')
 		}
 
-		const handleUpdatePlayers = (players) => {
-			console.log(`players befor if-statement: ${players}`)
-	
-			if (players.length === 2) {
-				const thisPlayer = players.find((player) => player.id === socket.id)
-				thisPlayer.currentPlayer = "player"
-	
-				const opponentPlayer = players.find((player) => player.id !== socket.id)
-				opponentPlayer.currentPlayer = "opponent"
-	
-				setPlayer(thisPlayer)
-				setOpponent(opponentPlayer)
-				console.log(`thisPlayer ${thisPlayer}, opponentPlayer ${opponentPlayer}`)
-			}
-		}
-
 		// emit join request
-		socket.emit('player:joined', gameUsername)
-		console.log('gameUsername: ', gameUsername)
+		socket.emit('player:joined', gameUsername, room_id, status => {
+			console.log(`Successully joined ${room_id} as ${gameUsername}`, status)
+			setConnected(true)
+		})
 
 		// listen for updated playerlist
-		socket.on('update:players', handleUpdatePlayers)
+		socket.on('player:list', handleUpdatePlayers)
 
-		
+		// display connecting message
+		if (!connected) {
+			return (
+				<p>Stand by, connecting....</p>
+			)
+		}
 
-		console.log(`gameUsername after player:joined event : ${gameUsername}`) 
-
-	}, [gameUsername, navigate, socket])
-
-	console.log("gameUsername after useEffect", gameUsername)
+	}, [socket, room_id, gameUsername, navigate, connected])
 
   return (
     <div>
@@ -77,7 +59,8 @@ function GameAreaPage() {
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
-					<p>You: {player}</p>
+					
+					<p>You: {players}</p>
 
 					<div className="box">
 						<div className='cell'>
@@ -106,7 +89,7 @@ function GameAreaPage() {
 
 
 					<div className="gameArea">
-						<p>Opponent: {opponent}</p>
+						<p>Opponent: </p>
 
 						<div className="box">
 							<div className='cell'>
