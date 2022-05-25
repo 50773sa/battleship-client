@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-import useGetShips from '../hooks/useGetShips';
+/* import useGetShips from '../hooks/useGetShips'; */
 
 const GameAreaPage = () => {
 
@@ -19,8 +19,10 @@ const GameAreaPage = () => {
 /* 	console.log('test', ships)
 	console.log('ids: ',ids) */
 
+	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
 
+	// save the connected players to setPlayers array in GameContextProvider
 	const handleUpdatePlayers = playerlist => {
 		console.log("Got new playerlist", playerlist)
 		setPlayers(playerlist)
@@ -34,10 +36,11 @@ const GameAreaPage = () => {
 			return
 		}
 
-		// listen for updated playerlist
+		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
 
 	}, [socket, gameUsername, navigate])
+	//** FIXA VARNING FROM REACT HOOK **/
 
   return (
     <div>
@@ -45,8 +48,8 @@ const GameAreaPage = () => {
 
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
-					
-					<p>You: {players[socket.id]}</p>
+					{/* Player always see their own name on this position and opponent on the other side */}
+					<p>{players[socket.id]}</p> 
 
 					<div className="box">
 						<div className='cell'>
@@ -75,7 +78,8 @@ const GameAreaPage = () => {
 
 
 					<div className="gameArea">
-						<p>Opponent: {players[opponent_id]}</p>
+						{/* Player always see opponent name here */}
+						<p>{players[opponent_id]}</p> 
 
 						<div className="box">
 							<div className='cell'>

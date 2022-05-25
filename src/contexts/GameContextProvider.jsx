@@ -9,8 +9,8 @@ export const useGameContext = () => {
 }
 
 const GameContextProvider = ({ children }) => {
-    const [gameUsername, setGameUsername] = useState()
-    const [players, setPlayers] = useState([]) 
+    const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
+    const [players, setPlayers] = useState([]) // saves all connected players to this players-array
 
     const values = {
         gameUsername,
