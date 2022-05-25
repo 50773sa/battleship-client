@@ -4,15 +4,14 @@ import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
 import useGetShips from '../hooks/useGetShips';
+import StartGamePage from './StartGamePage';
 
-function GameAreaPage({ room }) {
+function GameAreaPage({ room, username }) {
 	const [player, setPlayer] = useState('') 
 	const [opponent, setOpponent] = useState('')
-	const { username, socket } = useGameContext()
+	const { socket } = useGameContext()
 	const ids = useCellIds()
 	const {ships} = useGetShips()
-
-
 
 	// // Spara till senare när vi har id p spelarna
 
@@ -22,11 +21,11 @@ function GameAreaPage({ room }) {
 	// }	
 	// randomPlayerStarts(players)	 
 
+	
 
   return (
     <div>
         <main>
-
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					<p>You: {username}</p>
@@ -58,7 +57,7 @@ function GameAreaPage({ room }) {
 
 
 					<div className="gameArea">
-						<p>Opponent: {player.username}</p>
+						<p>Opponent: </p>
 
 						<div className="box">
 							<div className='cell'>

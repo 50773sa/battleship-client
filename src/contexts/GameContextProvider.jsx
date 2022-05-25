@@ -12,8 +12,8 @@ const GameContextProvider = ({ children }) => {
     const [username, setUsername] = useState()
 
     const values = {
-        username,
-        setUsername,
+        // username,
+        // setUsername,
         socket,
     }
 

@@ -6,6 +6,7 @@ import { useGameContext } from '../contexts/GameContextProvider'
 
 const StartGamePage = () => { //! APP.js
 	 const [username, setUsername] = useState('')
+	 const [player, setPlayer] = useState([])
 	 const [room, setRoom] = useState('')
 	 const { socket } = useGameContext()
 	 const navigate = useNavigate()
@@ -15,9 +16,17 @@ const StartGamePage = () => { //! APP.js
 
 	 const handleJoinRoom = (e) => {
 		e.preventDefault()
+		setPlayer(username)
 
-		// send 'room' as data to server - handleJoinGame
+		const playerObject = {
+			room: room,
+			player: username,
+		}
+
+		// send 'room' and 'playerObject' as data to server - handleJoinGame
 		socket.emit('join:room', room)
+		socket.emit('player:join', playerObject)
+
 		console.log('ROOM', room)
 
 		navigate('/game')
@@ -33,6 +42,14 @@ const StartGamePage = () => { //! APP.js
 
 	}, [navigate])
 
+
+	useEffect(() => {
+		socket.on('receive:player', (data) => {
+			console.log('DATA FROM USEEFFECT: ', data)
+			setUsername((player) => [...player, data])
+			setRoom((room) => [...room, data])
+		})
+	}, [username])
 
 	return (
 		<div className='joinGameWrapper'>

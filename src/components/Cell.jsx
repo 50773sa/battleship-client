@@ -4,12 +4,12 @@ import socketio from 'socket.io-client'
 const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
 
 
-export default function Cell({ id, room }) { //!Chat.js
+export default function Cell({ id, room, username }) { //!Chat.js
   const [click, setClick] = useState(false)
   const [defaultCellColor, setDefaultCellColor] = useState(true)
   const [hit, setHit] = useState(false)
   const [currentShot, setCurrentShot] = useState('')
-  const { username, socket } = useGameContext()
+  const { socket } = useGameContext()
 
 
   	const handleShotFired = async (e) => {
