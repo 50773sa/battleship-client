@@ -18,9 +18,9 @@ function GameAreaPage() {
 
 	const ids = useCellIds()
 
-	const {ships} = useGetShips()
+	useGetShips()
 	//debugger
-	console.log('test', ships)
+	
 
 	console.log('ids: ',ids)
 

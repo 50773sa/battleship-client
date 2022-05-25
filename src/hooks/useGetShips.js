@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+//import { useEffect, useState } from 'react'
 import { columns, rows }  from './useCellIds';
 
 function useGetShips() {
@@ -34,30 +34,32 @@ function useGetShips() {
     const setPositions = () => {
       ships.forEach((ship) => {
       
+        // create random col and row
         let col = getRandomIndex(columns, ship.block)
         let row = getRandomIndex(rows, 0)
 
         console.log('ships position', ship.position)
 
-        let hasDuplicates = ships.some(({ position }) =>
-          position.some(
-            (positions) => 
-              positions === col + row ||
-              positions === col + 1 + row ||
-              positions === col - 1 +row
-          ) 
-        )
+        // 
+        let hasDuplicates = (tempCol, tempRow) => 
+          ships.some(({ position }) => 
+            position.some((posi) => 
+            posi === tempCol + tempRow ||
+            posi === tempCol + 1 + tempRow ||
+            posi === tempCol - 1 + tempRow)
+          )
 
-        if (hasDuplicates) {
-          col = getRandomIndex(columns, ship.block)
-          console.log('collision!')
-          console.log('new col:', col)
+        if (hasDuplicates(col, row)) {
+          do{
+            col = getRandomIndex(columns, ship.block)
+            row = getRandomIndex(rows, 0)
+          } while (hasDuplicates(col, row))          
         }
-        while (ship.position.length < ship.block){
+        
+        while(ship.position.length < ship.block) {
           ship.position.push(col + row)
           col = col +1
         }
-
         
 
         // Repeat for the number of blocks.
