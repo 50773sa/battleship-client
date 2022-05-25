@@ -8,25 +8,33 @@ const StartGamePage = () => {
 	const [username, setUsername] = useState('')
 	const [room, setRoom] = useState()
 	const [roomlist, setRoomlist] = useState([])
-	const { setGameUsername, socket } = useGameContext()
+	const { setPlayers, setGameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 
 	const onHandleSubmit = e => {
 		e.preventDefault()
 
+		// saves the players´s username into gameUsername that comes from gameContextProvider
 	 	setGameUsername(username) 
-	/* 	setUsername("") */
 
-		navigate('/game')
+		// send 'player:joined' event to the server. 'status' represents callback from handlePlayerJoined function
+		socket.emit('player:joined', username, room, status => {
+			console.log(`Successully joined ${room} as ${username}`, status)
+			setPlayers(status.players) // sends data from status callback and saves players to playerlist that comes from gameContextProvider
+
+			//** SKRIV FUNKTION FÖR ATT KOLLA OM SPELET ÄR FULLT ELLER EJ */ if status.success -> navigera till spel
+			navigate(`/game/${room}`)
+		})
 	}
 
 	useEffect(() => {
 		console.log("Requesting room list from server...")
 		
+		// send roomlist event to server
 		socket.emit('get-room-list', rooms => {
 			setRoomlist(rooms)
 		})
-		
+
 		// listen after game:mounted event
 		socket.on('game:mounted', (welcome) => {
 			console.log(welcome); // welcome message from server.js

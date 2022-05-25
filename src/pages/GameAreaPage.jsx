@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
@@ -8,20 +8,18 @@ import useGetShips from '../hooks/useGetShips';
 const GameAreaPage = () => {
 
 	//**** PLAYERS ****/
-	const [players, setPlayers] = useState([]) 
-	const [connected, setConnected] = useState(false) 
-	const { gameUsername, socket } = useGameContext()
-	const { room_id } = useParams()
+	const { players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 
 	//**** GRIDS ****/
 	const ids = useCellIds()
 /* 	console.log('ids: ',ids) */
-	const {ships} = useGetShips()
+/* 	const {ships} = useGetShips() */
 	//debugger
-	console.log('test', ships)
-	console.log('ids: ',ids)
+/* 	console.log('test', ships)
+	console.log('ids: ',ids) */
 
+	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
 
 	const handleUpdatePlayers = playerlist => {
 		console.log("Got new playerlist", playerlist)
@@ -33,25 +31,13 @@ const GameAreaPage = () => {
 	// if no username, redirect them to the login page
 		if (!gameUsername) {
 			navigate('/')
+			return
 		}
-
-		// emit join request
-		socket.emit('player:joined', gameUsername, room_id, status => {
-			console.log(`Successully joined ${room_id} as ${gameUsername}`, status)
-			setConnected(true)
-		})
 
 		// listen for updated playerlist
 		socket.on('player:list', handleUpdatePlayers)
 
-		// display connecting message
-		if (!connected) {
-			return (
-				<p>Stand by, connecting....</p>
-			)
-		}
-
-	}, [socket, room_id, gameUsername, navigate, connected])
+	}, [socket, gameUsername, navigate])
 
   return (
     <div>
@@ -60,7 +46,7 @@ const GameAreaPage = () => {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					
-					<p>You: {players}</p>
+					<p>You: {players[socket.id]}</p>
 
 					<div className="box">
 						<div className='cell'>
@@ -89,7 +75,7 @@ const GameAreaPage = () => {
 
 
 					<div className="gameArea">
-						<p>Opponent: </p>
+						<p>Opponent: {players[opponent_id]}</p>
 
 						<div className="box">
 							<div className='cell'>

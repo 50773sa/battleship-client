@@ -10,11 +10,14 @@ export const useGameContext = () => {
 
 const GameContextProvider = ({ children }) => {
     const [gameUsername, setGameUsername] = useState()
+    const [players, setPlayers] = useState([]) 
 
     const values = {
         gameUsername,
         setGameUsername,
         socket,
+        players, 
+        setPlayers
     }
 
     return (
