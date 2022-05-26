@@ -1,32 +1,38 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-/* import useGetShips from '../hooks/useGetShips'; */
+/* import useGetShips from '../hooks/useGetShips';  */
 
 const GameAreaPage = () => {
+
+	//**** GRIDS ****/
+	const ids = useCellIds()
+	/* 	console.log('ids: ',ids) */
+	/*  	const {ships} = useGetShips()  */
+		//debugger
+	/* 	console.log('test', ships)
+		console.log('ids: ',ids) */
 
 	//**** PLAYERS ****/
 	const { players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-
-	//**** GRIDS ****/
-	const ids = useCellIds()
-/* 	console.log('ids: ',ids) */
-/* 	const {ships} = useGetShips() */
-	//debugger
-/* 	console.log('test', ships)
-	console.log('ids: ',ids) */
+	const [myTurn, setMyTurn] = useState()
 
 	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
-
+	
+	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider
 	const handleUpdatePlayers = playerlist => {
 		console.log("Got new playerlist", playerlist)
 		setPlayers(playerlist)
 	}
+
+	//********** START GAME **********/
+
+	socket.on('player:joined')
 
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -72,7 +78,7 @@ const GameAreaPage = () => {
 						</div>
 
 						<div className="whosTurn">
-							<p>Your/Opponents turn</p>
+							<p>Whos turn? </p>
 						</div>
 					</div>
 
