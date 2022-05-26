@@ -41,15 +41,16 @@ function UseGetShips() {
         console.log('ships position', ship.position)
 
         // 
-        let hasDuplicates = (tempCol, tempRow) => 
+        let hasDuplicates = (tempCol, tempRow, blocks) => 
           ships.some(({ position }) => 
             position.some((posi) => 
             posi === tempCol + tempRow ||
             posi === tempCol + 1 + tempRow ||
-            posi === tempCol - 1 + tempRow) 
-          )
+            posi === tempCol + (blocks - 1) + tempRow ||
+            posi === tempCol + (blocks - 2) + tempRow
+          ))
 
-        if (hasDuplicates(col, row)) {
+        if (hasDuplicates(col, row, ship.block)) {
           console.log('Duplicates')
           do{
             col = getRandomIndex(columns, ship.block)
