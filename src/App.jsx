@@ -3,10 +3,9 @@ import './App.scss';
 
 import { Routes, Route } from 'react-router-dom'
 
-// pages
+// pages and components
 import StartGamePage from './pages/StartGamePage';
 import GameAreaPage from './pages/GameAreaPage';
-
 import Header from './components/Header'
 
 const App = () => {
@@ -20,7 +19,7 @@ const App = () => {
 				
 			<Routes>
 				<Route path="/" element={<StartGamePage />} />
-				<Route path="/game" element={<GameAreaPage />} />
+				<Route path="/game/:room_id" element={<GameAreaPage />} />
 			</Routes> 
 			</div>
 		</div>  

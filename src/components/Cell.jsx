@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import socketio from 'socket.io-client' 
-const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
-
+import { useGameContext } from '../contexts/GameContextProvider'
 
 export default function Cell({ id }) {
   const [click, setClick] = useState(false)
+  const { socket } = useGameContext()
   const [defaultCellColor, setDefaultCellColor] = useState(true)
   const [hit, setHit] = useState(false)
 
