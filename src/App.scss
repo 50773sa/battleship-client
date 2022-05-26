@@ -144,30 +144,6 @@ header {
 	background-color: rgba(0, 0, 0, 0.733);
 	background-blend-mode: color-burn;
 
-
-
-		.isEmpty {
-			background-color: rgba(105, 105, 105, 0.5);
-			border: 1px solid #fff;
-			height: 45px;
-			width: 45px;
-		}
-		
-		.isShip {
-			background-color: darkorange;
-			border: 1px solid #fff;
-			height: 45px;
-			width: 45px;
-		}
-
-		.isAction {
-			background-color: rgba(94, 255, 0, 0.582);
-			border: 1px solid #fff;
-			height: 45px;
-			width: 45px;
-	
-		}
-
 	.defaultCellColor {
 		display: flex;
 		justify-content: center;
