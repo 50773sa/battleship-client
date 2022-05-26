@@ -1,6 +1,10 @@
 # BattleShip game
+##The game is still under construction... deadline is 2/6-2022
+
+This is the Readme-file for the client repository. The repository for the backend server is located [here](https://github.com/marialovgren/battleship-server)
 
 (link to game)
+
 
 ### Languages and Frameworks used:
 - Node.js
