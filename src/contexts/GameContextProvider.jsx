@@ -11,13 +11,45 @@ export const useGameContext = () => {
 const GameContextProvider = ({ children }) => {
     const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
     const [players, setPlayers] = useState([]) // saves all connected players to this players-array
+    const [ships, setShips] = useState([ 
+        {
+          name: "shipA",
+          block: 4,
+          position: [], 
+          className: 'ships',
+          sunk: false,       
+        },
+        {
+          name: "shipB",
+          block: 3,
+          position: [], 
+          className: 'ships',
+          sunk: false,          
+        },
+        {
+          name: "shipC",
+          block: 2,
+          position: [], 
+          className: 'ships', 
+          sunk: false,         
+        },
+        {
+          name: "shipD",
+          block: 2, 
+          position: [], 
+          className: 'ships', 
+          sunk: false,         
+        }
+    ]) 
 
     const values = {
         gameUsername,
         setGameUsername,
         socket,
         players, 
-        setPlayers
+        setPlayers,
+        ships,
+        setShips
     }
 
     return (
