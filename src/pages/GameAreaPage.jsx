@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
-import useCellIds from '../hooks/useCellIds';
-/* import useGetShips from '../hooks/useGetShips';  */
+import useCellIds from '../hooks/useCellIds'
+import useGetShips from '../hooks/useGetShips'
+
 
 const GameAreaPage = () => {
+	const { ships } = useGameContext()
 
+	
 	//**** GRIDS ****/
 	const ids = useCellIds()
 	/* 	console.log('ids: ',ids) */
-	/*  	const {ships} = useGetShips()  */
 		//debugger
 	/* 	console.log('test', ships)
 		console.log('ids: ',ids) */
@@ -22,7 +24,7 @@ const GameAreaPage = () => {
 
 	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
-	
+
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider
 	const handleUpdatePlayers = playerlist => {
@@ -48,6 +50,8 @@ const GameAreaPage = () => {
 	}, [socket, gameUsername, navigate])
 	//** FIXA VARNING FROM REACT HOOK **/
 
+	useGetShips()
+
   return (
     <div>
         <main>
@@ -59,10 +63,13 @@ const GameAreaPage = () => {
 
 					<div className="box">
 						<div className='cell'>
-							{ids && ids.map((id, i) => 
-							<Cell key = {i} id = {id} />
-						)}
-						</div>	
+							{ids && ids.map((id, i) => {
+								const ship = ships.find(ship => ship.position.find(pos => pos === id))
+								return (
+									<Cell key = {i} id = {id} ship={ship} />
+								)
+							})}
+						</div>
 					</div> 
 				</div>	
 
@@ -90,7 +97,7 @@ const GameAreaPage = () => {
 						<div className="box">
 							<div className='cell'>
 									{ids && ids.map((id, i) => 
-									<Cell key = {i} id = {id} />
+									<Cell key = {i} id = {id} />,
 								)}
 							</div>
 						</div> 

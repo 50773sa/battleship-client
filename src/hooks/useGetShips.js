@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-import { columns, rows }  from './useCellIds';
+import { columns, rows, }  from './useCellIds';
 import { useGameContext } from '../contexts/GameContextProvider'
+import useCellIds from './useCellIds';
 
 
 function useGetShips() {
   const { ships } = useGameContext()
 
   console.log('SHIPS',ships)
+  useCellIds()
 
       // Random function
       const getRandomIndex = (array, blocks) => {
@@ -51,16 +53,15 @@ function useGetShips() {
           
         })
 
-        return (
-          <div className="ships">
-            { ships }
-          </div>
-        )
-      } 
+        return {ships} 
+         
+  } 
       useEffect(() => {
-        setPosition(ships)
+        setPosition()
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[ships])
+      },[])
+
+    
   
 }
   
