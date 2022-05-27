@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-import useGetShips from '../hooks/useGetShips'; 
+import useGetShips from '../hooks/useGetShips';
 
 const GameAreaPage = () => {
 
 	//**** GRIDS ****/
 	const ids = useCellIds()
 	/* 	console.log('ids: ',ids) */
-	/*  	const {ships} = useGetShips()  */
+	useGetShips()
 		//debugger
 	/* 	console.log('test', ships)
 		console.log('ids: ',ids) */
@@ -19,11 +19,6 @@ const GameAreaPage = () => {
 	const { players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 	const [myTurn, setMyTurn] = useState()
-
-
-	useGetShips()
-	//debugger
-
 
 	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
