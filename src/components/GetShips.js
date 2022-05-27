@@ -1,7 +1,7 @@
 //import { useEffect, useState } from 'react'
-import { columns, rows }  from './useCellIds';
+import { columns, rows }  from '../hooks/useCellIds';
 
-function useGetShips() {
+function GetShips() {
 
     const ships = [
       {
@@ -85,4 +85,4 @@ function useGetShips() {
     setPositions()
 }
 
-export default useGetShips
+export default GetShips

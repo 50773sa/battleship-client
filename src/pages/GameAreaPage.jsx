@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
-import useGetShips from '../hooks/useGetShips';
+import GetShips from '../components/GetShips';
 
 const GameAreaPage = () => {
 
 	//**** GRIDS ****/
 	const ids = useCellIds()
 	/* 	console.log('ids: ',ids) */
-	useGetShips()
+	GetShips()
 		//debugger
 	/* 	console.log('test', ships)
 		console.log('ids: ',ids) */
