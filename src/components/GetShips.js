@@ -7,7 +7,7 @@ function GetShips() {
       {
         name: "shipA",
         block: 4,
-        position: [],        
+        position: ['1A', '2A', '3A', '4A'],        
       },
       {
         name: "shipB",
