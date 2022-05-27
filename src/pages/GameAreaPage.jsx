@@ -16,24 +16,30 @@ const GameAreaPage = () => {
 		console.log('ids: ',ids) */
 
 	//**** PLAYERS ****/
-	const { players, setPlayers, gameUsername, socket } = useGameContext()
+	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [myTurn, setMyTurn] = useState()
+	const [opponent, setOpponent] = useState()
+	const [gameOn, setGameOn] = useState(false)
 
 	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
-	
+
 	//********** UPDATER PLAYERLIST **********/
-	// save the connected players to setPlayers array in GameContextProvider
+	// save the connected players to setPlayers array in GameContextProvider 
 	const handleUpdatePlayers = playerlist => {
-		console.log("Got new playerlist", playerlist)
+		console.log('Got new playerlist: ',playerlist)
 		setPlayers(playerlist)
 	}
 
 	//********** START GAME **********/
+	const handleStartGame = () => {
+ 
+	}
 
-	socket.on('player:joined')
-
+	// lyssna efter start:game event från servern
+	socket.on('start:game', handleStartGame)
+	
+	
 	// connect to game when component is mounted
 	useEffect(() => {
 	// if no username, redirect them to the login page
@@ -44,7 +50,6 @@ const GameAreaPage = () => {
 
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
-
 	}, [socket, gameUsername, navigate])
 	//** FIXA VARNING FROM REACT HOOK **/
 
