@@ -10,7 +10,8 @@ const GameAreaPage = () => {
 	//**** GRIDS ****/
 	const ids = useCellIds()
 	/* 	console.log('ids: ',ids) */
-	GetShips()
+	const ships = GetShips()
+	console.log(ships)
 		//debugger
 	/* 	console.log('test', ships)
 		console.log('ids: ',ids) */

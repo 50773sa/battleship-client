@@ -1,3 +1,7 @@
+//---------------
+// initial value
+//---------------
+
 //import { useEffect, useState } from 'react'
 import { columns, rows }  from '../hooks/useCellIds';
 
@@ -31,7 +35,7 @@ function GetShips() {
       return array[randomId];
     }
 
-    const setPositions = () => {
+    
       ships.forEach((ship) => {
       
         // create random col and row
@@ -71,18 +75,9 @@ function GetShips() {
         // }
         
       })
-      return (
+      
+      return ships         
 
-        <div className="ships">
-        
-        { ships }
-        
-        </div>
-        
-        )
-    } 
-
-    setPositions()
 }
 
 export default GetShips
