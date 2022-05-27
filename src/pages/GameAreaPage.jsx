@@ -5,10 +5,10 @@ import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds';
 import GetShips from '../components/GetShips';
 
-const GameAreaPage = () => {
 
+const GameAreaPage = () => {
 	//**** GRIDS ****/
-	const ids = useCellIds()
+	const ids =  useCellIds()
 	/* 	console.log('ids: ',ids) */
 	GetShips()
 		//debugger

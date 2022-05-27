@@ -1,29 +1,28 @@
-import { useState, useEffect }from 'react'
+import { useState, useEffect } from 'react'
 
-function useBattleboard() {
-    const [battleboard, setBattleboard] = useState(createBattleboard)
-
+const useBattleboard = () => {
+    // const [battleboard, setBattleboard] = useState(createBattleboard)
+  
 
     // create cells and place them in battleboard state
 
-
+     
     // place ships in battleboard
-
     const placeShips = () => {
 
     }
 
     return {
-        battleboard,
-        placeShips
+        // battleboard,
+        // placeShips
     }
 }
 
     const game = () => {
-        const myBattleboard = useBattleboard()
-        const opponentBattleboard = useBattleboard()
+        // const myBattleboard = useBattleboard()
+        // const opponentBattleboard = useBattleboard()
 
-        myBattleboard.placeShips()
+        // myBattleboard.placeShips()
 
  
   return (
@@ -31,4 +30,4 @@ function useBattleboard() {
   )
 }
 
-export default useBattleboard
+export default  useBattleboard
