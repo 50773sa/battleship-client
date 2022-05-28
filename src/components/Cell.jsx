@@ -1,21 +1,26 @@
 import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
+import useCellIds from '../hooks/useCellIds'
 
 export default function Cell({ id, hasShip }) {
-	const [defaultCellColor, setDefaultCellColor] = useState(true)
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState('')
 	const { socket } = useGameContext()
-
+	
 
   	const handleShotFired = async (e) => {
 		e.preventDefault()
-		
-		setDefaultCellColor(false)
-		setMiss(true)
 
-      	const shotData = {
+		if (e.target.className === 'isShip') {
+			setHit(true)
+
+		} 	else {
+				setMiss(true)
+				setHit(false)
+		}
+
+		const shotData = {
 			shot: currentShot,
 		}
 
@@ -34,19 +39,22 @@ export default function Cell({ id, hasShip }) {
 	},[])
 
  	return (
-
-		<div className="defaultCellColor">
-			<div className={hit 
-				? 'hit' 
-				:  hasShip 
-				? 'isShip'
-				: 'defaultCellColor'} 
+		<div className='defaultCellColor'>
+			<div className={
+				  hit ? 'hit' 
+				: miss ? 'miss'
+				: hasShip ? 'isShip'
+				: 'defaultCellColor'}
 				onClick={handleShotFired} 
-				>
-				{defaultCellColor}
+			>
 			</div>
- 		 </div>
+		</div>
+
+		
+		
+		
+
+		
+	
     )
 }
-
-
