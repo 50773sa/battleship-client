@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'  
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -8,7 +8,9 @@ const StartGamePage = () => {
 	const [username, setUsername] = useState('')
 	const [room, setRoom] = useState()
 	const [roomlist, setRoomlist] = useState([])
-	const { setPlayers, setGameUsername, socket } = useGameContext()
+	const { setMyTurn, setPlayers, setGameUsername, socket } = useGameContext()
+	
+	const usernameIndexRef = useRef()
 	const navigate = useNavigate()
 
 	const onHandleSubmit = e => {
@@ -20,9 +22,13 @@ const StartGamePage = () => {
 		// send 'player:joined' event to the server. 'status' represents callback from handlePlayerJoined function
 		socket.emit('player:joined', username, room, status => {
 			console.log(`Successully joined ${room} as ${username}`, status)
+
 			setPlayers(status.players) // sends data from status callback and saves players to playerlist that comes from gameContextProvider
 
-			//** SKRIV FUNKTION FÖR ATT KOLLA OM SPELET ÄR FULLT ELLER EJ */ if status.success -> navigera till spel
+			setMyTurn(status.yourTurn)
+
+			console.log("Status on players turn: ", status.yourTurn ) 
+
 			navigate(`/game/${room}`)
 		})
 	}
@@ -50,10 +56,12 @@ const StartGamePage = () => {
 						<Form.Label>Username</Form.Label>
 						<Form.Control
 							onChange={e => setUsername(e.target.value)}
+							ref={usernameIndexRef}
 							placeholder="Enter your username"
 							required
 							type="text"
 							value={username}
+							autoFocus
 						/>
 					</Form.Group>
 
