@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
-export default function Cell({ id }) {
+export default function Cell({ id, hasShip }) {
   const [click, setClick] = useState(false)
   const { socket } = useGameContext()
   const [defaultCellColor, setDefaultCellColor] = useState(true)
@@ -29,8 +29,9 @@ export default function Cell({ id }) {
 
         <div className="defaultCellColor">
           	<div 
-              	className={hit
-                ? 'hit' 
+              	className={
+                  hit ? 'hit' 
+                : hasShip ? 'isShip'
                 : 'defaultCellColor'} 
                 onClick={handleClickOnCell} 
             >
