@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
-import useCellIds from '../hooks/useCellIds';
-import GetShips from '../components/GetShips';
+import useCellIds from '../hooks/useCellIds'
+import useGetShips from '../hooks/useGetShips'
+
+export const columns = ["A","B","C","D","E","F","G","H","I","J",]
+export const rows = [1,2,3,4,5,6,7,8,9,10]
 
 const GameAreaPage = () => {
 
 	//**** GRIDS ****/
+
+	// ships position
+	const [ships, setShips] = useState ([])
+	const shipPosition = useGetShips()
 	const ids = useCellIds()
-	/* 	console.log('ids: ',ids) */
-	GetShips()
-		//debugger
-	/* 	console.log('test', ships)
-		console.log('ids: ',ids) */
+	useEffect(() => {		
+		setShips(shipPosition)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
 
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
@@ -64,8 +70,12 @@ const GameAreaPage = () => {
 
 					<div className="box">
 						<div className='cell'>
-							{ids && ids.map((id, i) => 
-							<Cell key = {i} id = {id} />
+							{ids && 
+								ids.map((id, i) => {
+									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+								}
+							
 						)}
 						</div>	
 					</div> 

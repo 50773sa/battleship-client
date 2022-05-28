@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
-export default function Cell({ id }) {
+export default function Cell({ id, hasShip }) {
 	const [defaultCellColor, setDefaultCellColor] = useState(true)
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
@@ -35,16 +35,17 @@ export default function Cell({ id }) {
 
  	return (
 
-        <div className="defaultCellColor">
-          	<div 
-              	className={miss
-                ? 'miss' 
-                : 'defaultCellColor'} 
-                onClick={handleShotFired} 
-            >
-                {defaultCellColor}
-          	</div>
-        </div>
+		<div className="defaultCellColor">
+			<div className={hit 
+				? 'hit' 
+				:  hasShip 
+				? 'isShip'
+				: 'defaultCellColor'} 
+				onClick={handleShotFired} 
+				>
+				{defaultCellColor}
+			</div>
+ 		 </div>
     )
 }
 
