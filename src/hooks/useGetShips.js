@@ -11,22 +11,30 @@ function useGetShips() {
       {
         name: "shipA",
         block: 4,
-        position: [],        
+        position: [], 
+        isSunk: false,  
+        className: 'isShip'     
       },
       {
         name: "shipB",
         block: 3,
         position: [], 
+        isSunk: false,  
+        className: 'isShip'          
       },
       {
         name: "shipC",
         block: 2,
         position: [], 
+        isSunk: false,  
+        className: 'isShip'          
       },
       {
         name: "shipD",
         block: 2,
         position: [], 
+        isSunk: false,   
+        className: 'isShip'         
       }
     ]
     // Random function
