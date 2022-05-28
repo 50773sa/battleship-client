@@ -3,7 +3,7 @@
 //---------------
 
 //import { useEffect, useState } from 'react'
-import { columns, rows }  from './useCellIds';
+import { columns, rows }  from './useCellIds'
 
 function useGetShips() {
 
@@ -40,21 +40,21 @@ function useGetShips() {
     // Random function
     const getRandomIndex = (array, blocks) => {
       const randomId = Math.floor(Math.random() * (array.length - blocks));
+      //console.log(array.length, blocks)
       return array[randomId];
     }
     
       ships.forEach((ship) => {      
         // create random col and row
         let col = getRandomIndex(columns, 0)
-        let row = getRandomIndex(rows, ship.block)
-
+        let row = getRandomIndex(rows, ship.block - 1)
         //console.log('ships position', ship.position)
 
       
         let hasDuplicates = (tempCol, tempRow, blocks) => {
           const checkPosi = []
           for (let i = 0; i < blocks; i++) {
-            checkPosi.push(+ tempRow + i + tempCol)
+            checkPosi.push (tempRow + i + tempCol)
           }
           const isDuplicate = ships.some(({ position }) =>
             position.some((posi) => checkPosi.includes(posi))
@@ -65,8 +65,8 @@ function useGetShips() {
         if (hasDuplicates(col, row, ship.block)) {
           console.log('Duplicates')
           do{
-            col = getRandomIndex(columns, ship.block)
-            row = getRandomIndex(rows, 0)
+            col = getRandomIndex(columns, 0)
+            row = getRandomIndex(rows, ship.block - 1)
           } while (hasDuplicates(col, row , ship.block ))          
         }
         
