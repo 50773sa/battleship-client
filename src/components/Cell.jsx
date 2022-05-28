@@ -2,42 +2,50 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 export default function Cell({ id }) {
-  const [click, setClick] = useState(false)
-  const { socket } = useGameContext()
-  const [defaultCellColor, setDefaultCellColor] = useState(true)
-  const [hit, setHit] = useState(false)
+	const [defaultCellColor, setDefaultCellColor] = useState(true)
+	const [hit, setHit] = useState(false)
+	const [miss, setMiss] = useState(false)
+	const [currentShot, setCurrentShot] = useState('')
+	const { socket } = useGameContext()
 
-    const handleClickOnCell = (e) => {
-    e.preventDefault()
-	
-    setClick(id)
-    setDefaultCellColor(false)
-    setHit(true)
 
-    socket.emit('cell:clicked', click, id)
-    console.log('CLICK ON ID', id, click)   
-    }
+  	const handleShotFired = async (e) => {
+		e.preventDefault()
+		
+		setDefaultCellColor(false)
+		setMiss(true)
 
-    useEffect(() => {
-        socket.on('click', function (click) {
-            setClick(click)
-        })
-    }, [click])
+      	const shotData = {
+			shot: currentShot,
+		}
 
+		await socket.emit('shot:fired', shotData)
+		console.log('CLICK ON ID', id, currentShot)   
+	}
+
+
+	// listen if shots are fired
+	useEffect(() => {
+		// listen to shot fired from server -handleShotFired 
+		socket.on('receive:shot', (data) => {
+			// console.log('DATA FROM USEEFFECT: ', data)
+			setCurrentShot((shot) => [...shot, data])
+		})
+	},[])
 
  	return (
 
         <div className="defaultCellColor">
           	<div 
-              	className={hit
-                ? 'hit' 
+              	className={miss
+                ? 'miss' 
                 : 'defaultCellColor'} 
-                onClick={handleClickOnCell} 
+                onClick={handleShotFired} 
             >
                 {defaultCellColor}
           	</div>
         </div>
     )
-  }
+}
 
 
