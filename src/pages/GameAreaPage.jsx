@@ -5,8 +5,9 @@ import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
 
-export const columns = ["A","B","C","D","E","F","G","H","I","J",]
-export const rows = [1,2,3,4,5,6,7,8,9,10]
+
+// const columns = ["A","B","C","D","E","F","G","H","I","J",]
+// const rows = [1,2,3,4,5,6,7,8,9,10]
 
 const GameAreaPage = () => {
 
