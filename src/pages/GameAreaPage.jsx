@@ -12,6 +12,8 @@ import useGetShips from '../hooks/useGetShips'
 const GameAreaPage = () => {
 
 	//**** GRIDS ****/
+
+	// ships position
 	const [ships, setShips] = useState ([])
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
@@ -19,14 +21,6 @@ const GameAreaPage = () => {
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
-
-
-	/* 	console.log('ids: ',ids) */
-	//console.log(ships)
-		//debugger
-	/* 	console.log('test', ships)
-		console.log('ids: ',ids) */
-		
 
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
