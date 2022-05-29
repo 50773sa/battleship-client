@@ -25,11 +25,17 @@ const GameAreaPage = () => {
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
+	const [player, setPlayer] = useState()
 	const [opponent, setOpponent] = useState()
 	const [gameOn, setGameOn] = useState(false)
+	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
 	// tracks the opponents id with obejct.keys since players is an object and not an array 
 	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
+
+	// get player and opponent number of ships
+
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
@@ -38,14 +44,36 @@ const GameAreaPage = () => {
 		setPlayers(playerlist)
 	}
 
+	//********** UPDATER SHIPS **********/
+	// 
+	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
+		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
+		setPlayerNumberOfShips(playerNumberOfShips)
+		setOpponentNumberOfShips(opponentNumberOfShips)
+	}
+
 	//********** START GAME **********/
 	const handleStartGame = () => {
- 
+		console.log('2 player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
+
+		// send 'get-number-of-ships' event to the server. 
+		socket.emit('get-number-of-ships', ships, status => {
+			console.log(`Successully got number of ships for player: ${players[socket.id]} and opponent: ${players[opponent_id]}`, status)
+
+			setPlayerNumberOfShips(status.numberOfShips) 
+
+			setOpponentNumberOfShips(status.numberOfShips)
+
+			console.log("Status on players number of ships: ", status.numberOfShips ) 
+			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+
+			// listen for updated amount of ships from the server
+			socket.on('player:ships', handleUpdateShips)
+		})
 	}
 
 	// lyssna efter start:game event från servern
 	socket.on('start:game', handleStartGame)
-	
 	
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -58,7 +86,6 @@ const GameAreaPage = () => {
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
 	}, [socket, gameUsername, navigate])
-	//** FIXA VARNING FROM REACT HOOK **/
 
   	return (
         <main>
@@ -66,7 +93,7 @@ const GameAreaPage = () => {
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
 					<p>{players[socket.id]}</p> 
-					<p>Ships left: 4 / 4</p>
+					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
@@ -83,7 +110,7 @@ const GameAreaPage = () => {
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
 					<p>{players[opponent_id]}</p> 
-					<p>Ships left: 4 / 4</p>
+					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
