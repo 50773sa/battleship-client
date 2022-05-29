@@ -12,11 +12,11 @@ import useGetShips from '../hooks/useGetShips'
 const GameAreaPage = () => {
 
 	//**** GRIDS ****/
-
 	// ships position
 	const [ships, setShips] = useState ([])
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
+
 	useEffect(() => {		
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,14 +60,13 @@ const GameAreaPage = () => {
 	}, [socket, gameUsername, navigate])
 	//** FIXA VARNING FROM REACT HOOK **/
 
-  return (
-    <div>
+  	return (
         <main>
-
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
 					<p>{players[socket.id]}</p> 
+					<p>Ships left: 4 / 4</p>
 
 					<div className="box">
 						<div className='cell'>
@@ -76,44 +75,29 @@ const GameAreaPage = () => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
 									return <Cell key = {i} id = {id} hasShip = {hasShip} />
 								}
-							
-						)}
+							)}
 						</div>	
 					</div> 
 				</div>	
 
-				<div className="shipsLeftWrap">
-					<div className="shipsLeftPlayer1">
-						<h3>≪ Player 1</h3>
-						<p>Ships left: 4 / 4</p>
-					</div>
+				<div className="gameArea">
+					{/* Player always see opponent name here */}
+					<p>{players[opponent_id]}</p> 
+					<p>Ships left: 4 / 4</p>
 
-						<div className="shipsLeftPlayer2">
-							<h3>Opponent ≫</h3>
-							<p>Ships left: 4 / 4</p>
-						</div>
-
-						<div className="whosTurn">
-							<p>Whos turn? </p>
-						</div>
-					</div>
-
-
-					<div className="gameArea">
-						{/* Player always see opponent name here */}
-						<p>{players[opponent_id]}</p> 
-
-						<div className="box">
-							<div className='cell'>
-									{ids && ids.map((id, i) => 
-									<Cell key = {i} id = {id} />
-								)}
+					<div className="box">
+						<div className='cell'>
+							{ids && 
+								ids.map((id, i) => {
+									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+								}
+							)}
 							</div>
 						</div> 
 					</div>
-				</section>
-			</main>
-		</div>
+			</section>
+		</main>
 	)
 }
 

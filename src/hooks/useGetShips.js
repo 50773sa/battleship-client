@@ -3,7 +3,7 @@
 //---------------
 
 //import { useEffect, useState } from 'react'
-import { columns, rows }  from './useCellIds';
+import { columns, rows }  from './useCellIds'
 
 function useGetShips() {
 
@@ -11,22 +11,30 @@ function useGetShips() {
       {
         name: "shipA",
         block: 4,
-        position: [],        
+        position: [], 
+        isSunk: false,  
+        className: 'isShip'     
       },
       {
         name: "shipB",
         block: 3,
         position: [], 
+        isSunk: false,  
+        className: 'isShip'          
       },
       {
         name: "shipC",
         block: 2,
         position: [], 
+        isSunk: false,  
+        className: 'isShip'          
       },
       {
         name: "shipD",
         block: 2,
         position: [], 
+        isSunk: false,   
+        className: 'isShip'         
       }
     ]
     // Random function
@@ -40,7 +48,6 @@ function useGetShips() {
         // create random col and row
         let col = getRandomIndex(columns, 0)
         let row = getRandomIndex(rows, ship.block - 1)
-
         //console.log('ships position', ship.position)
 
       
