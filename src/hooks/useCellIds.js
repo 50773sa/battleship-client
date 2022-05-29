@@ -1,13 +1,13 @@
 import { useState, useEffect }from 'react'
-import useGetShips from './useGetShips'
+//import useGetShips from './useGetShips'
 
 export const columns = ["A","B","C","D","E","F","G","H","I","J",]
 export const rows = [1,2,3,4,5,6,7,8,9,10]
 
 function useCellIds() {
     const [ids, setIds] = useState([])
-	const [ships, setShips] = useState ([])
-	const shipPosition = useGetShips()
+	//const [ships, setShips] = useState ([])
+	//const shipPosition = useGetShips()
 	
 	const getIds = () => {
 		const cellIds = []
@@ -19,7 +19,7 @@ function useCellIds() {
 	};
 	useEffect(() => {
 		getIds()
-		setShips(shipPosition)
+		//setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
     
