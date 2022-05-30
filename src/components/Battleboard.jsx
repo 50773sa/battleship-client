@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 import useCellIds from '../hooks/useCellIds'
 
-export default function Cell({ id, hasShip }) {
+export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState('')
@@ -49,12 +49,5 @@ export default function Cell({ id, hasShip }) {
 			>
 			</div>
 		</div>
-
-		
-		
-		
-
-		
-	
     )
 }
