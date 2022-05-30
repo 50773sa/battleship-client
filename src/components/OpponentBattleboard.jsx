@@ -6,7 +6,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { opponent, ships, socket } = useGameContext()
+	const { myTurn, opponent, ships, socket } = useGameContext()
 	
 
   	const handleShotFired = async (e) => {
@@ -33,6 +33,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	// listen if shots are fired
 	useEffect(() => {
+
 		// listen to shot fired from server -handleShotFired 
 		socket.on('receive:shot', (data) => {
 			// console.log('DATA FROM USEEFFECT: ', data)
@@ -47,7 +48,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 				: miss ? 'miss'
 				: hasShip ? 'isShip'
 				: 'defaultCellColor'}
-				onClick={handleShotFired} 
+				onClick={!myTurn.Disabled ? myTurn.Click : handleShotFired}  // disables click on battleboard if its not my turn
 			>
 			</div>
 		</div>

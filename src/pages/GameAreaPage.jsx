@@ -9,47 +9,39 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	//**** GAME ****/
-	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
-	const [gameOn, setGameOn] = useState(false)
-	const navigate = useNavigate()
-
-	//**** CONTEXT PROVIDER ****// 
 	const { player, setPlayer, opponent, setOpponent, ships, setShips, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
-
-	//**** GAME OVER ****/
-	const [showModal, setShowModal] = useState(false)  
-
-	//**** GRIDS ****/
+	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
+	const navigate = useNavigate()
+	const [showModal, setShowModal] = useState(false)  // game over 
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
+	const [gameOn, setGameOn] = useState(false)
+
+	//** Place the ships when page is mounted **/
 	useEffect(() => {		
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
-	//**** PLAYERS ****/
-	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
-	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
-
- 	// tracks the players id with obejct.keys since players is an object and not an array 
+ 	//** Tracks the players id with obejct.keys since 'players' is an object and not an array **/
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 	const playerUsername = players[thisSocket]
-		console.log('PLAYER', player)
+		console.log('PLAYER', playerUsername)
 
 	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
 	const opponentUsername = players[opponentSocket]
-		console.log('OPPONENET', opponent)
+		console.log('OPPONENET', opponentUsername)
 
+	//** Save players socket id to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
 	}, [])
- 
 
 	//********** UPDATE PLAYERLIST **********/
-	// save the connected players to setPlayers array in GameContextProvider 
+	// save the connected players to players object in GameContextProvider 
 	const handleUpdatePlayers = playerlist => {
 		console.log('Got new playerlist: ',playerlist)
 		setPlayers(playerlist)
@@ -64,7 +56,7 @@ const GameAreaPage = () => {
 
 	//********** START GAME **********/
 	const handleStartGame = () => {
-		console.log('2 player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
+		console.log('Player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
@@ -81,7 +73,7 @@ const GameAreaPage = () => {
 		socket.on('player:ships', handleUpdateShips)
 	}
 
-	// lyssna efter start:game event från servern
+	//** Listen for 'start:game' event from server **/
 	socket.on('start:game', handleStartGame)
 	
 	// connect to game when component is mounted
@@ -128,7 +120,7 @@ const GameAreaPage = () => {
 						{!myTurn && <h3> Opponents turn </h3>}
 					</div>
 				)}
-
+				
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
 					<p>{opponentUsername}</p> 
@@ -145,6 +137,8 @@ const GameAreaPage = () => {
 							</div>
 						</div> 
 					</div>	
+
+
 					{showModal && (
 						<div>
 						<Gameover />
