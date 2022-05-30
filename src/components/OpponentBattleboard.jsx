@@ -6,8 +6,17 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
+<<<<<<< HEAD
 	const { myTurn, opponent, ships, socket } = useGameContext()
+=======
+	const [opponentsShips, setOpponentsShips] = useState()	
+	const { opponent, ships, socket } = useGameContext()
+>>>>>>> main
 	
+	const ship = ships.map(ships => ships.block)
+	const newShip = [...ship]
+
+	// console.log('OPPONENTS SHIPS', opponentsShips)
 
   	const handleShotFired = async (e) => {
 		e.preventDefault()
@@ -26,35 +35,39 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			ships: ships
 		}
 		console.log(ships)
+
+		// skicka e.target.classname
+		
 		await socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, currentShot)   
+
 	}
 
 
 	// listen if shots are fired
-	useEffect(() => {
+		useEffect(() => {
+			setOpponentsShips(newShip)
+			// listen to shot fired from server -handleShotFired 
+			socket.on('receive:shot', (data) => {
+				// console.log('DATA FROM USEEFFECT: ', data)
+				setCurrentShot((shot) => [...shot, data])
+			})
+		},[socket])
 
-		// listen to shot fired from server -handleShotFired 
-		socket.on('receive:shot', (data) => {
-			// console.log('DATA FROM USEEFFECT: ', data)
-			setCurrentShot((shot) => [...shot, data])
-		})
-	},[])
+		return (
+			<div className='defaultCellColor'>
 
- 	return (
-		<div className='defaultCellColor'>
-
-			{/* Only let me click on battleboard if its my turn */}
-			{myTurn &&
-				<div className={
-					hit ? 'hit' 
-					: miss ? 'miss'
-					: hasShip ? 'isShip'
-					: 'defaultCellColor'}
-					onClick={handleShotFired}
-				>
-				</div>
-			} 
-		</div>
-    )
+				{/* Only let me click on battleboard if its my turn */}
+				{myTurn && 
+					<div className={
+						hit ? 'hit' 
+						: miss ? 'miss'
+						: hasShip ? 'isShip'
+						: 'defaultCellColor'}
+						onClick={handleShotFired} 
+					>
+					</div>
+				}
+			</div>	
+		)
+	
 }
