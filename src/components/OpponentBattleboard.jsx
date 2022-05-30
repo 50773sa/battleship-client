@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 
-export default function OpponentsShips({ id, hasShip}) {
+export default function OpponentBattleboard({ id, hasShip}) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState('')

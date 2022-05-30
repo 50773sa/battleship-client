@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
+import Battleboard from '../components/Battleboard'
+import OpponentBattleboard from '../components/OpponentBattleboard'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
-import OpponentsShips from '../components/OpponentsShips'
-import PlayersShips from '../components/PlayersShips'
+
 
 const GameAreaPage = () => {
+	const { player, setPlayer, opponent, setOpponent} = useGameContext()
+
 
 	//**** GRIDS ****/
 	// ships position
@@ -16,36 +19,32 @@ const GameAreaPage = () => {
 
 	useEffect(() => {		
 		setShips(shipPosition)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
+
 
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [player, setPlayer] = useState("")
-	const [opponent, setOpponent] = useState("")
+
 	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
- 	// tracks the opponents id with obejct.keys since players is an object and not an array 
-	/* const opponent_id = Object.keys(players).find(id => (id !== socket.id))   */
+ 	// tracks the players id with obejct.keys since players is an object and not an array 
+	const thisSocket = Object.keys(players).find(id => (id === socket.id))
+	const playerUsername = players[thisSocket]
+		console.log('PLAYER', player)
 
-	// PUT THIS CODE IN AN IF STATEMENT???? MAYBE handleUpdatePlayers????? */
-  	const thisSocket = Object.keys(players).find(id => (id === socket.id))
-		console.log('Identified this player: ',thisSocket)
-	const thisSocketUsername = players[thisSocket]
-		console.log('This players username: ',thisSocketUsername)
+	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
+	const opponentUsername = players[opponentSocket]
+		console.log('OPPONENET', opponent)
 
-	
-	const opponentSocket = Object.keys(players).find(id => (id !== socket.id))
-		console.log('Identified this opponent: ',opponentSocket)
-	const opponentSocketUsername = players[opponentSocket]
-		console.log('Opponent username: ',opponentSocketUsername) 
-
-	/* setPlayer(thisSocket);
-	console.log('player is: ', thisSocket)
-	setOpponent(opponentSocket);  */ 
+	useEffect(() => {
+		setPlayer(thisSocket)
+		setOpponent(opponentSocket)
+	}, [])
+ 
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
@@ -68,7 +67,7 @@ const GameAreaPage = () => {
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			console.log(`Successully got number of ships for player: ${thisSocketUsername} and opponent: ${opponentSocketUsername}`, status) 
+			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 
@@ -102,15 +101,15 @@ const GameAreaPage = () => {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{thisSocketUsername}</p> 
+					<p>{playerUsername}</p> 
 					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
-									return <PlayersShips key = {i} id = {id} hasShip = {hasShip} />
+									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 						</div>	
@@ -119,15 +118,15 @@ const GameAreaPage = () => {
 
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
-					<p>{opponentSocketUsername}</p> 
+					<p>{opponentUsername}</p> 
 					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentsShips key = {i} id = {id} hasShip = {hasShip} />
+									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									return <OpponentBattleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 							</div>
