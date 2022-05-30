@@ -44,6 +44,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
  	return (
 		<div className='defaultCellColor'>
 
+			{/* Only let me click on battleboard if its my turn */}
 			{myTurn &&
 				<div className={
 					hit ? 'hit' 
