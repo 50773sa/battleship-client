@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 
-export default function Battleboard({ id, hasShip}) {
+export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, socket } = useGameContext()	
+	const { player, ships, socket } = useGameContext()	
 
 
   	const handleShotFired = async (e) => {
@@ -23,6 +23,7 @@ export default function Battleboard({ id, hasShip}) {
 		const shotData = {
 			player: player,
 			shot: currentShot,
+			ships: ships,
 		}
 
 		await socket.emit('shot:fired', shotData)
