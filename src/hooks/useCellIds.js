@@ -18,7 +18,7 @@ function useCellIds() {
 		console.log('CELL ID', cellIds)
 	};
 	useEffect(() => {
-		getIds()
+		getIds(ships)
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])

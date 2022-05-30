@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
-import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
-
-
-// const columns = ["A","B","C","D","E","F","G","H","I","J",]
-// const rows = [1,2,3,4,5,6,7,8,9,10]
+import OpponentsShips from '../components/OpponentsShips'
+import PlayersShips from '../components/PlayersShips'
 
 const GameAreaPage = () => {
 
@@ -19,7 +16,7 @@ const GameAreaPage = () => {
 
 	useEffect(() => {		
 		setShips(shipPosition)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
 	//**** PLAYERS ****/
@@ -72,8 +69,8 @@ const GameAreaPage = () => {
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
+									return <PlayersShips key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 						</div>	
@@ -89,8 +86,8 @@ const GameAreaPage = () => {
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
+									return <OpponentsShips key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 							</div>
