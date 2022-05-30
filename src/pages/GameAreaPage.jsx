@@ -8,12 +8,11 @@ import useGetShips from '../hooks/useGetShips'
 
 
 const GameAreaPage = () => {
-	const { player, setPlayer, opponent, setOpponent} = useGameContext()
+	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
 
 
 	//**** GRIDS ****/
 	// ships position
-	const [ships, setShips] = useState ([])
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
