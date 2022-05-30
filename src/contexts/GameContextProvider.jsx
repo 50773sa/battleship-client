@@ -14,6 +14,8 @@ const GameContextProvider = ({ children }) => {
     const [player, setPlayer] = useState("")
 	const [opponent, setOpponent] = useState("") 
     const [myTurn, setMyTurn] = useState()
+    const [ships, setShips] = useState ([])
+
 
     const values = {
         gameUsername,
@@ -26,7 +28,9 @@ const GameContextProvider = ({ children }) => {
         opponent,
         setOpponent,
         myTurn,
-        setMyTurn
+        setMyTurn,
+        ships,
+        setShips
     }
 
     return (
