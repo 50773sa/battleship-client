@@ -11,6 +11,8 @@ export const useGameContext = () => {
 const GameContextProvider = ({ children }) => {
     const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
     const [players, setPlayers] = useState([]) // saves all connected players to this players-array
+    const [player, setPlayer] = useState("")
+	const [opponent, setOpponent] = useState("") 
     const [myTurn, setMyTurn] = useState()
 
     const values = {
@@ -19,6 +21,10 @@ const GameContextProvider = ({ children }) => {
         socket,
         players, 
         setPlayers,
+        player,
+        setPlayer,
+        opponent,
+        setOpponent,
         myTurn,
         setMyTurn
     }

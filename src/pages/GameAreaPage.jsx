@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
+import OpponentBattleboard from '../components/OpponentBattleboard'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
-import OpponentBattleboard from '../components/OpponentBattleboard'
 
-
-// const columns = ["A","B","C","D","E","F","G","H","I","J",]
-// const rows = [1,2,3,4,5,6,7,8,9,10]
 
 const GameAreaPage = () => {
+	const { player, setPlayer, opponent, setOpponent} = useGameContext()
+
 
 	//**** GRIDS ****/
 	// ships position
@@ -23,36 +22,29 @@ const GameAreaPage = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
+
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [player, setPlayer] = useState("")
-	const [opponent, setOpponent] = useState("")
+
 	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
- 		// tracks the opponents id with obejct.keys since players is an object and not an array 
-	// const opponent_id = Object.keys(players).find(id => (id !== socket.id))   
-
+ 	// tracks the players id with obejct.keys since players is an object and not an array 
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 	const playerUsername = players[thisSocket]
-		console.log('Identified this player: ',thisSocket)
 		console.log('PLAYER', player)
 
-	
 	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
 	const opponentUsername = players[opponentSocket]
-		console.log('Identified this opponent: ',opponentSocket)
 		console.log('OPPONENET', opponent)
 
 	useEffect(() => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
 	}, [])
-	/* setPlayer(thisSocket);
-	console.log('player is: ', thisSocket)
-	setOpponent(opponentSocket);  */ 
+ 
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 

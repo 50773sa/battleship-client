@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
-import useCellIds from '../hooks/useCellIds'
 
-export default function Battleboard({ id, hasShip }) {
+
+export default function Battleboard({ id, hasShip}) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState('')
-	const { socket } = useGameContext()
-	
+	const { socket } = useGameContext()	
+
 
   	const handleShotFired = async (e) => {
 		e.preventDefault()
@@ -25,7 +25,8 @@ export default function Battleboard({ id, hasShip }) {
 		}
 
 		await socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, currentShot)   
+		console.log('CLICK ON ID', id, shotData)   
+
 	}
 
 
@@ -35,8 +36,9 @@ export default function Battleboard({ id, hasShip }) {
 		socket.on('receive:shot', (data) => {
 			// console.log('DATA FROM USEEFFECT: ', data)
 			setCurrentShot((shot) => [...shot, data])
+			return
 		})
-	},[])
+	},[socket])
 
  	return (
 		<div className='defaultCellColor'>
