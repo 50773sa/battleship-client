@@ -5,11 +5,15 @@ import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
+import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
 
+	//show popup "GAME OVER"
+	const [showModal, setShowModal] = useState(false)  
+
+	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
 
 	//**** GRIDS ****/
 	// ships position
@@ -125,13 +129,18 @@ const GameAreaPage = () => {
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentBattleboard key = {i} id = {id} hasShip = {hasShip} />
+									return <OpponentBattleboard key = {i} id = {id}  />
 								}
 							)}
 							</div>
 						</div> 
-					</div>
-			</section>
+					</div>	
+					{showModal && (
+						<div>
+						<Gameover />
+						</div>
+					)}									
+			</section>			
 		</main>
 	)
 }

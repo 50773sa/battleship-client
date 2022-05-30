@@ -36,8 +36,9 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		
 		await socket.emit('shot:fired', shotData)
 
-	
 	}
+
+
 	// listen if shots are fired
 		useEffect(() => {
 			setOpponentsShips(newShip)
