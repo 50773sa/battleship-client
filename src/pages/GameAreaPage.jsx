@@ -103,7 +103,7 @@ const GameAreaPage = () => {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{player}</p> 
+					<p>You: {player}</p> 
 					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
@@ -126,7 +126,7 @@ const GameAreaPage = () => {
 
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
-					<p>{opponent}</p> 
+					<p>Opponent: {opponent}</p> 
 					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
