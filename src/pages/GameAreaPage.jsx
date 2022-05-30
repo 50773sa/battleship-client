@@ -25,8 +25,6 @@ const GameAreaPage = () => {
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [player, setPlayer] = useState("")
-	const [opponent, setOpponent] = useState("")
 	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
@@ -37,14 +35,14 @@ const GameAreaPage = () => {
 	// PUT THIS CODE IN AN IF STATEMENT???? MAYBE handleUpdatePlayers????? */
   	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 		console.log('Identified this player: ',thisSocket)
-	const thisSocketUsername = players[thisSocket]
-		console.log('This players username: ',thisSocketUsername)
+	const player = players[thisSocket]
+		console.log('This players username: ',player)
 
 	
 	const opponentSocket = Object.keys(players).find(id => (id !== socket.id))
 		console.log('Identified this opponent: ',opponentSocket)
-	const opponentSocketUsername = players[opponentSocket]
-		console.log('Opponent username: ',opponentSocketUsername) 
+	const opponent = players[opponentSocket]
+		console.log('Opponent username: ',opponent) 
 
 	/* setPlayer(thisSocket);
 	console.log('player is: ', thisSocket)
@@ -71,14 +69,14 @@ const GameAreaPage = () => {
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			console.log(`Successully got number of ships for player: ${thisSocketUsername} and opponent: ${opponentSocketUsername}`, status) 
+			console.log(`Successully got number of ships for player ${player}: ${status.numberOfShips} and opponent ${opponent}: ${status.numberOfShips}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 
 			setOpponentNumberOfShips(status.numberOfShips)
 
-			console.log("Status on players number of ships: ", status.numberOfShips ) 
-			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+			/* console.log("Status on players number of ships: ", status.numberOfShips ) 
+			console.log("Status on opponent number of ships: ", status.numberOfShips )  */
 		})
 
 		// listen for updated amount of ships from the server
@@ -105,7 +103,7 @@ const GameAreaPage = () => {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{thisSocketUsername}</p> 
+					<p>{player}</p> 
 					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
@@ -120,9 +118,15 @@ const GameAreaPage = () => {
 					</div> 
 				</div>	
 
+				<div>
+                	{myTurn && <h3> It's your turn </h3>}
+                	{!myTurn && <h3> Opponents turn </h3>}
+            	</div>
+
+
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
-					<p>{opponentSocketUsername}</p> 
+					<p>{opponent}</p> 
 					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
