@@ -43,14 +43,17 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
  	return (
 		<div className='defaultCellColor'>
-			<div className={
-				  hit ? 'hit' 
-				: miss ? 'miss'
-				: hasShip ? 'isShip'
-				: 'defaultCellColor'}
-				onClick={!myTurn.Disabled ? myTurn.Click : handleShotFired}  // disables click on battleboard if its not my turn
-			>
-			</div>
+
+			{myTurn &&
+				<div className={
+					hit ? 'hit' 
+					: miss ? 'miss'
+					: hasShip ? 'isShip'
+					: 'defaultCellColor'}
+					onClick={handleShotFired}
+				>
+				</div>
+			} 
 		</div>
     )
 }
