@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
-import Cell from '../components/Cell'
+import Battleboard from '../components/Battleboard'
+import OpponentBattleboard from '../components/OpponentBattleboard'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
 import Gameover from '../components/Gameover'
 
 
-// const columns = ["A","B","C","D","E","F","G","H","I","J",]
-// const rows = [1,2,3,4,5,6,7,8,9,10]
-
 const GameAreaPage = () => {
+
 	//show popup "GAME OVER"
 	const [showModal, setShowModal] = useState(true)  
 
+	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
+
 	//**** GRIDS ****/
 	// ships position
-	const [ships, setShips] = useState ([])
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
@@ -25,14 +25,29 @@ const GameAreaPage = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
+
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [opponent, setOpponent] = useState()
-	const [gameOn, setGameOn] = useState(false)
 
-	// tracks the opponents id with obejct.keys since players is an object and not an array 
-	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
+	const [gameOn, setGameOn] = useState(false)
+	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
+
+ 	// tracks the players id with obejct.keys since players is an object and not an array 
+	const thisSocket = Object.keys(players).find(id => (id === socket.id))
+	const playerUsername = players[thisSocket]
+		console.log('PLAYER', player)
+
+	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
+	const opponentUsername = players[opponentSocket]
+		console.log('OPPONENET', opponent)
+
+	useEffect(() => {
+		setPlayer(thisSocket)
+		setOpponent(opponentSocket)
+	}, [])
+ 
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
@@ -41,14 +56,36 @@ const GameAreaPage = () => {
 		setPlayers(playerlist)
 	}
 
+	//********** UPDATE SHIPS **********/
+	
+	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
+		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
+		setPlayerNumberOfShips(playerNumberOfShips)
+		setOpponentNumberOfShips(opponentNumberOfShips)
+	}
+
 	//********** START GAME **********/
 	const handleStartGame = () => {
- 
+		console.log('2 player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
+
+		// send 'get-number-of-ships' event to the server. 
+		socket.emit('get-number-of-ships', ships, status => {
+			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
+
+			setPlayerNumberOfShips(status.numberOfShips) 
+
+			setOpponentNumberOfShips(status.numberOfShips)
+
+			console.log("Status on players number of ships: ", status.numberOfShips ) 
+			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+		})
+
+		// listen for updated amount of ships from the server
+		socket.on('player:ships', handleUpdateShips)
 	}
 
 	// lyssna efter start:game event från servern
 	socket.on('start:game', handleStartGame)
-	
 	
 	// connect to game when component is mounted
 	useEffect(() => {
@@ -61,22 +98,21 @@ const GameAreaPage = () => {
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
 	}, [socket, gameUsername, navigate])
-	//** FIXA VARNING FROM REACT HOOK **/
 
   	return (
         <main>
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{players[socket.id]}</p> 
-					<p>Ships left: 4 / 4</p>
+					<p>{playerUsername}</p> 
+					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 						</div>	
@@ -85,15 +121,15 @@ const GameAreaPage = () => {
 
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
-					<p>{players[opponent_id]}</p> 
-					<p>Ships left: 4 / 4</p>
+					<p>{opponentUsername}</p> 
+					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									return <OpponentBattleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 							</div>

@@ -37,10 +37,10 @@ function useGetShips() {
         className: 'isShip'         
       }
     ]
+
     // Random function
     const getRandomIndex = (array, blocks) => {
       const randomId = Math.floor(Math.random() * (array.length - blocks));
-      //console.log(array.length, blocks)
       return array[randomId];
     }
     
@@ -48,7 +48,6 @@ function useGetShips() {
         // create random col and row
         let col = getRandomIndex(columns, 0)
         let row = getRandomIndex(rows, ship.block - 1)
-        //console.log('ships position', ship.position)
 
       
         let hasDuplicates = (tempCol, tempRow, blocks) => {
@@ -74,10 +73,9 @@ function useGetShips() {
           ship.position.push(row + col)
           row = row +1
         }
-        //console.log('ships posi', ship.position)
       })
-      console.log('ships', ships)
-      return ships         
+
+      return ships        
 }
 
 export default useGetShips
