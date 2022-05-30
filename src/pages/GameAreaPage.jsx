@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
-import Cell from '../components/Battleboard'
+import Battleboard from '../components/Battleboard'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
+import OpponentBattleboard from '../components/OpponentBattleboard'
 
 
 // const columns = ["A","B","C","D","E","F","G","H","I","J",]
@@ -25,13 +26,13 @@ const GameAreaPage = () => {
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [player, setPlayer] = useState('')
-	const [opponent, setOpponent] = useState('')
+	const [player, setPlayer] = useState("")
+	const [opponent, setOpponent] = useState("")
 	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
- 	// tracks the opponents id with obejct.keys since players is an object and not an array 
+ 		// tracks the opponents id with obejct.keys since players is an object and not an array 
 	// const opponent_id = Object.keys(players).find(id => (id !== socket.id))   
 
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
@@ -49,7 +50,6 @@ const GameAreaPage = () => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
 	}, [])
-
 	/* setPlayer(thisSocket);
 	console.log('player is: ', thisSocket)
 	setOpponent(opponentSocket);  */ 
@@ -75,7 +75,7 @@ const GameAreaPage = () => {
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			// console.log(`Successully got number of ships for player: ${thisSocketUsername} and opponent: ${opponentSocketUsername}`, status) 
+			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 
@@ -94,7 +94,6 @@ const GameAreaPage = () => {
 	
 	// connect to game when component is mounted
 	useEffect(() => {
-
 	// if no username, redirect them to the login page
 		if (!gameUsername) {
 			navigate('/')
@@ -118,7 +117,7 @@ const GameAreaPage = () => {
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 						</div>	
@@ -135,7 +134,7 @@ const GameAreaPage = () => {
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Cell key = {i} id = {id} hasShip = {hasShip} />
+									return <OpponentBattleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
 							</div>
