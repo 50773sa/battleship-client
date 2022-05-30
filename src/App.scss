@@ -58,25 +58,6 @@ h2, h3, p, span {
 
 }
 
-/* ---- Waitingroom Component ---- */
-
-.lightboxContainer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100vw;
-	height: 100vh;
-
-	.lightbox {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 70vw;
-		height: 30vh;
-	}
-}
-
 /* ---- Game area page ---- */
 
 header {
@@ -136,7 +117,13 @@ header {
 		}
 	}
 
-	// POPUP GAME OVER
+	.toggleTurns {
+		height: 10wh;
+		border: 1px solid rgba(248, 219, 105, 0.573);
+		box-shadow: 0px 0px 50px 1px rgb(248, 219, 105);
+	}
+	
+	// POPUP GAME OVER 
 	.popup-backdrop {
 		position: fixed;
 		top: 0;

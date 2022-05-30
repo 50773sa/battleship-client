@@ -9,14 +9,18 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
+	//**** GAME ****/
+	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
+	const [gameOn, setGameOn] = useState(false)
+	const navigate = useNavigate()
 
-	//show popup "GAME OVER"
+	//**** CONTEXT PROVIDER ****// 
+	const { player, setPlayer, opponent, setOpponent, ships, setShips, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
+
+	//**** GAME OVER ****/
 	const [showModal, setShowModal] = useState(false)  
 
-	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
-
 	//**** GRIDS ****/
-	// ships position
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
@@ -25,12 +29,7 @@ const GameAreaPage = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
-
 	//**** PLAYERS ****/
-	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
-	const navigate = useNavigate()
-
-	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
@@ -49,7 +48,7 @@ const GameAreaPage = () => {
 	}, [])
  
 
-	//********** UPDATER PLAYERLIST **********/
+	//********** UPDATE PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
 	const handleUpdatePlayers = playerlist => {
 		console.log('Got new playerlist: ',playerlist)
@@ -57,7 +56,6 @@ const GameAreaPage = () => {
 	}
 
 	//********** UPDATE SHIPS **********/
-	
 	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
 		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
 		setPlayerNumberOfShips(playerNumberOfShips)
@@ -73,7 +71,6 @@ const GameAreaPage = () => {
 			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
-
 			setOpponentNumberOfShips(status.numberOfShips)
 
 			console.log("Status on players number of ships: ", status.numberOfShips ) 
@@ -118,6 +115,19 @@ const GameAreaPage = () => {
 						</div>	
 					</div> 
 				</div>	
+				
+				{Object.keys(players).length === 1 && (
+					<div>
+						<h3>Waiting for another player</h3>
+					</div>
+				)}
+
+				{Object.keys(players).length === 2 && (
+					<div className="toggleTurns">
+						{myTurn && <h3> It's your turn </h3>}
+						{!myTurn && <h3> Opponents turn </h3>}
+					</div>
+				)}
 
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
