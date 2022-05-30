@@ -11,7 +11,7 @@ import Gameover from '../components/Gameover'
 const GameAreaPage = () => {
 
 	//show popup "GAME OVER"
-	const [showModal, setShowModal] = useState(true)  
+	const [showModal, setShowModal] = useState(false)  
 
 	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
 
@@ -129,7 +129,7 @@ const GameAreaPage = () => {
 							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentBattleboard key = {i} id = {id} hasShip = {hasShip} />
+									return <OpponentBattleboard key = {i} id = {id}  />
 								}
 							)}
 							</div>
