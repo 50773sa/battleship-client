@@ -6,12 +6,8 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-<<<<<<< HEAD
-	const { myTurn, opponent, ships, socket } = useGameContext()
-=======
 	const [opponentsShips, setOpponentsShips] = useState()	
-	const { opponent, ships, socket } = useGameContext()
->>>>>>> main
+	const { myTurn, opponent, ships, socket } = useGameContext()
 	
 	const ship = ships.map(ships => ships.block)
 	const newShip = [...ship]
