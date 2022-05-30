@@ -25,17 +25,30 @@ const GameAreaPage = () => {
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
-	const [player, setPlayer] = useState()
-	const [opponent, setOpponent] = useState()
+	const [player, setPlayer] = useState("")
+	const [opponent, setOpponent] = useState("")
 	const [gameOn, setGameOn] = useState(false)
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
-	// tracks the opponents id with obejct.keys since players is an object and not an array 
-	const opponent_id = Object.keys(players).find(id => (id !== socket.id))
+ 	// tracks the opponents id with obejct.keys since players is an object and not an array 
+	/* const opponent_id = Object.keys(players).find(id => (id !== socket.id))   */
 
-	// get player and opponent number of ships
+	// PUT THIS CODE IN AN IF STATEMENT???? MAYBE handleUpdatePlayers????? */
+  	const thisSocket = Object.keys(players).find(id => (id === socket.id))
+		console.log('Identified this player: ',thisSocket)
+	const thisSocketUsername = players[thisSocket]
+		console.log('This players username: ',thisSocketUsername)
 
+	
+	const opponentSocket = Object.keys(players).find(id => (id !== socket.id))
+		console.log('Identified this opponent: ',opponentSocket)
+	const opponentSocketUsername = players[opponentSocket]
+		console.log('Opponent username: ',opponentSocketUsername) 
+
+	/* setPlayer(thisSocket);
+	console.log('player is: ', thisSocket)
+	setOpponent(opponentSocket);  */ 
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
@@ -44,8 +57,8 @@ const GameAreaPage = () => {
 		setPlayers(playerlist)
 	}
 
-	//********** UPDATER SHIPS **********/
-	// 
+	//********** UPDATE SHIPS **********/
+	
 	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
 		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
 		setPlayerNumberOfShips(playerNumberOfShips)
@@ -58,7 +71,7 @@ const GameAreaPage = () => {
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			console.log(`Successully got number of ships for player: ${players[socket.id]} and opponent: ${players[opponent_id]}`, status)
+			console.log(`Successully got number of ships for player: ${thisSocketUsername} and opponent: ${opponentSocketUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 
@@ -66,10 +79,10 @@ const GameAreaPage = () => {
 
 			console.log("Status on players number of ships: ", status.numberOfShips ) 
 			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
-
-			// listen for updated amount of ships from the server
-			socket.on('player:ships', handleUpdateShips)
 		})
+
+		// listen for updated amount of ships from the server
+		socket.on('player:ships', handleUpdateShips)
 	}
 
 	// lyssna efter start:game event från servern
@@ -92,7 +105,7 @@ const GameAreaPage = () => {
 			<section className='gameAreaWrapper'>
 				<div className="gameArea">
 					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{players[socket.id]}</p> 
+					<p>{thisSocketUsername}</p> 
 					<p>Ships left: {playerNumberOfShips}</p>
 
 					<div className="box">
@@ -109,7 +122,7 @@ const GameAreaPage = () => {
 
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
-					<p>{players[opponent_id]}</p> 
+					<p>{opponentSocketUsername}</p> 
 					<p>Ships left: {opponentNumberOfShips}</p>
 
 					<div className="box">
