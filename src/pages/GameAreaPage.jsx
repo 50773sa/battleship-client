@@ -4,12 +4,15 @@ import { useGameContext } from '../contexts/GameContextProvider'
 import Cell from '../components/Cell'
 import useCellIds from '../hooks/useCellIds'
 import useGetShips from '../hooks/useGetShips'
+import Gameover from '../components/Gameover'
 
 
 // const columns = ["A","B","C","D","E","F","G","H","I","J",]
 // const rows = [1,2,3,4,5,6,7,8,9,10]
 
 const GameAreaPage = () => {
+	//show popup "GAME OVER"
+	const [showModal, setShowModal] = useState(true)  
 
 	//**** GRIDS ****/
 	// ships position
@@ -95,8 +98,13 @@ const GameAreaPage = () => {
 							)}
 							</div>
 						</div> 
-					</div>
-			</section>
+					</div>	
+					{showModal && (
+						<div>
+						<Gameover />
+						</div>
+					)}									
+			</section>			
 		</main>
 	)
 }
