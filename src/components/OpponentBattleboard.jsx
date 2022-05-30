@@ -6,8 +6,13 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
+	const [opponentsShips, setOpponentsShips] = useState()	
 	const { opponent, ships, socket } = useGameContext()
 	
+	const ship = ships.map(ships => ships.block)
+	const newShip = [...ship]
+
+	// console.log('OPPONENTS SHIPS', opponentsShips)
 
   	const handleShotFired = async (e) => {
 		e.preventDefault()
@@ -26,11 +31,16 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			ships: ships
 		}
 		console.log(ships)
+
+		// skicka e.target.classname
+		
 		await socket.emit('shot:fired', shotData)
+
 	
 	}
 	// listen if shots are fired
 		useEffect(() => {
+			setOpponentsShips(newShip)
 			// listen to shot fired from server -handleShotFired 
 			socket.on('receive:shot', (data) => {
 				// console.log('DATA FROM USEEFFECT: ', data)
