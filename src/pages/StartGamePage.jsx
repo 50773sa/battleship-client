@@ -27,7 +27,7 @@ const StartGamePage = () => {
 
 			setMyTurn(status.yourTurn)
 
-			console.log("Status on players turn: ", status.yourTurn ) 
+			console.log("Status on players turn: ", status.yourTurn )  
 
 			navigate(`/game/${room}`)
 		})

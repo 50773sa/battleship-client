@@ -30,11 +30,12 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			shot: currentShot,
 			ships: ships
 		}
-		console.log(ships)
+	/* 	console.log(ships) */
 
 		// skicka e.target.classname
 		
 		await socket.emit('shot:fired', shotData)
+		// set yourTurn till false
 
 	}
 

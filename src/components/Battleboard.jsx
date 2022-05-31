@@ -43,7 +43,7 @@ export default function Battleboard({ id, hasShip }) {
 		console.log('CLICK ON ID', id, shotData)   
 
 	}
-	console.log('PLAYERS SHIPS', playersShips)
+/* 	console.log('PLAYERS SHIPS', playersShips) */
 
 
 	// listen if shots are fired
