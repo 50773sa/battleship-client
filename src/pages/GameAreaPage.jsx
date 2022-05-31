@@ -9,55 +9,45 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-
-	//show popup "GAME OVER"
-	const [showModal, setShowModal] = useState(true)  
-
-	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
-
-	//**** GRIDS ****/
-	// ships position
+	const { player, setPlayer, opponent, setOpponent, ships, setShips, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
+	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
+	const navigate = useNavigate()
+	const [showModal, setShowModal] = useState(false)  // game over 
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
+	const [gameOn, setGameOn] = useState(false)
+
+	//** Place the ships when page is mounted **/
 	useEffect(() => {		
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
-
-	//**** PLAYERS ****/
-	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
-	const navigate = useNavigate()
-
-	const [gameOn, setGameOn] = useState(false)
-	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
-	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
-
- 	// tracks the players id with obejct.keys since players is an object and not an array 
+ 	//** Tracks the players id with obejct.keys since 'players' is an object and not an array **/
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 	const playerUsername = players[thisSocket]
-		console.log('PLAYER', player)
+		console.log('PLAYER', playerUsername)
 
 	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
 	const opponentUsername = players[opponentSocket]
-		console.log('OPPONENET', opponent)
+		console.log('OPPONENET', opponentUsername)
 
+	//** Save players socket id to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
 	}, [])
- 
 
-	//********** UPDATER PLAYERLIST **********/
-	// save the connected players to setPlayers array in GameContextProvider 
+	//********** UPDATE PLAYERLIST **********/
+	// save the connected players to players object in GameContextProvider 
 	const handleUpdatePlayers = playerlist => {
 		console.log('Got new playerlist: ',playerlist)
 		setPlayers(playerlist)
 	}
 
 	//********** UPDATE SHIPS **********/
-	
 	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
 		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
 		setPlayerNumberOfShips(playerNumberOfShips)
@@ -66,14 +56,13 @@ const GameAreaPage = () => {
 
 	//********** START GAME **********/
 	const handleStartGame = () => {
-		console.log('2 player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
+		console.log('Player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
 			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
-
 			setOpponentNumberOfShips(status.numberOfShips)
 
 			console.log("Status on players number of ships: ", status.numberOfShips ) 
@@ -84,7 +73,7 @@ const GameAreaPage = () => {
 		socket.on('player:ships', handleUpdateShips)
 	}
 
-	// lyssna efter start:game event från servern
+	//** Listen for 'start:game' event from server **/
 	socket.on('start:game', handleStartGame)
 	
 	// connect to game when component is mounted
@@ -118,7 +107,20 @@ const GameAreaPage = () => {
 						</div>	
 					</div> 
 				</div>	
+				
+				{Object.keys(players).length === 1 && (
+					<div>
+						<h3>Waiting for another player</h3>
+					</div>
+				)}
 
+				{Object.keys(players).length === 2 && (
+					<div className="toggleTurns">
+						{myTurn && <h3> It's your turn </h3>}
+						{!myTurn && <h3> Opponents turn </h3>}
+					</div>
+				)}
+				
 				<div className="gameArea">
 					{/* Player always see opponent name here */}
 					<p>{opponentUsername}</p> 
@@ -127,11 +129,20 @@ const GameAreaPage = () => {
 					<div className="box">
 						<div className='cell'>
 							{ids && 
+<<<<<<< HEAD
 								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
+=======
+								ids.map((id, i) => {
+									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									return <OpponentBattleboard key = {i} id = {id}  />
+								}
+>>>>>>> main
 							)}
 							</div>
 						</div> 
 					</div>	
+
+
 					{showModal && (
 						<div>
 						<Gameover />

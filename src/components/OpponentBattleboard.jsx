@@ -6,8 +6,13 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { opponent, ships, socket } = useGameContext()
+	const [opponentsShips, setOpponentsShips] = useState()	
+	const { myTurn, opponent, ships, socket } = useGameContext()
 	
+	const ship = ships.map(ships => ships.block)
+	const newShip = [...ship]
+
+	// console.log('OPPONENTS SHIPS', opponentsShips)
 
   	const handleShotFired = async (e) => {
 		e.preventDefault()
@@ -16,8 +21,8 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setHit(true)
 
 		} 	else {
-				setMiss(true)
-				setHit(false)
+			setMiss(true)
+			setHit(false)
 		}
 
 		const shotData = {
@@ -26,30 +31,39 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			ships: ships
 		}
 		console.log(ships)
+
+		// skicka e.target.classname
+		
 		await socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, currentShot)   
+
 	}
 
 
 	// listen if shots are fired
-	useEffect(() => {
-		// listen to shot fired from server -handleShotFired 
-		socket.on('receive:shot', (data) => {
-			// console.log('DATA FROM USEEFFECT: ', data)
-			setCurrentShot((shot) => [...shot, data])
-		})
-	},[])
+		useEffect(() => {
+			setOpponentsShips(newShip)
+			// listen to shot fired from server -handleShotFired 
+			socket.on('receive:shot', (data) => {
+				// console.log('DATA FROM USEEFFECT: ', data)
+				setCurrentShot((shot) => [...shot, data])
+			})
+		},[socket])
 
- 	return (
-		<div className='defaultCellColor'>
-			<div className={
-				  hit ? 'hit' 
-				: miss ? 'miss'
-				: hasShip ? 'isShip'
-				: 'defaultCellColor'}
-				onClick={handleShotFired} 
-			>
-			</div>
-		</div>
-    )
+		return (
+			<div className='defaultCellColor'>
+
+				{/* Only let me click on battleboard if its my turn */}
+				{myTurn && 
+					<div className={
+						hit ? 'hit' 
+						: miss ? 'miss'
+						: hasShip ? 'isShip'
+						: 'defaultCellColor'}
+						onClick={handleShotFired} 
+					>
+					</div>
+				}
+			</div>	
+		)
+	
 }
