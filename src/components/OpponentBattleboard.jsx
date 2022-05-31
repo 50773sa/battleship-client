@@ -21,8 +21,8 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setHit(true)
 
 		} 	else {
-				setMiss(true)
-				setHit(false)
+			setMiss(true)
+			setHit(false)
 		}
 
 		const shotData = {
