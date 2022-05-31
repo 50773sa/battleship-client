@@ -11,7 +11,7 @@ export default function Battleboard({ id, hasShip }) {
 
 
 	const ship = ships.map(ships => ships.block)
-	const newShip = [...ship]
+	//const newShip = [...ship]
 
 	// remove -1 from block if hit = true
 	const ifHit = (ship, hit) => {
@@ -33,22 +33,23 @@ export default function Battleboard({ id, hasShip }) {
 				setHit(false)
 		}
 
-		const shotData = {
-			player: player,
-			shot: currentShot,
-			ships: playersShips,
-		}
+		// const shotData = {
+		// 	player: player,
+		// 	shot: currentShot,
+		// 	ships: ships,
+		// 	cell: id
+		// }
 
-		await socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, shotData)   
+		// await socket.emit('shot:fired', shotData)
+		// console.log('CLICK ON ID', id, shotData)   
 
 	}
-	console.log('PLAYERS SHIPS', playersShips)
+	//console.log('PLAYERS SHIPS', playersShips)
 
 
 	// listen if shots are fired
 	useEffect(() => {
-		setPlayersShips(newShip)
+		//setPlayersShips(newShip)
 		// listen to shot fired from server -handleShotFired 
 
 		//ta emot från socket_controller (e.target.classname) (find?)
@@ -66,8 +67,7 @@ export default function Battleboard({ id, hasShip }) {
 				  hit ? 'hit' 
 				: miss ? 'miss'
 				: hasShip ? 'isShip'
-				: 'defaultCellColor'}
-				onClick={handleShotFired} 
+				: 'defaultCellColor'}				 
 			>
 			</div>
 		</div>

@@ -38,6 +38,7 @@ const GameAreaPage = () => {
 	useEffect(() => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	//********** UPDATE PLAYERLIST **********/
@@ -87,7 +88,7 @@ const GameAreaPage = () => {
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
 	}, [socket, gameUsername, navigate])
-
+	
   	return (
         <main>
 			<section className='gameAreaWrapper'>
