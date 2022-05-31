@@ -12,20 +12,19 @@ const GameAreaPage = () => {
 
 	//show popup "GAME OVER"
 	const [showModal, setShowModal] = useState(false)  
-
+	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const { player, setPlayer, opponent, setOpponent, ships, setShips} = useGameContext()
 
 	//**** GRIDS ****/
 	// ships position
-	const shipPosition = useGetShips()
 	const ids = useCellIds()
 
-	useEffect(() => {		
+	useEffect(() => {	
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
-
+	console.log('SHIP POSITION', shipPosition)
 	//**** PLAYERS ****/
 	const { myTurn, setMyTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
@@ -48,6 +47,7 @@ const GameAreaPage = () => {
 		setOpponent(opponentSocket)
 	}, [])
  
+	console.log('GAMEAREAPAGE', ships)
 
 	//********** UPDATER PLAYERLIST **********/
 	// save the connected players to setPlayers array in GameContextProvider 
@@ -126,12 +126,12 @@ const GameAreaPage = () => {
 
 					<div className="box">
 						<div className='cell'>
-							{ids && 
+							{/* {ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
 									return <OpponentBattleboard key = {i} id = {id}  />
 								}
-							)}
+							)} */}
 							</div>
 						</div> 
 					</div>	
