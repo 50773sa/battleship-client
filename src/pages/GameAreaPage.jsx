@@ -14,18 +14,20 @@ const GameAreaPage = () => {
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false)  // game over 
-	const shipPosition = useGetShips()
-	const ids = useCellIds()
-
+	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const [gameOn, setGameOn] = useState(false)
+
+	const ids = useCellIds()
 
 	//** Place the ships when page is mounted **/
 	useEffect(() => {		
-		setShips(shipPosition)
+		setShipPosition(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
- 	//** Tracks the players id with obejct.keys since 'players' is an object and not an array **/
+	console.log('SHIP POSITION', shipPosition)
+	
+ 	// tracks the players id with obejct.keys since players is an object and not an array 
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 	const playerUsername = players[thisSocket]
 		console.log('PLAYER', playerUsername)
@@ -39,6 +41,8 @@ const GameAreaPage = () => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
 	}, [])
+ 
+	console.log('GAMEAREAPAGE', ships)
 
 	//********** UPDATE PLAYERLIST **********/
 	// save the connected players to players object in GameContextProvider 
@@ -131,6 +135,7 @@ const GameAreaPage = () => {
 							{ids && 
 								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
 							)}
+
 							</div>
 						</div> 
 					</div>	
