@@ -61,7 +61,7 @@ export default function Battleboard({ id, hasShip }) {
 	},[socket])
 
  	return (
-		<div className='defaultCellColor'>
+		<div className='defaultCellColor' >
 			<div className={
 				  hit ? 'hit' 
 				: miss ? 'miss'
