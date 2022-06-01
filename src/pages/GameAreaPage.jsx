@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate, useParams } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard'
@@ -13,10 +13,10 @@ const GameAreaPage = () => {
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
+	const { room_id } = useParams()
 	const [showModal, /* setShowModal */] = useState(false)  // game over 
 	const shipPosition = useGetShips()
 	const ids = useCellIds()
-	const [ gameOn, setGameOn] = useState(true) 
 
 	//********** UPDATE PLAYERLIST **********/
 	// status from callback is 'room.players'
@@ -89,7 +89,18 @@ const GameAreaPage = () => {
 		
 			// listen for updated playerlist from the server
 			socket.on('player:list', handleUpdatePlayers)
-		}, [socket, navigate, gameUsername, handleUpdatePlayers])
+
+			return () => {
+				 console.log("Running cleanup")
+	
+				// stop listening to events
+				socket.off('player:list', handleUpdatePlayers)
+				socket.off('player:ships', handleUpdateShips)
+				//socket.off('start:game', handleStartGame)
+	
+				socket.emit('player:left', gameUsername, room_id) 
+			} 
+		}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
 
   	return (
