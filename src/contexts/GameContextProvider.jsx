@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import socketio from "socket.io-client";
+import useGetShips from '../hooks/useGetShips';
+import useCellIds from '../hooks/useCellIds';
 
 const GameContext = createContext()
 const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
@@ -9,12 +11,18 @@ export const useGameContext = () => {
 }
 
 const GameContextProvider = ({ children }) => {
-    const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
-    const [players, setPlayers] = useState([]) // saves all connected players to this players-array
-    const [player, setPlayer] = useState("")
-	const [opponent, setOpponent] = useState("") 
+    const [gameUsername, setGameUsername] = useState() 
+    const [players, setPlayers] = useState([]) 
+    const [player, setPlayer] = useState()
+	const [opponent, setOpponent] = useState()
+	const [thisPlayer, setThisPlayer] = useState()
+	const [thisPlayerName, setThisPlayerName] = useState()
+	const [otherPlayer, setOtherPlayer] = useState()
+	const [otherPlayerName, setOtherPlayerName] = useState()
     const [myTurn, setMyTurn] = useState()
     const [ships, setShips] = useState ([])
+    const [shipPosition, setShipPosition] = useState(useGetShips())
+	const ids = useCellIds()
 
 
     const values = {
@@ -26,12 +34,28 @@ const GameContextProvider = ({ children }) => {
         player,
         setPlayer,
         opponent,
-        setOpponent,
+        setOpponent, 
+        thisPlayer, 
+        setThisPlayer,
+        thisPlayerName, 
+        setThisPlayerName, 
+        otherPlayer,
+        setOtherPlayer,
+        otherPlayerName, 
+        setOtherPlayerName,
         myTurn,
         setMyTurn,
-        ships,
-        setShips
+        ships,    
+        ids,
     }
+
+
+	//** Place the ships when page is mounted **/
+	useEffect(() => {		
+		setShipPosition(shipPosition)
+		setShips(shipPosition)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
 
     return (
         <GameContext.Provider value={values}>

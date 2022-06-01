@@ -15,7 +15,7 @@ function useCellIds() {
 			rows.forEach((row) => cellIds.push( row + col))
 		});
 		setIds(cellIds)
-		console.log('CELL ID', cellIds)
+	/* 	console.log('CELL ID', cellIds) */
 	};
 	useEffect(() => {
 		getIds()

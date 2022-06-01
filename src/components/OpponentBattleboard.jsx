@@ -6,7 +6,7 @@ export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, setShips, socket } = useGameContext()
+	const { player, ships, socket } = useGameContext()
 	const [playersShips, setPlayersShips] = useState()	
 	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
@@ -36,6 +36,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipA.position.includes(id)) {
 				return (
 					removeOneShipPos(shipA),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP A', shipA)
 				)
 			}  
@@ -43,6 +45,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipB.position.includes(id)) {
 				return (
 					removeOneShipPos(shipB),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP B', shipB)
 				)
 
@@ -51,6 +55,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipC.position.includes(id)) {
 				return (
 					removeOneShipPos(shipC),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP C', shipC)
 				)
 
@@ -59,24 +65,24 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipD.position.includes(id)) {
 				return (
 					removeOneShipPos(shipD),
+					socket.emit('shot:hit', shotData),
+					
 					console.log('SHIP D', shipD)
 				)
 
 			} 	
-			else {
-				setMiss(true)
-				setHit(false)
 		}
 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		
 		const shotData = {
 			player: player,
 			ships: ship,
 		}
-
-		socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, shotData)   
 	}
-}		// console.log('*********', ships)
 
 	// listen if shots are fired
 	useEffect(() => {
