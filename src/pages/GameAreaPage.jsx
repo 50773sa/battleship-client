@@ -9,22 +9,13 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, setShips, myTurn, players, setPlayers, gameUsername, socket} = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket} = useGameContext()
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showModal, /* setShowModal */] = useState(false)  // game over 
-	const [shipPosition, setShipPosition] = useState(useGetShips())
-	const ids = useCellIds()
 
-	//***** Place the ships when page is mounted *****/
-	useEffect(() => {		
-		setShipPosition(shipPosition)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[])
-
-	console.log('SHIP POSITION', shipPosition)
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
@@ -124,7 +115,7 @@ const GameAreaPage = () => {
 							<div className='cell'>
 								{ids && 
 									ids.map((id, i) => {
-										const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+										const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 										return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 									}
 								)}
@@ -142,11 +133,11 @@ const GameAreaPage = () => {
 						<p>Ships left: {opponentNumberOfShips}</p>
 
 						<div className="box">
-						<div className='cell'>
-							{ids && 
-								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
-							)}
-
+							<div className='cell'>
+								{ids && 
+									ids.map((id, i) =>  
+										<OpponentBattleboard key = {i} id = {id} />
+								)}
 							</div>
 						</div> 
 					</div>											
