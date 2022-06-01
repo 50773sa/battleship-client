@@ -9,14 +9,14 @@ export const useGameContext = () => {
 }
 
 const GameContextProvider = ({ children }) => {
-    const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
-    const [players, setPlayers] = useState([]) // saves all connected players to this players-array
- /*    const [playerSocket, setPlayerSocket] = useState("")
-    const [playerName, setPlayerName] = useState("")
-	const [opponentSocket, setOpponentSocket] = useState("") 
-    const [opponentName, setOpponentName] = useState("") */
-    const [player, setPlayer] = useState("")
-    const [opponent, setOpponent] = useState("")
+    const [gameUsername, setGameUsername] = useState() 
+    const [players, setPlayers] = useState([]) 
+    const [player, setPlayer] = useState()
+	const [opponent, setOpponent] = useState()
+	const [thisPlayer, setThisPlayer] = useState()
+	const [thisPlayerName, setThisPlayerName] = useState()
+	const [otherPlayer, setOtherPlayer] = useState()
+	const [otherPlayerName, setOtherPlayerName] = useState()
     const [myTurn, setMyTurn] = useState()
     const [ships, setShips] = useState ([])
 
@@ -28,17 +28,17 @@ const GameContextProvider = ({ children }) => {
         players, 
         setPlayers,
         player,
-        setPlayers,
+        setPlayer,
         opponent,
-        setOpponent,
-        /* playerSocket,
-        setPlayerSocket,
-        playerName,
-        setPlayerName,
-        opponentSocket,
-        setOpponentSocket,
-        opponentName,
-        setOpponentName, */
+        setOpponent, 
+        thisPlayer, 
+        setThisPlayer,
+        thisPlayerName, 
+        setThisPlayerName, 
+        otherPlayer,
+        setOtherPlayer,
+        otherPlayerName, 
+        setOtherPlayerName,
         myTurn,
         setMyTurn,
         ships,
