@@ -63,11 +63,13 @@ export default function Battleboard({ id, hasShip }) {
 				)
 
 			} 	
-			else {
-				setMiss(true)
-				setHit(false)
 		}
 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		
 		const shotData = {
 			player: player,
 			ships: ship,
@@ -75,8 +77,7 @@ export default function Battleboard({ id, hasShip }) {
 
 		socket.emit('shot:fired', shotData)
 		console.log('CLICK ON ID', id, shotData)   
-	}
-}		// console.log('*********', ships)
+	}	
 
 	// listen if shots are fired
 	useEffect(() => {
