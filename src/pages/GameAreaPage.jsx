@@ -12,7 +12,7 @@ const GameAreaPage = () => {
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
-	const [showModal, /* setShowModal */] = useState(false)  // game over 
+	const [showGameOver, setShowGameOver] = useState(false)  // game over 
 
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
@@ -38,11 +38,13 @@ const GameAreaPage = () => {
 
 	console.log('GAMEAREAPAGE', ships)
 
+
 	//***** UPDATE PLAYERLIST *****/
 	// status from callback is 'room.players'
 	const handleUpdatePlayers = useCallback((players) => {
 		setPlayers(players) 
 	}, [setPlayers]) 
+
 
 	//********** UPDATE SHIPS **********/
  	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
@@ -67,6 +69,7 @@ const GameAreaPage = () => {
 		// listen for updated amount of ships from the server
 		socket.on('player:ships', handleUpdateShips) 
 	} 
+
 
 	//***** Listen for 'start:game' event from server *****/
   	socket.on('start:game', handleStartGame)  
@@ -95,10 +98,19 @@ const GameAreaPage = () => {
 		}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
 
+
+	// check if Gameover
+	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+	// 	setShowGameOver(true)
+	// }
+	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+	// console.log('gameover?', showGameOver)
+	
   	return (
         <main>
 			{players.length === 1 && (
 				<div className="waitingForPlayer">
+					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
 				</div>
 			)} 
@@ -125,15 +137,16 @@ const GameAreaPage = () => {
 						{myTurn && <h3> It's your turn </h3>}
 						{!myTurn && <h3> Opponents turn </h3>}
 					</div>
-					
+			
 					<div className="gameArea">
 						<p>Opponent: {otherPlayerName}</p>  
 						<p>Ships left: {opponentNumberOfShips}</p>
 
+
 						<div className="box">
 							<div className='cell'>
 								{ids && 
-									ids.map((id, i) =>  (
+									ids.map((id, i) => (
 										<OpponentBattleboard key = {i} id = {id} />
 									)
 								)}
@@ -143,11 +156,11 @@ const GameAreaPage = () => {
 				</section>	
 			)}
 
-			{showModal && (
+			{showGameOver && (
 				<div>
-					<Gameover />
+				<Gameover />
 				</div>
-			)}		
+			)}
 		</main>
 	)
 }

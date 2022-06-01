@@ -6,7 +6,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, socket } = useGameContext()
+	const { player, ships, socket, myTurn } = useGameContext()
 	const [playersShips, setPlayersShips] = useState()	
 	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
@@ -103,14 +103,15 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
  	return (
 		<div className='defaultCellColor' >
-			<div className={
-				  hit ? 'hit' 
-				: miss ? 'miss'
-				: hasShip ? 'isShip'
-				: 'defaultCellColor'}
-				onClick={handleShotFired} 
-			>
-			</div>
+			{myTurn && ( // only let player click on battleboard if myTurn is true
+				<div className={
+					hit ? 'hit' 
+				  : miss ? 'miss'
+				  : 'defaultCellColor'}
+				  onClick={handleShotFired} 
+			  >
+			  </div>
+			)}
 		</div>
     )
 }
