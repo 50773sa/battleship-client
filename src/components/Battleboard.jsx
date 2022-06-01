@@ -100,7 +100,6 @@ export default function Battleboard({ id, hasShip }) {
 				: miss ? 'miss'
 				: hasShip ? 'isShip'
 				: 'defaultCellColor'}
-				onClick={handleShotFired} 
 			>
 			</div>
 		</div>

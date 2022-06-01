@@ -97,7 +97,6 @@ export default function Battleboard({ id, hasShip }) {
 			<div className={
 				  hit ? 'hit' 
 				: miss ? 'miss'
-				: hasShip ? 'isShip'
 				: 'defaultCellColor'}
 				onClick={handleShotFired} 
 			>
