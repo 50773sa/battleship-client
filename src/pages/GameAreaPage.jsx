@@ -110,6 +110,7 @@ const GameAreaPage = () => {
         <main>
 			{players.length === 1 && (
 				<div className="waitingForPlayer">
+					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
 				</div>
 			)} 
@@ -142,10 +143,10 @@ const GameAreaPage = () => {
 						<p>Ships left: {opponentNumberOfShips}</p>
 
 						<div className="box">
-						<div className='cell'>
-							{ids && 
-								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
-							)}
+							<div className='cell'>
+								{ids && 
+									ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
+								)}
 
 							</div>
 						</div> 
