@@ -9,23 +9,15 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { player, setPlayer, opponent, setOpponent, ships, setShips, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
+	const { ids, player, setPlayer, opponent, setOpponent, ships, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false)  // game over 
-	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const [gameOn, setGameOn] = useState(false)
+	console.log('SHIPS******', ships)
 
-	const ids = useCellIds()
 
-	//** Place the ships when page is mounted **/
-	useEffect(() => {		
-		setShips(shipPosition)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[])
-
-	
  	// tracks the players id with obejct.keys since players is an object and not an array 
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
 	const playerUsername = players[thisSocket]
@@ -101,7 +93,7 @@ const GameAreaPage = () => {
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
+									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 									return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 								}
 							)}
@@ -131,8 +123,7 @@ const GameAreaPage = () => {
 						<div className='cell'>
 							{ids && 
 								ids.map((id, i) => {
-									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentBattleboard key = {i} id = {id} hasShip={hasShip} />
+									return <OpponentBattleboard key = {i} id = {id} />
 								}
 							)}
 							</div>
