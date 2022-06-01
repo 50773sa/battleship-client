@@ -15,14 +15,16 @@ const GameAreaPage = () => {
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showModal, /* setShowModal */] = useState(false)  // game over 
-	const shipPosition = useGetShips()
+	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const ids = useCellIds()
 
-	//********** UPDATE PLAYERLIST **********/
-	// status from callback is 'room.players'
- 	const handleUpdatePlayers = useCallback((players) => {
-		setPlayers(players) 
-	}, [setPlayers]) 
+	//***** Place the ships when page is mounted *****/
+	useEffect(() => {		
+		setShipPosition(shipPosition)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
+
+	console.log('SHIP POSITION', shipPosition)
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
@@ -40,11 +42,18 @@ const GameAreaPage = () => {
 			const otherPlayerName = Object.values(otherPlayer)[1]
 			setOtherPlayerName(otherPlayerName)
 		}
-
 		setPlayer(thisPlayer) 
 	 	setOpponent(otherPlayer) 
 		
 	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
+
+	console.log('GAMEAREAPAGE', ships)
+
+	//***** UPDATE PLAYERLIST *****/
+	// status from callback is 'room.players'
+	const handleUpdatePlayers = useCallback((players) => {
+		setPlayers(players) 
+	}, [setPlayers]) 
 
 	//********** UPDATE SHIPS **********/
  	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
@@ -70,14 +79,8 @@ const GameAreaPage = () => {
 		socket.on('player:ships', handleUpdateShips) 
 	} 
 
-	//** Listen for 'start:game' event from server **/
+	//***** Listen for 'start:game' event from server *****/
   	socket.on('start:game', handleStartGame)  
-
-	//** Place the ships when page is mounted **/
-	useEffect(() => {		
-		setShips(shipPosition)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[]) 
 
 	//**** Connect to game when component is mounted ****/
 	useEffect(() => {
@@ -139,16 +142,14 @@ const GameAreaPage = () => {
 						<p>Ships left: {opponentNumberOfShips}</p>
 
 						<div className="box">
-							<div className='cell'>
-								{ids && 
-									ids.map((id, i) => {
-										const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-										return <OpponentBattleboard key = {i} id = {id}  />
-									}
-								)}
-								</div>
-							</div> 
-						</div>										
+						<div className='cell'>
+							{ids && 
+								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
+							)}
+
+							</div>
+						</div> 
+					</div>											
 				</section>	
 			)}
 
@@ -156,7 +157,7 @@ const GameAreaPage = () => {
 				<div>
 					<Gameover />
 				</div>
-			)}
+			)}		
 		</main>
 	)
 }
