@@ -40,7 +40,6 @@ const GameAreaPage = () => {
 	useEffect(() => {
 		setPlayer(thisSocket)
 		setOpponent(opponentSocket)
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
  
 	console.log('GAMEAREAPAGE', ships)
@@ -92,7 +91,7 @@ const GameAreaPage = () => {
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
 	}, [socket, gameUsername, navigate])
-	
+
   	return (
         <main>
 			<section className='gameAreaWrapper'>
@@ -134,9 +133,9 @@ const GameAreaPage = () => {
 					<div className="box">
 						<div className='cell'>
 							{ids && 
-								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
-							)}
-
+								ids.map((id, i) => <OpponentBattleboard key = {i} id = {id}  />
+								
+							)} 
 							</div>
 						</div> 
 					</div>	

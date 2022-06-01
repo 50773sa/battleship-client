@@ -10,8 +10,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const { myTurn, opponent, ships, socket } = useGameContext()
 	
 	const ship = ships.map(ships => ships.block)
-	// const newShip = [...ship]
-	// console.log('new Ship', newShip)
+	const newShip = [...ship]
 
 	// console.log('OPPONENTS SHIPS', opponentsShips)
 
@@ -27,22 +26,22 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		}
 
 		const shotData = {
-			// player: opponent,
-			// shot: currentShot,
-			// ships: ships,
-			cell: id
+			player: opponent,
+			shot: currentShot,
+			ships: ships
 		}
+		console.log(ships)
 
-		// // skicka e.target.classname
+		// skicka e.target.classname
 		
-		await socket.emit('shot:fired',shotData)
-		// console.log('CLICK ON ID', id, shotData) 
+		await socket.emit('shot:fired', shotData)
+
 	}
 
 
 	// listen if shots are fired
 		useEffect(() => {
-			//setOpponentsShips(newShip)
+			setOpponentsShips(newShip)
 			// listen to shot fired from server -handleShotFired 
 			socket.on('receive:shot', (data) => {
 				// console.log('DATA FROM USEEFFECT: ', data)
@@ -58,6 +57,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 					<div className={
 						hit ? 'hit' 
 						: miss ? 'miss'
+						: hasShip ? 'isShip'
 						: 'defaultCellColor'}
 						onClick={handleShotFired} 
 					>
