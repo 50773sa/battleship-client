@@ -15,7 +15,8 @@ const GameAreaPage = () => {
 	const navigate = useNavigate()
 	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const { room_id } = useParams()
-	const [showGameOver, setShowGameOver] = useState(false)  // game over 
+	const [showGameOver, /* setShowGameOver */] = useState(false)  // game over 
+	const [gameFull, setGameFull] = useState(false)
 
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
@@ -73,6 +74,21 @@ const GameAreaPage = () => {
 		socket.on('player:ships', handleUpdateShips) 
 	} 
 
+	//********** PLAYER DISCONNECTS **********/
+	const handleDisconnect = () => {
+		// stop listening to events
+		socket.off('player:list', handleUpdatePlayers)
+		socket.off('player:ships', handleUpdateShips)
+		socket.off('start:game', handleStartGame)
+	}
+
+	/* const handleGameFull = () => {
+		console.log("Game is full")
+		setGameFull(true)
+	} */
+
+	//***** Listen for 'player:disconnected' event from server *****/
+	socket.on('player:disconnected', handleDisconnect)
 
 	//***** Listen for 'start:game' event from server *****/
   	socket.on('start:game', handleStartGame)  
@@ -88,13 +104,15 @@ const GameAreaPage = () => {
 			// listen for updated playerlist from the server
 			socket.on('player:list', handleUpdatePlayers)
 
+			/* socket.on('game:full', handleGameFull) */
+
 			return () => {
 				 console.log("Running cleanup")
 	
 				// stop listening to events
 				socket.off('player:list', handleUpdatePlayers)
 				socket.off('player:ships', handleUpdateShips)
-				//socket.off('start:game', handleStartGame)
+				socket.off('start:game', handleStartGame)
 	
 				socket.emit('player:left', gameUsername, room_id) 
 			} 
@@ -111,13 +129,16 @@ const GameAreaPage = () => {
 	
   	return (
         <main>
+
+			{/****  Show waiting-page until opponent connects ****/}
 			{players.length === 1 && (
 				<div className="waitingForPlayer">
 					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
 				</div>
 			)} 
-		
+
+			{/****  Show game-page when 2 players have connected ****/}
 			{players.length === 2 && (
 				<section className='gameAreaWrapper'>
 					<div className="gameArea">
@@ -159,9 +180,17 @@ const GameAreaPage = () => {
 				</section>	
 			)}
 
+			{/**** Game Over ****/}
 			{showGameOver && (
 				<div>
 				<Gameover />
+				</div>
+			)}
+
+			{/**** Don´t let a third player join game ****/}
+			{gameFull && (
+				<div>
+					<h2>Game is full. Please try again later </h2>
 				</div>
 			)}
 		</main>
