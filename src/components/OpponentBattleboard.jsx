@@ -6,7 +6,7 @@ export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, setShips, socket } = useGameContext()
+	const { player, ships, socket } = useGameContext()
 	const [playersShips, setPlayersShips] = useState()	
 	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
@@ -82,10 +82,7 @@ export default function Battleboard({ id, hasShip }) {
 			player: player,
 			ships: ship,
 		}
-
-		socket.emit('shot:fired', shotData)
-		console.log('CLICK ON ID', id, shotData)   
-	}	
+	}
 
 	// listen if shots are fired
 	useEffect(() => {

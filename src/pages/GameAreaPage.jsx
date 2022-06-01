@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom' 
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard'
@@ -9,134 +9,146 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { ids, player, setPlayer, opponent, setOpponent, ships, myTurn, setMyTurn, players, setPlayers, gameUsername, socket} = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket} = useGameContext()
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
-	const [showModal, setShowModal] = useState(false)  // game over 
-	const [gameOn, setGameOn] = useState(false)
-	console.log('SHIPS******', ships)
+	const { room_id } = useParams()
+	const [showModal, /* setShowModal */] = useState(false)  // game over 
 
 
- 	// tracks the players id with obejct.keys since players is an object and not an array 
-	const thisSocket = Object.keys(players).find(id => (id === socket.id))
-	const playerUsername = players[thisSocket]
-		console.log('PLAYER', playerUsername)
-
-	const opponentSocket = Object.keys(players).find(id => (id != socket.id))
-	const opponentUsername = players[opponentSocket]
-		console.log('OPPONENET', opponentUsername)
-
-	//** Save players socket id to 'player' and 'opponent' when page is mounted */
+	//** Save player object to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
-		setPlayer(thisSocket)
-		setOpponent(opponentSocket)
-	}, [])
- 
-	//********** UPDATE PLAYERLIST **********/
-	// save the connected players to players object in GameContextProvider 
-	const handleUpdatePlayers = playerlist => {
-		console.log('Got new playerlist: ',playerlist)
-		setPlayers(playerlist)
-	}
+		// this code only runs when there are 2 players in the game
+		if (players.length === 2) {
+			const thisPlayer = players.find(player => player.id === socket.id)
+			setThisPlayer(thisPlayer)
+		
+			const thisPlayerName = Object.values(thisPlayer)[1]
+			setThisPlayerName(thisPlayerName)
+		
+			const otherPlayer = players.find(player => player.id !== socket.id)
+			setOtherPlayer(otherPlayer)
+		
+			const otherPlayerName = Object.values(otherPlayer)[1]
+			setOtherPlayerName(otherPlayerName)
+		}
+		setPlayer(thisPlayer) 
+	 	setOpponent(otherPlayer) 
+		
+	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
+
+	console.log('GAMEAREAPAGE', ships)
+
+	//***** UPDATE PLAYERLIST *****/
+	// status from callback is 'room.players'
+	const handleUpdatePlayers = useCallback((players) => {
+		setPlayers(players) 
+	}, [setPlayers]) 
 
 	//********** UPDATE SHIPS **********/
-	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
-		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips)
+ 	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
+		/* console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips) */
 		setPlayerNumberOfShips(playerNumberOfShips)
 		setOpponentNumberOfShips(opponentNumberOfShips)
-	}
-
+	} 
+	
 	//********** START GAME **********/
-	const handleStartGame = () => {
-		// console.log('Player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
-
+	 const handleStartGame = () => {
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			// console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
+			/* console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  */
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 			setOpponentNumberOfShips(status.numberOfShips)
 
-			// console.log("Status on players number of ships: ", status.numberOfShips ) 
-			// console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+			/* console.log("Status on players number of ships: ", status.numberOfShips ) 
+			console.log("Status on opponent number of ships: ", status.numberOfShips )  */
 		})
 
 		// listen for updated amount of ships from the server
-		socket.on('player:ships', handleUpdateShips)
-	}
+		socket.on('player:ships', handleUpdateShips) 
+	} 
 
-	//** Listen for 'start:game' event from server **/
-	socket.on('start:game', handleStartGame)
-	
-	// connect to game when component is mounted
+	//***** Listen for 'start:game' event from server *****/
+  	socket.on('start:game', handleStartGame)  
+
+	//**** Connect to game when component is mounted ****/
 	useEffect(() => {
-	// if no username, redirect them to the login page
-		if (!gameUsername) {
-			navigate('/')
-			return
-		}
+		// if no username, redirect them to the login page
+			if (!gameUsername) {
+				navigate('/')
+				return
+			}
+		
+			// listen for updated playerlist from the server
+			socket.on('player:list', handleUpdatePlayers)
 
-		// listen for updated playerlist from the server
-		socket.on('player:list', handleUpdatePlayers)
-	}, [socket, gameUsername, navigate])
+			return () => {
+				 console.log("Running cleanup")
+	
+				// stop listening to events
+				socket.off('player:list', handleUpdatePlayers)
+				socket.off('player:ships', handleUpdateShips)
+				//socket.off('start:game', handleStartGame)
+	
+				socket.emit('player:left', gameUsername, room_id) 
+			} 
+		}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
+	
 
   	return (
         <main>
-			<section className='gameAreaWrapper'>
-				<div className="gameArea">
-					{/* Player always see their own name on this position and opponent on the other side */}
-					<p>{playerUsername}</p> 
-					<p>Ships left: {playerNumberOfShips}</p>
+			{players.length === 1 && (
+				<div className="waitingForPlayer">
+					<h3>Waiting for another player</h3>
+				</div>
+			)} 
+		
+			{players.length === 2 && (
+				<section className='gameAreaWrapper'>
+					<div className="gameArea">
+						<p>You: {thisPlayerName}</p> 
+						<p>Ships left: {playerNumberOfShips}</p>
 
-					<div className="box">
-						<div className='cell'>
-							{ids && 
-								ids.map((id, i) => {
-									const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
-									return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
-								}
-							)}
-						</div>	
-					</div> 
-				</div>	
-				
-				{Object.keys(players).length === 1 && (
-					<div>
-						<h3>Waiting for another player</h3>
-					</div>
-				)}
+						<div className="box">
+							<div className='cell'>
+								{ids && 
+									ids.map((id, i) => {
+										const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
+										return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
+									}
+								)}
+							</div>	
+						</div> 
+					</div>	
 
-				{Object.keys(players).length === 2 && (
 					<div className="toggleTurns">
 						{myTurn && <h3> It's your turn </h3>}
 						{!myTurn && <h3> Opponents turn </h3>}
 					</div>
-				)}
-				
-				<div className="gameArea">
-					{/* Player always see opponent name here */}
-					<p>{opponentUsername}</p> 
-					<p>Ships left: {opponentNumberOfShips}</p>
+					
+					<div className="gameArea">
+						<p>Opponent: {otherPlayerName}</p>  
+						<p>Ships left: {opponentNumberOfShips}</p>
 
-					<div className="box">
-						<div className='cell'>
-							{ids && 
-								ids.map((id, i) => {
-									return <OpponentBattleboard key = {i} id = {id} />
-								}
-							)}
+						<div className="box">
+							<div className='cell'>
+								{ids && 
+									ids.map((id, i) =>  
+										<OpponentBattleboard key = {i} id = {id} />
+								)}
 							</div>
 						</div> 
-					</div>	
+					</div>											
+				</section>	
+			)}
 
-
-					{showModal && (
-						<div>
-						<Gameover />
-						</div>
-					)}									
-			</section>			
+			{showModal && (
+				<div>
+					<Gameover />
+				</div>
+			)}		
 		</main>
 	)
 }

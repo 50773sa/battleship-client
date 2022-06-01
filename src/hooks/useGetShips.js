@@ -62,7 +62,7 @@ function useGetShips() {
         }                
 
         if (hasDuplicates(col, row, ship.block)) {
-          console.log('Duplicates')
+          /* console.log('Duplicates') */
           do{
             col = getRandomIndex(columns, 0)
             row = getRandomIndex(rows, ship.block - 1)

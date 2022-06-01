@@ -11,10 +11,14 @@ export const useGameContext = () => {
 }
 
 const GameContextProvider = ({ children }) => {
-    const [gameUsername, setGameUsername] = useState() // save all connected players usernames 
-    const [players, setPlayers] = useState([]) // saves all connected players to this players-array
-    const [player, setPlayer] = useState("")
-	const [opponent, setOpponent] = useState("") 
+    const [gameUsername, setGameUsername] = useState() 
+    const [players, setPlayers] = useState([]) 
+    const [player, setPlayer] = useState()
+	const [opponent, setOpponent] = useState()
+	const [thisPlayer, setThisPlayer] = useState()
+	const [thisPlayerName, setThisPlayerName] = useState()
+	const [otherPlayer, setOtherPlayer] = useState()
+	const [otherPlayerName, setOtherPlayerName] = useState()
     const [myTurn, setMyTurn] = useState()
     const [ships, setShips] = useState ([])
     const [shipPosition, setShipPosition] = useState(useGetShips())
@@ -30,7 +34,15 @@ const GameContextProvider = ({ children }) => {
         player,
         setPlayer,
         opponent,
-        setOpponent,
+        setOpponent, 
+        thisPlayer, 
+        setThisPlayer,
+        thisPlayerName, 
+        setThisPlayerName, 
+        otherPlayer,
+        setOtherPlayer,
+        otherPlayerName, 
+        setOtherPlayerName,
         myTurn,
         setMyTurn,
         ships,    

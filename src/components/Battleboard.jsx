@@ -10,6 +10,8 @@ export default function Battleboard({ id, hasShip }) {
 	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
 
+
+
 	// listen if shots are fired
 	useEffect(() => {
 		// listen to shot fired from server -handleShotFired 

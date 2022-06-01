@@ -25,9 +25,7 @@ const StartGamePage = () => {
 
 			setPlayers(status.players) // sends data from status callback and saves players to playerlist that comes from gameContextProvider
 
-			setMyTurn(status.yourTurn)
-
-			console.log("Status on players turn: ", status.yourTurn ) 
+			setMyTurn(status.yourTurn) 
 
 			navigate(`/game/${room}`)
 		})
