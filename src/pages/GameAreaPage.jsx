@@ -21,11 +21,10 @@ const GameAreaPage = () => {
 
 	//** Place the ships when page is mounted **/
 	useEffect(() => {		
-		setShipPosition(shipPosition)
+		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
-	console.log('SHIP POSITION', shipPosition)
 	
  	// tracks the players id with obejct.keys since players is an object and not an array 
 	const thisSocket = Object.keys(players).find(id => (id === socket.id))
@@ -42,8 +41,6 @@ const GameAreaPage = () => {
 		setOpponent(opponentSocket)
 	}, [])
  
-	console.log('GAMEAREAPAGE', ships)
-
 	//********** UPDATE PLAYERLIST **********/
 	// save the connected players to players object in GameContextProvider 
 	const handleUpdatePlayers = playerlist => {
@@ -60,17 +57,17 @@ const GameAreaPage = () => {
 
 	//********** START GAME **********/
 	const handleStartGame = () => {
-		console.log('Player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
+		// console.log('Player joined game. Requesting ships from server. Number of ships: ', Object.keys(ships).length)
 
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
-			console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
+			// console.log(`Successully got number of ships for player: ${playerUsername} and opponent: ${opponentUsername}`, status) 
 
 			setPlayerNumberOfShips(status.numberOfShips) 
 			setOpponentNumberOfShips(status.numberOfShips)
 
-			console.log("Status on players number of ships: ", status.numberOfShips ) 
-			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+			// console.log("Status on players number of ships: ", status.numberOfShips ) 
+			// console.log("Status on opponent number of ships: ", status.numberOfShips ) 
 		})
 
 		// listen for updated amount of ships from the server
@@ -132,12 +129,12 @@ const GameAreaPage = () => {
 
 					<div className="box">
 						<div className='cell'>
-							{/* {ids && 
+							{ids && 
 								ids.map((id, i) => {
 									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentBattleboard key = {i} id = {id}  />
+									return <OpponentBattleboard key = {i} id = {id} hasShip={hasShip} />
 								}
-							)} */}
+							)}
 							</div>
 						</div> 
 					</div>	
