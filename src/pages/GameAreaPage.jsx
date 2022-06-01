@@ -132,12 +132,10 @@ const GameAreaPage = () => {
 
 					<div className="box">
 						<div className='cell'>
-							{/* {ids && 
-								ids.map((id, i) => {
-									const hasShip = shipPosition?.some(({ position }) => position?.some((posi) => posi === id))
-									return <OpponentBattleboard key = {i} id = {id}  />
-								}
-							)} */}
+							{ids && 
+								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
+							)}
+
 							</div>
 						</div> 
 					</div>	
