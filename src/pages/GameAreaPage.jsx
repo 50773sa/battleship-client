@@ -13,7 +13,7 @@ const GameAreaPage = () => {
 	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
-	const [showModal, setShowModal] = useState(false)  // game over 
+	const [showGameOver, setShowGameOver] = useState(false)  // game over 
 	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const [gameOn, setGameOn] = useState(false)
 
@@ -77,6 +77,8 @@ const GameAreaPage = () => {
 		socket.on('player:ships', handleUpdateShips)
 	}
 
+	
+
 	//** Listen for 'start:game' event from server **/
 	socket.on('start:game', handleStartGame)
 	
@@ -90,8 +92,16 @@ const GameAreaPage = () => {
 
 		// listen for updated playerlist from the server
 		socket.on('player:list', handleUpdatePlayers)
+
 	}, [socket, gameUsername, navigate])
 
+	// check if Gameover
+	if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+		setShowGameOver(true)
+	}
+	console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+	console.log('gameover?', showGameOver)
+	
   	return (
         <main>
 			<section className='gameAreaWrapper'>
@@ -142,7 +152,7 @@ const GameAreaPage = () => {
 					</div>	
 
 
-					{showModal && (
+					{showGameOver && (
 						<div>
 						<Gameover />
 						</div>
