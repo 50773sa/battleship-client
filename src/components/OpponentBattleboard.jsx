@@ -36,6 +36,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipA.position.includes(id)) {
 				return (
 					removeOneShipPos(shipA),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP A', shipA)
 				)
 			}  
@@ -43,6 +45,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipB.position.includes(id)) {
 				return (
 					removeOneShipPos(shipB),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP B', shipB)
 				)
 
@@ -51,6 +55,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipC.position.includes(id)) {
 				return (
 					removeOneShipPos(shipC),
+					socket.emit('shot:hit', shotData),
+
 					console.log('SHIP C', shipC)
 				)
 
@@ -59,6 +65,8 @@ export default function Battleboard({ id, hasShip }) {
 			if (shipD.position.includes(id)) {
 				return (
 					removeOneShipPos(shipD),
+					socket.emit('shot:hit', shotData),
+					
 					console.log('SHIP D', shipD)
 				)
 
