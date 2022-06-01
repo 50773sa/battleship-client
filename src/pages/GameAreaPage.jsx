@@ -103,11 +103,11 @@ const GameAreaPage = () => {
 
 
 	// check if Gameover
-	if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-		setShowGameOver(true)
-	}
-	console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-	console.log('gameover?', showGameOver)
+	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+	// 	setShowGameOver(true)
+	// }
+	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+	// console.log('gameover?', showGameOver)
 	
   	return (
         <main>
