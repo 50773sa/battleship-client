@@ -1,5 +1,7 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 import socketio from "socket.io-client";
+import useGetShips from '../hooks/useGetShips';
+import useCellIds from '../hooks/useCellIds';
 
 const GameContext = createContext()
 const socket = socketio.connect(process.env.REACT_APP_SOCKET_URL);
@@ -19,6 +21,8 @@ const GameContextProvider = ({ children }) => {
 	const [otherPlayerName, setOtherPlayerName] = useState()
     const [myTurn, setMyTurn] = useState()
     const [ships, setShips] = useState ([])
+    const [shipPosition, setShipPosition] = useState(useGetShips())
+	const ids = useCellIds()
 
 
     const values = {
@@ -41,9 +45,17 @@ const GameContextProvider = ({ children }) => {
         setOtherPlayerName,
         myTurn,
         setMyTurn,
-        ships,
-        setShips
+        ships,    
+        ids,
     }
+
+
+	//** Place the ships when page is mounted **/
+	useEffect(() => {		
+		setShipPosition(shipPosition)
+		setShips(shipPosition)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
 
     return (
         <GameContext.Provider value={values}>

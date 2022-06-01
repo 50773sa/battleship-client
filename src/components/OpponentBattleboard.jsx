@@ -2,69 +2,112 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 
-export default function OpponentBattleboard({ id, hasShip }) {
+export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const [opponentsShips, setOpponentsShips] = useState()	
-	const { myTurn, opponent, ships, socket } = useGameContext()
-	
-	const ship = ships.map(ships => ships.block)
+	const { player, ships, socket } = useGameContext()
+	const [playersShips, setPlayersShips] = useState()	
+	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
 
-	// console.log('OPPONENTS SHIPS', opponentsShips)
+	const shipA = ship[0]
+	const shipB = ship[1]
+	const shipC = ship[2]
+	const shipD = ship[3]
 
-  	const handleShotFired = async (e) => {
+
+	// function to remove hitten object
+	const removeOneShipPos = (shipArr, pos) => {
+		let index = shipArr.toString().indexOf(pos)
+		shipArr.position.splice(index, 1)
+		return
+	}
+
+  	const handleShotFired = (e) => {
 		e.preventDefault()
+		console.log('CURRENT SHOT', currentShot)
 
-		if (e.target.className === 'isShip') {
+
+		if (e.target.className === 'isShip'){
 			setHit(true)
+			console.log('SHIP POSITION', shipA.position)
 
-		} 	else {
+			if (shipA.position.includes(id)) {
+				return (
+					removeOneShipPos(shipA),
+					socket.emit('shot:hit', shotData),
+
+					console.log('SHIP A', shipA)
+				)
+			}  
+
+			if (shipB.position.includes(id)) {
+				return (
+					removeOneShipPos(shipB),
+					socket.emit('shot:hit', shotData),
+
+					console.log('SHIP B', shipB)
+				)
+
+			} 	
+			
+			if (shipC.position.includes(id)) {
+				return (
+					removeOneShipPos(shipC),
+					socket.emit('shot:hit', shotData),
+
+					console.log('SHIP C', shipC)
+				)
+
+			} 	
+			
+			if (shipD.position.includes(id)) {
+				return (
+					removeOneShipPos(shipD),
+					socket.emit('shot:hit', shotData),
+					
+					console.log('SHIP D', shipD)
+				)
+
+			} 	
+		}
+
+		else {
 			setMiss(true)
 			setHit(false)
 		}
-
-		const shotData = {
-			player: opponent,
-			shot: currentShot,
-			ships: ships
-		}
-	/* 	console.log(ships) */
-
-		// skicka e.target.classname
 		
-		await socket.emit('shot:fired', shotData)
-		// set yourTurn till false
-
+		const shotData = {
+			player: player,
+			ships: ship,
+		}
 	}
 
-
 	// listen if shots are fired
-		useEffect(() => {
-			setOpponentsShips(newShip)
-			// listen to shot fired from server -handleShotFired 
-			socket.on('receive:shot', (data) => {
-				// console.log('DATA FROM USEEFFECT: ', data)
-				setCurrentShot((shot) => [...shot, data])
-			})
-		},[socket])
+	useEffect(() => {
+		setPlayersShips(newShip)
+		// listen to shot fired from server -handleShotFired 
 
-		return (
-			<div className='defaultCellColor'>
+		//ta emot från socket_controller (e.target.classname) (find?)
 
-				{/* Only let me click on battleboard if its my turn */}
-				{myTurn && 
-					<div className={
-						hit ? 'hit' 
-						: miss ? 'miss'
-						: hasShip ? 'isShip'
-						: 'defaultCellColor'}
-						onClick={handleShotFired} 
-					>
-					</div>
-				}
-			</div>	
-		)
-	
+		socket.on('receive:shot', (data) => {
+			// console.log('DATA FROM USEEFFECT: ', data)
+			setCurrentShot((shot) => [...shot, data])
+			return
+		})
+	},[socket])
+
+ 	return (
+		<div className='defaultCellColor' >
+			<div className={
+				  hit ? 'hit' 
+				: miss ? 'miss'
+				: hasShip ? 'isShip'
+				: 'defaultCellColor'}
+				onClick={handleShotFired} 
+			>
+			</div>
+		</div>
+    )
 }
