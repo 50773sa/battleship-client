@@ -8,43 +8,76 @@ export default function Battleboard({ id, hasShip }) {
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, setShips, socket } = useGameContext()
 	const [playersShips, setPlayersShips] = useState()	
-
-
-	const ship = ships.map(ships => ships.block)
+	const ship = ships.map(ships => ships)
 	const newShip = [...ship]
 
-	// remove -1 from block if hit = true
-	const ifHit = (ship, hit) => {
-		const i = ship.indexOf(hit)
-		ship.splice(i, 1)
+	const shipA = ship[0]
+	const shipB = ship[1]
+	const shipC = ship[2]
+	const shipD = ship[3]
+
+
+	// function to remove hitten object
+	const removeOneShipPos = (shipArr, pos) => {
+		let index = shipArr.toString().indexOf(pos)
+		shipArr.position.splice(index, 1)
 		return
 	}
-	// console.log('HIT', ships.indexOf(hit) )
 
-
-  	const handleShotFired = async (e) => {
+  	const handleShotFired = (e) => {
 		e.preventDefault()
+		console.log('CURRENT SHOT', currentShot)
 
-		if (e.target.className === 'isShip') {
+
+		if (e.target.className === 'isShip'){
 			setHit(true)
+			console.log('SHIP POSITION', shipA.position)
 
-		} 	else {
-				setMiss(true)
-				setHit(false)
+			if (shipA.position.includes(id)) {
+				return (
+					removeOneShipPos(shipA),
+					console.log('SHIP A', shipA)
+				)
+			}  
+
+			if (shipB.position.includes(id)) {
+				return (
+					removeOneShipPos(shipB),
+					console.log('SHIP B', shipB)
+				)
+
+			} 	
+			
+			if (shipC.position.includes(id)) {
+				return (
+					removeOneShipPos(shipC),
+					console.log('SHIP C', shipC)
+				)
+
+			} 	
+			
+			if (shipD.position.includes(id)) {
+				return (
+					removeOneShipPos(shipD),
+					console.log('SHIP D', shipD)
+				)
+
+			} 	
 		}
 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		
 		const shotData = {
 			player: player,
-			shot: currentShot,
-			ships: playersShips,
+			ships: ship,
 		}
 
-		await socket.emit('shot:fired', shotData)
+		socket.emit('shot:fired', shotData)
 		console.log('CLICK ON ID', id, shotData)   
-
-	}
-	console.log('PLAYERS SHIPS', playersShips)
-
+	}	
 
 	// listen if shots are fired
 	useEffect(() => {
@@ -55,7 +88,7 @@ export default function Battleboard({ id, hasShip }) {
 
 		socket.on('receive:shot', (data) => {
 			// console.log('DATA FROM USEEFFECT: ', data)
-			setCurrentShot((shot) => [...shot, id])
+			setCurrentShot((shot) => [...shot, data])
 			return
 		})
 	},[socket])
@@ -67,7 +100,6 @@ export default function Battleboard({ id, hasShip }) {
 				: miss ? 'miss'
 				: hasShip ? 'isShip'
 				: 'defaultCellColor'}
-				onClick={handleShotFired} 
 			>
 			</div>
 		</div>

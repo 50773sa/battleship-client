@@ -133,9 +133,10 @@ const GameAreaPage = () => {
 					<div className="box">
 						<div className='cell'>
 							{ids && 
-								ids.map((id, i) => <OpponentBattleboard key = {i} id = {id}  />
-								
-							)} 
+
+								ids.map((id, i) =>  <OpponentBattleboard key = {i} id = {id} />
+							)}
+
 							</div>
 						</div> 
 					</div>	
