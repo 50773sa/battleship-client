@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 
-export default function Battleboard({ id, hasShip }) {
+export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
@@ -23,6 +23,12 @@ export default function Battleboard({ id, hasShip }) {
 		shipArr.position.splice(index, 1)
 		return
 	}
+
+	const shotData = {
+		player: player,
+		ships: ship,
+	}
+	console.log('SHOTDATA', shotData)
 
   	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -78,10 +84,7 @@ export default function Battleboard({ id, hasShip }) {
 			setHit(false)
 		}
 		
-		const shotData = {
-			player: player,
-			ships: ship,
-		}
+		
 	}
 
 	// listen if shots are fired
@@ -91,7 +94,7 @@ export default function Battleboard({ id, hasShip }) {
 
 		//ta emot från socket_controller (e.target.classname) (find?)
 
-		socket.on('receive:shot', (data) => {
+		socket.on('receive:hit', (data) => {
 			// console.log('DATA FROM USEEFFECT: ', data)
 			setCurrentShot((shot) => [...shot, data])
 			return

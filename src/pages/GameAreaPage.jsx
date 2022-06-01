@@ -3,8 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard'
-import useCellIds from '../hooks/useCellIds'
-import useGetShips from '../hooks/useGetShips'
 import Gameover from '../components/Gameover'
 
 
@@ -135,8 +133,9 @@ const GameAreaPage = () => {
 						<div className="box">
 							<div className='cell'>
 								{ids && 
-									ids.map((id, i) =>  
+									ids.map((id, i) =>  (
 										<OpponentBattleboard key = {i} id = {id} />
+									)
 								)}
 							</div>
 						</div> 
