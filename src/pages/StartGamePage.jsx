@@ -9,7 +9,6 @@ const StartGamePage = () => {
 	const [room, setRoom] = useState()
 	const [roomlist, setRoomlist] = useState([])
 	const { setMyTurn, setPlayers, setGameUsername, socket } = useGameContext()
-	
 	const usernameIndexRef = useRef()
 	const navigate = useNavigate()
 
