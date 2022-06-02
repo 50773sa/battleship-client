@@ -7,21 +7,21 @@ export default function Battleboard({ id, hasShip }) {
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, socket } = useGameContext()
-	const ship = [...ships]
+	const playerShips = [...ships]
 
 
-	const shipA = ship[0]
-	const shipB = ship[1]
-	const shipC = ship[2]
-	const shipD = ship[3]
+	// const shipA = playerShips[0]
+	// const shipB = playerShips[1]
+	// const shipC = playerShips[2]
+	// const shipD = playerShips[3]
 
 
 	// // function to remove hitten object
-	const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.toString().indexOf(pos)
-		shipArr.position.splice(index, 1)
-		return
-	}
+	// const removeOneplayerShipsPos = (playerShipsArr, pos) => {
+	// 	let index = playerShipsArr.toString().indexOf(pos)
+	// 	playerShipsArr.position.splice(index, 1)
+	// 	return
+	// }
 
   	const handleShotFired = (e, currentShot) => {
 		e.preventDefault()
@@ -31,11 +31,10 @@ export default function Battleboard({ id, hasShip }) {
 	
 		const shotData = {
 			player: player,
-			ships: ships,
+			ships: playerShips,
 		}
 	}
 
-	// listen if shots are fired
 	useEffect(() => {
 		// listen to shot fired from server -handleShotFired 
 
@@ -43,11 +42,15 @@ export default function Battleboard({ id, hasShip }) {
 
 		socket.on('receive:hit', (data) => {
 
-			console.log('DATA FROM USEEFFECT: ', data)
+			// console.log('DATA FROM USEEFFECT: ', data)
+			// console.log('playerShipsS FROM BATTLEBOARD', playerShips)
 			setCurrentShot((shot) => [...shot, data])
 			return
 		})
 	},[socket])
+
+	
+	
 
  	return (
 		<div className='defaultCellColor' >

@@ -7,13 +7,14 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, socket, myTurn } = useGameContext()
-	const ship = [...ships]
+	const playerShips = [...ships]
 
-	const shipA = ship[0]
-	const shipB = ship[1]
-	const shipC = ship[2]
-	const shipD = ship[3]
+	const shipA = playerShips[0]
+	const shipB = playerShips[1]
+	const shipC = playerShips[2]
+	const shipD = playerShips[3]
 
+	//console.log('LENGTH', playerShips.length)
 
 	// function to remove hitten object
 	const removeOneShipPos = (shipArr, pos) => {
@@ -24,12 +25,12 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const shotData = {
 		player: player,
-		ships: ships,
+		ships: playerShips,
 		shot: currentShot,
 		hit: hit,
 		miss: miss
 	}
-	// console.log('SHOTDATA', shotData)
+	console.log('SHOTDATA', shotData)
 
 
   	const handleShotFired = (e) => {
@@ -54,7 +55,6 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setHit(false)
 		}
 		socket.emit('shot:hit', shotData)
-		console.log('DATA', )
 
 
 		// ShipB
@@ -91,7 +91,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setMiss(true)
 			setHit(false)
 		}
-		socket.emit('shot:hit', shotData, handleShotFired)
+		socket.emit('shot:hit', shotData)
 
 
 		// shipD
@@ -112,15 +112,6 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		socket.emit('shot:hit', shotData)	
 	}
 
-
-
-	
-
-	const handleShotReceive = (id) => {
-
-
-
-	}
 
 
  	return (
