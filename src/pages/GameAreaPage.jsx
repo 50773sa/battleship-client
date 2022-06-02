@@ -7,9 +7,13 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
+<<<<<<< HEAD
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, setPlayerNumberOfShips, opponentNumberOfShips, setOpponentNumberOfShips,} = useGameContext()
 	// const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
 	// const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
+=======
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
+>>>>>>> main
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showGameOver, setShowGameOver ] = useState(false)  // game over 
@@ -45,25 +49,34 @@ const GameAreaPage = () => {
 	}, [setPlayers]) 
 
 	//********** UPDATE SHIPS **********/
- 	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
-		/* console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips) */
+ 	/* const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
+		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips) 
 		setPlayerNumberOfShips(playerNumberOfShips)
 		setOpponentNumberOfShips(opponentNumberOfShips)
-	} 
+	}  */
 	
 	//********** START GAME **********/
-	 const handleStartGame = () => {
+	 /* const handleStartGame = () => {
 		socket.emit('get-number-of-ships', ships, status => {
+<<<<<<< HEAD
 			/* console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  */
 			console.log('status:', status)
+=======
+			console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  
+
+>>>>>>> main
 			setPlayerNumberOfShips(status.numberOfShips) 
 			setOpponentNumberOfShips(status.numberOfShips)
 
 			console.log("Status on players number of ships: ", status.numberOfShips ) 
+<<<<<<< HEAD
 			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
+=======
+			console.log("Status on opponent number of ships: ", status.numberOfShips )  
+>>>>>>> main
 		})
-		socket.on('player:ships', handleUpdateShips) 
-	} 
+		socket.on('player:ships', handleUpdateShips)  
+	}  */
 
 	//********** PLAYER DISCONNECTS **********/
 	const handleDisconnect = () => {
@@ -74,7 +87,7 @@ const GameAreaPage = () => {
 	socket.on('player:disconnected', handleDisconnect)
 
 	//***** Listen for 'start:game' event from server *****/
-  	socket.on('start:game', handleStartGame)  
+  /* 	socket.on('start:game', handleStartGame)   */
 
 	//**** Connect to game when component is mounted ****/
 	useEffect(() => {
@@ -89,8 +102,8 @@ const GameAreaPage = () => {
 				 console.log("Running cleanup")
 	
 				socket.off('player:list', handleUpdatePlayers)
-				socket.off('player:ships', handleUpdateShips)
-				socket.off('start:game', handleStartGame)
+				/* socket.off('player:ships', handleUpdateShips)
+				socket.off('start:game', handleStartGame) */
 			} 
 	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
@@ -125,7 +138,7 @@ const GameAreaPage = () => {
 				<section className='gameAreaWrapper'>
 					<div className="gameArea">
 						<p>You: {thisPlayerName}</p> 
-						<p>Ships left: {playerNumberOfShips}</p>
+						<p>Ships left: {playerNumberOfShips}</p> 
 
 						<div className="box">
 							<div className='cell'>
@@ -146,7 +159,7 @@ const GameAreaPage = () => {
 			
 					<div className="gameArea">
 						<p>Opponent: {otherPlayerName}</p>  
-						<p>Ships left: {opponentNumberOfShips}</p>
+						<p>Ships left: {opponentNumberOfShips}</p> 
 
 
 						<div className="box">

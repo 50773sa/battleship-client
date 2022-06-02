@@ -6,7 +6,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, socket, myTurn } = useGameContext()
+	const { player, ships, socket, myTurn, otherPlayerName, setOpponentNumberOfShips } = useGameContext()
 	const ship = [...ships]
 
 	const shipA = ship[0]
@@ -29,8 +29,11 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		hit: hit,
 		miss: miss
 	}
+<<<<<<< HEAD
 
 	// console.log('SHOTDATA', shotData)
+=======
+>>>>>>> main
 
   	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -112,15 +115,28 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		socket.emit('shot:hit', shotData)	
 	}
 
-
-
-	
-
 	const handleShotReceive = (id) => {
-
-
-
 	}
+
+	useEffect(() => {
+		socket.emit('place:ships', shotData, status => {
+			console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
+
+			if (status.success) {
+				socket.emit('get-number-of-ships', ship, status => {
+				console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
+
+				setOpponentNumberOfShips(status.numberOfShips) 
+
+				console.log("Status on opponent number of ships: ", status.numberOfShips )  
+
+				/* setPlayerNumberOfShips(status.numberOfShips) */
+				
+				/* console.log("Status on players number of ships: ", status.numberOfShips )  */
+				})
+			}
+		})
+	})
 
 
  	return (
