@@ -101,14 +101,16 @@ const GameAreaPage = () => {
 						<p>Ships left: {playerNumberOfShips}</p> 
 
 						<div className="box">
-							<div className='cell'>
+
+							<Battleboard />
+							{/* <div className='cell'>
 								{ids && 
 									ids.map((id, i) => {
 										const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 										return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
 									}
 								)}
-							</div>	
+							</div>	 */}
 						</div> 
 					</div>	
 
@@ -123,13 +125,16 @@ const GameAreaPage = () => {
 
 
 						<div className="box">
-							<div className='cell'>
-								{ids && 
+							
+								<OpponentBattleboard />
+							{/* <div className='cell'>
+									{ids && 
 									ids.map((id, i) => (
 										<OpponentBattleboard key = {i} id = {id} />
 									)
-								)}
-							</div>
+									)} 
+								</div>*/}
+							
 						</div> 
 					</div>											
 				</section>	

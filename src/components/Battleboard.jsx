@@ -6,7 +6,7 @@ export default function Battleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, socket, thisPlayerName, setPlayerNumberOfShips } = useGameContext()
+	const { player, ships, socket, thisPlayerName, setPlayerNumberOfShips, ids } = useGameContext()
 	const playerShips = [...ships]
 
 
@@ -75,14 +75,25 @@ export default function Battleboard({ id, hasShip }) {
 	
 
  	return (
-		<div className='defaultCellColor' >
-			<div className={
-				  hit ? 'hit' 
-				: miss ? 'miss'
-				: hasShip ? 'isShip'
-				: 'defaultCellColor'}
-			>
-			</div>
-		</div>
+		<div className='cell'>
+			{ids && ids.map((id, i) => {
+					const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
+					return ( 
+						<div className='defaultCellColor'>
+							<div hasShip = {hasShip}
+								className={
+								hit ? 'hit' 
+								: miss ? 'miss'
+								: hasShip ? 'isShip'
+								: 'defaultCellColor'}
+								key = {i} 
+								id = {id}								
+							>
+							</div>
+						</div>
+					)
+				}
+			)}			
+		</div> 
     )
 }
