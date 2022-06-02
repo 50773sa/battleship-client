@@ -26,65 +26,91 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const shotData = {
 		player: player,
-		ships: ship,
+		ships: [shipA, shipB, shipC, shipD],
+		shot: currentShot,
+		hit: hit,
+		miss: miss
 	}
 	console.log('SHOTDATA', shotData)
 
-  	const handleShotFired = (e) => {
+
+  	const handleShotFired = (e, data) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
+		// ShipA
 
-		if (e.target.className === 'isShip'){
+		if (e.target.className === 'isShip' && shipA.position.includes(id)){
 			setHit(true)
+			setMiss(false)
 			console.log('SHIP POSITION', shipA.position)
 
-			if (shipA.position.includes(id)) {
-				return (
-					removeOneShipPos(shipA),
-					socket.emit('shot:hit', shotData),
-
-					console.log('SHIP A', shipA)
-				)
-			}  
-
-			if (shipB.position.includes(id)) {
-				return (
-					removeOneShipPos(shipB),
-					socket.emit('shot:hit', shotData),
-
-					console.log('SHIP B', shipB)
-				)
-
-			} 	
-			
-			if (shipC.position.includes(id)) {
-				return (
-					removeOneShipPos(shipC),
-					socket.emit('shot:hit', shotData),
-
-					console.log('SHIP C', shipC)
-				)
-
-			} 	
-			
-			if (shipD.position.includes(id)) {
-				return (
-					removeOneShipPos(shipD),
-					socket.emit('shot:hit', shotData),
-					
-					console.log('SHIP D', shipD)
-				)
-
-			} 	
-		}
+			return (
+				removeOneShipPos(shipA),
+				console.log('SHIP A', shipA, data)
+			)		
+		} 
 
 		else {
 			setMiss(true)
 			setHit(false)
 		}
+		socket.emit('shot:hit', shotData)
+
+
+		// ShipB
 		
-		
+		if (e.target.className === 'isShip' && shipB.position.includes(id)){
+			setHit(true)
+			setHit(false)
+			console.log('SHIP POSITION', shipB.position)
+
+				return (
+					removeOneShipPos(shipB),
+					console.log('SHIP A', shipB)
+				)		
+		} 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		socket.emit('shot:hit', shotData)
+
+		// shipC
+
+		if (e.target.className === 'isShip' && shipC.position.includes(id)){
+			setHit(true)
+			setHit(false)
+			console.log('SHIP POSITION', shipC.position)
+
+				return (
+					removeOneShipPos(shipC),
+					console.log('SHIP A', shipC)
+				)		
+		} 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		socket.emit('shot:hit', shotData)
+
+
+		// shipD
+		if (e.target.className === 'isShip' && shipD.position.includes(id)){
+			setHit(true)
+			setHit(false)
+			console.log('SHIP POSITION', shipD.position)
+
+				return (
+					removeOneShipPos(shipD),
+					console.log('SHIP A', shipD)
+				)		
+		} 
+		else {
+			setMiss(true)
+			setHit(false)
+		}
+		socket.emit('shot:hit', shotData)	
 	}
 
 	// listen if shots are fired
@@ -92,26 +118,36 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		setPlayersShips(newShip)
 		// listen to shot fired from server -handleShotFired 
 
-		//ta emot från socket_controller (e.target.classname) (find?)
+		// ta emot från socket_controller (e.target.classname) (find?)
 
 		socket.on('receive:hit', (data) => {
+
 			// console.log('DATA FROM USEEFFECT: ', data)
 			setCurrentShot((shot) => [...shot, data])
 			return
 		})
 	},[socket])
+	
+
+	const handleShotReceive = (id) => {
+
+
+
+	}
+
 
  	return (
 		<div className='defaultCellColor' >
-			{myTurn && ( // only let player click on battleboard if myTurn is true
+			{/* {myTurn && ( // only let player click on battleboard if myTurn is true */}
 				<div className={
 					hit ? 'hit' 
 				  : miss ? 'miss'
+				  : hasShip ? 'isShip'
 				  : 'defaultCellColor'}
 				  onClick={handleShotFired} 
 			  >
 			  </div>
-			)}
+			{/* )} */}
 		</div>
     )
 }
