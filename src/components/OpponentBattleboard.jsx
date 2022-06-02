@@ -7,9 +7,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, socket, myTurn } = useGameContext()
-	const [playersShips, setPlayersShips] = useState()	
-	const ship = ships.map(ships => ships)
-	const newShip = [...ship]
+	const ship = [...ships]
 
 	const shipA = ship[0]
 	const shipB = ship[1]
@@ -26,15 +24,15 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const shotData = {
 		player: player,
-		ships: [shipA, shipB, shipC, shipD],
+		ships: ships,
 		shot: currentShot,
 		hit: hit,
 		miss: miss
 	}
-	console.log('SHOTDATA', shotData)
+	// console.log('SHOTDATA', shotData)
 
 
-  	const handleShotFired = (e, data) => {
+  	const handleShotFired = (e) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
@@ -47,7 +45,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 			return (
 				removeOneShipPos(shipA),
-				console.log('SHIP A', shipA, data)
+				console.log('SHIP A', shipA)
 			)		
 		} 
 
@@ -56,6 +54,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setHit(false)
 		}
 		socket.emit('shot:hit', shotData)
+		console.log('DATA', )
 
 
 		// ShipB
@@ -92,7 +91,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setMiss(true)
 			setHit(false)
 		}
-		socket.emit('shot:hit', shotData)
+		socket.emit('shot:hit', shotData, handleShotFired)
 
 
 		// shipD
@@ -113,20 +112,8 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		socket.emit('shot:hit', shotData)	
 	}
 
-	// listen if shots are fired
-	useEffect(() => {
-		setPlayersShips(newShip)
-		// listen to shot fired from server -handleShotFired 
 
-		// ta emot från socket_controller (e.target.classname) (find?)
 
-		socket.on('receive:hit', (data) => {
-
-			// console.log('DATA FROM USEEFFECT: ', data)
-			setCurrentShot((shot) => [...shot, data])
-			return
-		})
-	},[socket])
 	
 
 	const handleShotReceive = (id) => {

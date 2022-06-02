@@ -7,9 +7,8 @@ export default function Battleboard({ id, hasShip }) {
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, socket } = useGameContext()
-	const [playersShips, setPlayersShips] = useState()	
-	const ship = ships.map(ships => ships)
-	const newShip = [...ship]
+	const ship = [...ships]
+
 
 	const shipA = ship[0]
 	const shipB = ship[1]
@@ -24,7 +23,7 @@ export default function Battleboard({ id, hasShip }) {
 		return
 	}
 
-  	const handleShotFired = (e) => {
+  	const handleShotFired = (e, currentShot) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
@@ -32,23 +31,21 @@ export default function Battleboard({ id, hasShip }) {
 	
 		const shotData = {
 			player: player,
-			ships: ship,
+			ships: ships,
 		}
 	}
 
 	// listen if shots are fired
 	useEffect(() => {
-		setPlayersShips(newShip)
 		// listen to shot fired from server -handleShotFired 
 
 		//ta emot från socket_controller (e.target.classname) (find?)
 
 		socket.on('receive:hit', (data) => {
 
-			// console.log('DATA', data)
-			// // console.log('DATA FROM USEEFFECT: ', data)
-			// setCurrentShot((shot) => [...shot, data])
-			// return
+			console.log('DATA FROM USEEFFECT: ', data)
+			setCurrentShot((shot) => [...shot, data])
+			return
 		})
 	},[socket])
 
