@@ -7,13 +7,14 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	const [miss, setMiss] = useState(false)
 	const [currentShot, setCurrentShot] = useState(id)
 	const { player, ships, socket, myTurn, otherPlayerName, setOpponentNumberOfShips } = useGameContext()
-	const ship = [...ships]
+	const playerShips = [...ships]
 
-	const shipA = ship[0]
-	const shipB = ship[1]
-	const shipC = ship[2]
-	const shipD = ship[3]
+	const shipA = playerShips[0]
+	const shipB = playerShips[1]
+	const shipC = playerShips[2]
+	const shipD = playerShips[3]
 
+	//console.log('LENGTH', playerShips.length)
 
 	// function to remove hitten object
 	const removeOneShipPos = (shipArr, pos) => {
@@ -24,7 +25,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const shotData = {
 		player: player,
-		ships: ships,
+		ships: playerShips,
 		shot: currentShot,
 		hit: hit,
 		miss: miss
@@ -52,7 +53,6 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setHit(false)
 		}
 		socket.emit('shot:hit', shotData)
-		console.log('DATA', )
 
 
 		// ShipB
@@ -89,7 +89,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			setMiss(true)
 			setHit(false)
 		}
-		socket.emit('shot:hit', shotData, handleShotFired)
+		socket.emit('shot:hit', shotData)
 
 
 		// shipD
@@ -118,7 +118,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
 
 			if (status.success) {
-				socket.emit('get-number-of-ships', ship, status => {
+				socket.emit('get-number-of-ships', playerShips, status => {
 				console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
 
 				setOpponentNumberOfShips(status.numberOfShips) 

@@ -25,9 +25,8 @@ const GameContextProvider = ({ children }) => {
     const [playerNumberOfShips, setPlayerNumberOfShips] = useState(null)
     const [opponentNumberOfShips, setOpponentNumberOfShips] = useState(null)
 	const ids = useCellIds()
-    const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
-	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
-
+   
+	
 
     const values = {
         gameUsername,
