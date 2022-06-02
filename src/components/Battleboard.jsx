@@ -34,6 +34,15 @@ export default function Battleboard({ id, hasShip }) {
 		console.log('CURRENT SHOT', currentShot)
 	}
 
+
+	const handleReceiveShot = () => {
+		// här inne kollar vi om det var en träff eller miss. Om det var en träff kollar vi om hela skeppet träffats eller bara en del, samt kallar på funktionen som ska uppdatera skeppens längd och visa rätt på spelplanen. 
+
+		socket.emit('shot:result', /* data */)
+	}
+
+	socket.on('receive:shot', handleReceiveShot)
+
 	//********** UPDATE SHIPS **********/
  	/* const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
 		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips) 

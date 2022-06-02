@@ -35,6 +35,9 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
+		// skicka player:shot till servern när en spelare klickat på en ruta
+		socket.emit('player:shot', shotData)
+
 		// ShipA
 
 		if (e.target.className === 'isShip' && shipA.position.includes(id)){
@@ -112,6 +115,12 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const handleShotReceive = (id) => {
 	}
+
+	const handleFinalResult = () => {
+		// Här inne tar vi emot det slutgiltliga svaret
+	}
+
+	socket.on('final:result', handleFinalResult)
 
 	useEffect(() => {
 		socket.emit('place:ships', shotData, status => {
