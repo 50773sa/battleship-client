@@ -5,8 +5,8 @@ import { useGameContext } from '../contexts/GameContextProvider'
 export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
-	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, socket, myTurn, otherPlayerName, setOpponentNumberOfShips } = useGameContext()
+	const [currentShot/* , setCurrentShot */] = useState(id)
+	const { player, ships, socket, /* myTurn, */ otherPlayerName, setOpponentNumberOfShips, ids } = useGameContext()
 	const playerShips = [...ships]
 
 	const shipA = playerShips[0]
@@ -41,9 +41,12 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 
 
-	const handleShotReceive = (id) => {
-	}
+	/* const handleShotReceive = (id) => {
+	} */
 
+
+
+	
 	const handleFinalResult = () => {
 		// Här inne tar vi emot det slutgiltliga svaret
 
@@ -64,21 +67,26 @@ export default function OpponentBattleboard({ id, hasShip }) {
 				})
 			}
 		})
-	},[])
+	},[otherPlayerName, playerShips, setOpponentNumberOfShips, shotData, socket])
 
 
  	return (
-		<div className='defaultCellColor' >
-			{/* {myTurn && ( // only let player click on battleboard if myTurn is true */}
-				<div className={
-					hit ? 'hit' 
-				  : miss ? 'miss'
-				  : hasShip ? 'isShip'
-				  : 'defaultCellColor'}
-				  onClick={handleShotFired} 
-			  >
-			  </div>
-			{/* )} */}
+		<div className='cell'>
+			{ids && ids.map((id, i) =>
+				<div className='defaultCellColor' >
+					
+					<div className={
+						hit ? 'hit' 
+						: miss ? 'miss'
+						: hasShip ? 'isShip'
+						: 'defaultCellColor'}
+						onClick={handleShotFired} 
+						key = {i}
+						id = {id}
+					>
+					</div>
+				</div>
+			)}
 		</div>
     )
 }
