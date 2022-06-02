@@ -59,12 +59,12 @@ const GameAreaPage = () => {
 		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
 			/* console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  */
-
+			console.log('status:', status)
 			setPlayerNumberOfShips(status.numberOfShips) 
 			setOpponentNumberOfShips(status.numberOfShips)
 
-			/* console.log("Status on players number of ships: ", status.numberOfShips ) 
-			console.log("Status on opponent number of ships: ", status.numberOfShips )  */
+			console.log("Status on players number of ships: ", status.numberOfShips ) 
+			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
 		})
 
 		// listen for updated amount of ships from the server
