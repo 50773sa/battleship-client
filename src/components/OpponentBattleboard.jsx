@@ -29,11 +29,6 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		hit: hit,
 		miss: miss
 	}
-<<<<<<< HEAD
-
-	// console.log('SHOTDATA', shotData)
-=======
->>>>>>> main
 
   	const handleShotFired = (e) => {
 		e.preventDefault()
