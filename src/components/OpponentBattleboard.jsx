@@ -25,113 +25,42 @@ export default function OpponentBattleboard({ id, hasShip }) {
 
 	const shotData = {
 		player: player,
-		ships: playerShips,
+		// ships: playerShips,
 		shot: currentShot,
-		hit: hit,
-		miss: miss
+		// hit: hit,
+		// miss: miss,
 	}
 
-  	const handleShotFired = (e) => {
+  	const handleShotFired = (e, id) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
 		// skicka player:shot till servern när en spelare klickat på en ruta
-		socket.emit('player:shot', shotData)
-
-		// ShipA
-
-		if (e.target.className === 'isShip' && shipA.position.includes(id)){
-			setHit(true)
-			setMiss(false)
-			console.log('SHIP POSITION', shipA.position)
-
-			return (
-				removeOneShipPos(shipA),
-				console.log('SHIP A', shipA)
-			)		
-		} 
-
-		else {
-			setMiss(true)
-			setHit(false)
-		}
-		socket.emit('shot:hit', shotData)
-
-
-		// ShipB
-		
-		if (e.target.className === 'isShip' && shipB.position.includes(id)){
-			setHit(true)
-			setHit(false)
-			console.log('SHIP POSITION', shipB.position)
-
-				return (
-					removeOneShipPos(shipB),
-					console.log('SHIP A', shipB)
-				)		
-		} 
-		else {
-			setMiss(true)
-			setHit(false)
-		}
-		socket.emit('shot:hit', shotData)
-
-		// shipC
-
-		if (e.target.className === 'isShip' && shipC.position.includes(id)){
-			setHit(true)
-			setHit(false)
-			console.log('SHIP POSITION', shipC.position)
-
-				return (
-					removeOneShipPos(shipC),
-					console.log('SHIP A', shipC)
-				)		
-		} 
-		else {
-			setMiss(true)
-			setHit(false)
-		}
-		socket.emit('shot:hit', shotData)
-
-
-		// shipD
-		if (e.target.className === 'isShip' && shipD.position.includes(id)){
-			setHit(true)
-			setHit(false)
-			console.log('SHIP POSITION', shipD.position)
-
-				return (
-					removeOneShipPos(shipD),
-					console.log('SHIP A', shipD)
-				)		
-		} 
-		else {
-			setMiss(true)
-			setHit(false)
-		}
-		socket.emit('shot:hit', shotData)	
+		socket.emit('player:shot', shotData, e.target.className)
 	}
+
+
 
 	const handleShotReceive = (id) => {
 	}
 
 	const handleFinalResult = () => {
 		// Här inne tar vi emot det slutgiltliga svaret
+
 	}
 
 	socket.on('final:result', handleFinalResult)
 
 	useEffect(() => {
 		socket.emit('place:ships', shotData, status => {
-			console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
+			// console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
 
 			if (status.success) {
 				socket.emit('get-number-of-ships', playerShips, status => {
-				console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
+				// console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
 
 				setOpponentNumberOfShips(status.numberOfShips) 
-				console.log("Status on opponent number of ships: ", status.numberOfShips )  
+				// console.log("Status on opponent number of ships: ", status.numberOfShips )  
 				})
 			}
 		})
