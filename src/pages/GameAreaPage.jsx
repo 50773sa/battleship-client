@@ -9,9 +9,9 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket} = useGameContext()
-	const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
-	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, setPlayerNumberOfShips, opponentNumberOfShips, setOpponentNumberOfShips,} = useGameContext()
+	// const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	// const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const [shipPosition, setShipPosition] = useState(useGetShips())
 	const { room_id } = useParams()
@@ -100,14 +100,13 @@ const GameAreaPage = () => {
 			} 
 		}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
+	//***** check if Game is finished ****/
+	if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+		setShowGameOver(true)
+	}
+	console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+	console.log('gameover?', showGameOver)
 
-
-	// check if Gameover
-	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-	// 	setShowGameOver(true)
-	// }
-	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-	// console.log('gameover?', showGameOver)
 	
   	return (
         <main>
@@ -155,7 +154,7 @@ const GameAreaPage = () => {
 
 							</div>
 						</div> 
-					</div>											
+					</div>			
 				</section>	
 			)}
 
@@ -164,6 +163,7 @@ const GameAreaPage = () => {
 				<Gameover />
 				</div>
 			)}
+
 		</main>
 	)
 }
