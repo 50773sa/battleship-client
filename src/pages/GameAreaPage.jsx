@@ -7,13 +7,8 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-<<<<<<< HEAD
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, setPlayerNumberOfShips, opponentNumberOfShips, setOpponentNumberOfShips,} = useGameContext()
-	// const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
-	// const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
-=======
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
->>>>>>> main
+
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showGameOver, setShowGameOver ] = useState(false)  // game over 
@@ -58,22 +53,15 @@ const GameAreaPage = () => {
 	//********** START GAME **********/
 	 /* const handleStartGame = () => {
 		socket.emit('get-number-of-ships', ships, status => {
-<<<<<<< HEAD
-			/* console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  */
-			console.log('status:', status)
-=======
+
 			console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  
 
->>>>>>> main
 			setPlayerNumberOfShips(status.numberOfShips) 
 			setOpponentNumberOfShips(status.numberOfShips)
 
 			console.log("Status on players number of ships: ", status.numberOfShips ) 
-<<<<<<< HEAD
-			console.log("Status on opponent number of ships: ", status.numberOfShips ) 
-=======
+
 			console.log("Status on opponent number of ships: ", status.numberOfShips )  
->>>>>>> main
 		})
 		socket.on('player:ships', handleUpdateShips)  
 	}  */
