@@ -12,7 +12,7 @@ const GameAreaPage = () => {
 	// const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
-	const [showGameOver, /* setShowGameOver */] = useState(false)  // game over 
+	const [showGameOver, setShowGameOver ] = useState(false)  // game over 
 	const [gameFull, setGameFull] = useState(false)
 
 
@@ -183,15 +183,14 @@ const GameAreaPage = () => {
 				</div>
 			)}
 
-<<<<<<< HEAD
-=======
+
 			{/**** Don´t let a third player join game ****/}
 			{gameFull && (
 				<div>
 					<h2>Game is full. Please try again later </h2>
 				</div>
 			)}
->>>>>>> main
+
 		</main>
 	)
 }
