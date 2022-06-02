@@ -118,7 +118,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 			console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
 
 			if (status.success) {
-				socket.emit('get-number-of-ships', ship, status => {
+				socket.emit('get-number-of-ships', playerShips, status => {
 				console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
 
 				setOpponentNumberOfShips(status.numberOfShips) 
