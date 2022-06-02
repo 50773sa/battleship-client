@@ -12,13 +12,11 @@ const GameAreaPage = () => {
 	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
-	const [showGameOver, /* setShowGameOver */] = useState(false)  // game over 
-	const [gameFull, setGameFull] = useState(false)
-
+	const [showGameOver, /* setShowGameOver */] = useState(false)   
+	const [gameOn, setGameOn] = useState(true)
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
-		// this code only runs when there are 2 players in the game
 		if (players.length === 2) {
 			const thisPlayer = players.find(player => player.id === socket.id)
 			setThisPlayer(thisPlayer)
@@ -37,15 +35,12 @@ const GameAreaPage = () => {
 		
 	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
 
-	console.log('GAMEAREAPAGE', ships)
-
+	/* console.log('GAMEAREAPAGE', ships) */
 
 	//***** UPDATE PLAYERLIST *****/
-	// status from callback is 'room.players'
 	const handleUpdatePlayers = useCallback((players) => {
 		setPlayers(players) 
 	}, [setPlayers]) 
-
 
 	//********** UPDATE SHIPS **********/
  	const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
@@ -56,7 +51,6 @@ const GameAreaPage = () => {
 	
 	//********** START GAME **********/
 	 const handleStartGame = () => {
-		// send 'get-number-of-ships' event to the server. 
 		socket.emit('get-number-of-ships', ships, status => {
 			/* console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  */
 
@@ -66,23 +60,13 @@ const GameAreaPage = () => {
 			/* console.log("Status on players number of ships: ", status.numberOfShips ) 
 			console.log("Status on opponent number of ships: ", status.numberOfShips )  */
 		})
-
-		// listen for updated amount of ships from the server
 		socket.on('player:ships', handleUpdateShips) 
 	} 
 
 	//********** PLAYER DISCONNECTS **********/
 	const handleDisconnect = () => {
-		// stop listening to events
-		socket.off('player:list', handleUpdatePlayers)
-		socket.off('player:ships', handleUpdateShips)
-		socket.off('start:game', handleStartGame)
+		setGameOn(false)
 	}
-
-	/* const handleGameFull = () => {
-		console.log("Game is full")
-		setGameFull(true)
-	} */
 
 	//***** Listen for 'player:disconnected' event from server *****/
 	socket.on('player:disconnected', handleDisconnect)
@@ -92,28 +76,21 @@ const GameAreaPage = () => {
 
 	//**** Connect to game when component is mounted ****/
 	useEffect(() => {
-		// if no username, redirect them to the login page
 			if (!gameUsername) {
 				navigate('/')
 				return
 			}
 		
-			// listen for updated playerlist from the server
 			socket.on('player:list', handleUpdatePlayers)
-
-			/* socket.on('game:full', handleGameFull) */
 
 			return () => {
 				 console.log("Running cleanup")
 	
-				// stop listening to events
 				socket.off('player:list', handleUpdatePlayers)
 				socket.off('player:ships', handleUpdateShips)
 				socket.off('start:game', handleStartGame)
-	
-				socket.emit('player:left', gameUsername, room_id) 
 			} 
-		}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
+	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
 
 
@@ -127,9 +104,16 @@ const GameAreaPage = () => {
   	return (
         <main>
 
+			{/**** Player disconnected ****/}
+			{!gameOn && (
+				<div className="fullBgMsg">
+					<h3>Opponent disconnected</h3>
+			</div>
+			)}
+
 			{/****  Show waiting-page until opponent connects ****/}
 			{players.length === 1 && (
-				<div className="waitingForPlayer">
+				<div className="fullBgMsg">
 					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
 				</div>
@@ -180,14 +164,7 @@ const GameAreaPage = () => {
 			{/**** Game Over ****/}
 			{showGameOver && (
 				<div>
-				<Gameover />
-				</div>
-			)}
-
-			{/**** Don´t let a third player join game ****/}
-			{gameFull && (
-				<div>
-					<h2>Game is full. Please try again later </h2>
+					<Gameover />
 				</div>
 			)}
 		</main>
