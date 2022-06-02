@@ -7,7 +7,7 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, /* ships, ids, */ myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showGameOver, /* setShowGameOver */] = useState(false)   

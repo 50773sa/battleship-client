@@ -3,9 +3,9 @@ import { useGameContext } from '../contexts/GameContextProvider'
 
 
 export default function Battleboard({ id, hasShip }) {
-	const [hit, setHit] = useState(false)
-	const [miss, setMiss] = useState(false)
-	const [currentShot, setCurrentShot] = useState(id)
+	const [hit, /* setHit */] = useState(false)
+	const [miss, /* setMiss */] = useState(false)
+	/* const [currentShot, setCurrentShot] = useState(id) */
 	const { player, ships, socket, thisPlayerName, setPlayerNumberOfShips, ids } = useGameContext()
 	const playerShips = [...ships]
 
@@ -29,10 +29,10 @@ export default function Battleboard({ id, hasShip }) {
 	}
 
 	
-  	const handleShotFired = (e, currentShot) => {
+  /* 	const handleShotFired = (e, currentShot) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
-	}
+	} */
 
 
 	const handleReceiveShot = () => {
@@ -64,7 +64,7 @@ export default function Battleboard({ id, hasShip }) {
 				})
 			}
 		})
-	},[])
+	},[playerShips, setPlayerNumberOfShips, shotData, socket, thisPlayerName])
 
 	/* useEffect(() => {
 		// listen to shot fired from server -handleShotFired 

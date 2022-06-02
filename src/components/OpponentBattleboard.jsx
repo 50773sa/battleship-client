@@ -5,8 +5,8 @@ import { useGameContext } from '../contexts/GameContextProvider'
 export default function OpponentBattleboard({ id, hasShip }) {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
-	const [currentShot, setCurrentShot] = useState(id)
-	const { player, ships, socket, myTurn, otherPlayerName, setOpponentNumberOfShips, ids } = useGameContext()
+	const [currentShot/* , setCurrentShot */] = useState(id)
+	const { player, ships, socket, /* myTurn, */ otherPlayerName, setOpponentNumberOfShips, ids } = useGameContext()
 	const playerShips = [...ships]
 
 	const shipA = playerShips[0]
@@ -113,8 +113,8 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		socket.emit('shot:hit', shotData)	
 	}
 
-	const handleShotReceive = (id) => {
-	}
+	/* const handleShotReceive = (id) => {
+	} */
 
 	const handleFinalResult = () => {
 		// Här inne tar vi emot det slutgiltliga svaret
@@ -135,7 +135,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 				})
 			}
 		})
-	},[])
+	},[otherPlayerName, playerShips, setOpponentNumberOfShips, shotData, socket])
 
 
  	return (
