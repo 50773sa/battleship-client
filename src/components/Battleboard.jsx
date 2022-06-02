@@ -31,7 +31,7 @@ export default function Battleboard({ id, hasShip }) {
 	
 		const shotData = {
 			player: player,
-			ships: ships,
+			ships: ship,
 		}
 	}
 
