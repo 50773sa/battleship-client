@@ -122,16 +122,11 @@ export default function OpponentBattleboard({ id, hasShip }) {
 				console.log(`Successully got number of ships for opponent: ${otherPlayerName}`, status) 
 
 				setOpponentNumberOfShips(status.numberOfShips) 
-
 				console.log("Status on opponent number of ships: ", status.numberOfShips )  
-
-				/* setPlayerNumberOfShips(status.numberOfShips) */
-				
-				/* console.log("Status on players number of ships: ", status.numberOfShips )  */
 				})
 			}
 		})
-	})
+	},[])
 
 
  	return (

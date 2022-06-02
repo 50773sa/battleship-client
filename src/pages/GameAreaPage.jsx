@@ -40,27 +40,6 @@ const GameAreaPage = () => {
 		setPlayers(players) 
 	}, [setPlayers]) 
 
-	//********** UPDATE SHIPS **********/
- 	/* const handleUpdateShips = (playerNumberOfShips, opponentNumberOfShips) => {
-		console.log('Got new amount of ships for player: ',playerNumberOfShips, 'opponent: ', opponentNumberOfShips) 
-		setPlayerNumberOfShips(playerNumberOfShips)
-		setOpponentNumberOfShips(opponentNumberOfShips)
-	}  */
-	
-	//********** START GAME **********/
-	 /* const handleStartGame = () => {
-		socket.emit('get-number-of-ships', ships, status => {
-			console.log(`Successully got number of ships for player: ${thisPlayerName} and opponent: ${otherPlayerName}`, status)  
-
-			setPlayerNumberOfShips(status.numberOfShips) 
-			setOpponentNumberOfShips(status.numberOfShips)
-
-			console.log("Status on players number of ships: ", status.numberOfShips ) 
-			console.log("Status on opponent number of ships: ", status.numberOfShips )  
-		})
-		socket.on('player:ships', handleUpdateShips)  
-	}  */
-
 	//********** PLAYER DISCONNECTS **********/
 	const handleDisconnect = () => {
 		setGameOn(false)
@@ -68,9 +47,6 @@ const GameAreaPage = () => {
 
 	//***** Listen for 'player:disconnected' event from server *****/
 	socket.on('player:disconnected', handleDisconnect)
-
-	//***** Listen for 'start:game' event from server *****/
-  /* 	socket.on('start:game', handleStartGame)   */
 
 	//**** Connect to game when component is mounted ****/
 	useEffect(() => {
