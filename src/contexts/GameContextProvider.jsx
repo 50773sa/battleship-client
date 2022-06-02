@@ -23,6 +23,8 @@ const GameContextProvider = ({ children }) => {
     const [ships, setShips] = useState ([])
     const [shipPosition, setShipPosition] = useState(useGetShips())
 	const ids = useCellIds()
+    const [playerNumberOfShips, setPlayerNumberOfShips] = useState()
+	const [opponentNumberOfShips, setOpponentNumberOfShips] = useState()
 
 
     const values = {
@@ -47,6 +49,10 @@ const GameContextProvider = ({ children }) => {
         setMyTurn,
         ships,    
         ids,
+        playerNumberOfShips,
+        setPlayerNumberOfShips, 
+        opponentNumberOfShips,
+        setOpponentNumberOfShips,
     }
 
 
