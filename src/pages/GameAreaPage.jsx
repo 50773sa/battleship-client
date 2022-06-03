@@ -10,7 +10,7 @@ const GameAreaPage = () => {
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, ships, ids, myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
-	const [showGameOver, /* setShowGameOver */] = useState(false)   
+	const [showGameOver, setShowGameOver ] = useState(false)   
 	const [gameOn, setGameOn] = useState(true)
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
@@ -69,11 +69,11 @@ const GameAreaPage = () => {
 
 
 	// check if Gameover
-	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-	// 	setShowGameOver(true)
-	// }
-	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-	// console.log('gameover?', showGameOver)
+	if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+		setShowGameOver(true)
+	}
+	console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+	console.log('gameover?', showGameOver)
 	
   	return (
         <main>
