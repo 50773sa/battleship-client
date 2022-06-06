@@ -1,19 +1,16 @@
-import { /* useState, */ useEffect } from 'react'
+import { useEffect } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 
 export default function Battleboard({ id, hasship }) {
-	const { /* player, */ ships, ids} = useGameContext()
+	const { ships, ids} = useGameContext()
 
 
 	useEffect(() => {
-
 	/* 	const data = {
 			player,
 			ships
 		} */
-		
-
 	}, [])
 
  	return (

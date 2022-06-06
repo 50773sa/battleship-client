@@ -1,9 +1,9 @@
-import { /* useState,  */useEffect } from 'react' 
+import { useEffect } from 'react' 
 import { useGameContext } from '../contexts/GameContextProvider' 
 
 
 export default function OpponentBattleboard({ id, hasShip }) {
-	const { /* socket,  */ids/* , opponent, ships  */} = useGameContext()
+	const { ids } = useGameContext()
 
 	useEffect(() => {
 

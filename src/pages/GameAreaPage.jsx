@@ -33,23 +33,10 @@ const GameAreaPage = () => {
 		
 	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
 
-	/* console.log('GAMEAREAPAGE', ships) */
-
 	//***** UPDATE PLAYERLIST *****/
 	const handleUpdatePlayers = useCallback((players) => {
 		setPlayers(players) 
 	}, [setPlayers]) 
-
-	//***** UPDATE NUMBER OF SHIPS *****/
-	/* const handleUpdateShips = useCallback((playerNumberOfShips, player, opponentNumberOfShips, opponent) => {
-		if (player === thisPlayerID) {
-			setLeftSideNumberOfShips(playerNumberOfShips)
-			setRightSideNumberOfShips(opponentNumberOfShips)
-		} else if (opponent === socket.id) {
-			setLeftSideNumberOfShips(opponentNumberOfShips)
-			setRightSideNumberOfShips(playerNumberOfShips)
-		}
-	},[setLeftSideNumberOfShips, setRightSideNumberOfShips, socket.id, thisPlayerID]) */
 
 	//********** PLAYER DISCONNECTS **********/
 	const handleDisconnect = () => {
@@ -65,18 +52,12 @@ const GameAreaPage = () => {
 				navigate('/')
 				return
 			}
-		
 			socket.on('player:list', handleUpdatePlayers)
-		
-
 			return () => {
 				 console.log("Running cleanup")
-	
 				socket.off('player:list', handleUpdatePlayers)
-				/* socket.off('player:ships', handleUpdateShips)
-				socket.off('start:game', handleStartGame) */
 			} 
-	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id/* , handleUpdateShips */])
+	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
 
 
