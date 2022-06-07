@@ -7,7 +7,7 @@ import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, } = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showGameOver, /* setShowGameOver */] = useState(false)   
@@ -59,15 +59,6 @@ const GameAreaPage = () => {
 			} 
 	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
 	
-
-
-	// check if Gameover
-	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-	// 	setShowGameOver(true)
-	// }
-	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-	// console.log('gameover?', showGameOver)
-	
   	return (
         <main>
 
@@ -111,18 +102,9 @@ const GameAreaPage = () => {
 
 
 						<div className="box">
-							
 							<OpponentBattleboard /> 
-							{/* <div className='cell'>
-									{ids && 
-									ids.map((id, i) => (
-										<OpponentBattleboard key = {i} id = {id} />
-									)
-									)} 
-								</div>*/}
-							
 						</div> 
-					</div>											
+					</div>								
 				</section>	
 			)}
 
