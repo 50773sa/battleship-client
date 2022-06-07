@@ -22,8 +22,8 @@ const GameContextProvider = ({ children }) => {
     const [myTurn, setMyTurn] = useState()
     const [ships, setShips] = useState ([])
     const [shipPosition, setShipPosition] = useState(useGetShips())
-    const [playerNumberOfShips, setPlayerNumberOfShips] = useState(null)
-    const [opponentNumberOfShips, setOpponentNumberOfShips] = useState(null)
+    const [playerNumberOfShips, setPlayerNumberOfShips] = useState(4)
+    const [opponentNumberOfShips, setOpponentNumberOfShips] = useState(4)
 	const ids = useCellIds()
    
 	
@@ -31,13 +31,17 @@ const GameContextProvider = ({ children }) => {
     const values = {
         gameUsername,
         setGameUsername,
+
         socket,
+
         players, 
         setPlayers,
+
         player,
         setPlayer,
         opponent,
         setOpponent, 
+
         thisPlayer, 
         setThisPlayer,
         thisPlayerName, 
@@ -46,20 +50,26 @@ const GameContextProvider = ({ children }) => {
         setOtherPlayer,
         otherPlayerName, 
         setOtherPlayerName,
-        myTurn,
-        setMyTurn,
-        ships,   
-        ids,
+
+        ships,
+        setShips,  
+
+        shipPosition, 
+        setShipPosition,
+
         playerNumberOfShips,
-        setPlayerNumberOfShips, 
+        setPlayerNumberOfShips,
         opponentNumberOfShips,
         setOpponentNumberOfShips,
+
+        myTurn,
+        setMyTurn,
+        ids,
     }
 
 
 	//** Place the ships when page is mounted **/
 	useEffect(() => {		
-		setShipPosition(shipPosition)
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
