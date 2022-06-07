@@ -59,7 +59,7 @@ const GameContextProvider = ({ children }) => {
 
 	//** Place the ships when page is mounted **/
 	useEffect(() => {		
-		setShipPosition(shipPosition)
+		//setShipPosition(shipPosition)
 		setShips(shipPosition)
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])

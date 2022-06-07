@@ -24,19 +24,24 @@ export default function OpponentBattleboard({ id, hasShip }) {
 		return
 	}
 
-	const shotData = {
-		player: player,
-		ships: playerShips,
-		shot: currentShot,
-		hit: hit,
-		miss: miss
-	}
+	
 
   	const handleShotFired = (e) => {
 		e.preventDefault()
 		console.log('CURRENT SHOT', currentShot)
 
+		const shotData = {
+			player: player,
+			ships: playerShips,
+			shot: currentShot,
+			hit: hit,
+			miss: miss
+		}
+
 		// skicka player:shot till servern när en spelare klickat på en ruta
+
+		// <Battleboard> ska lyssna på 'player:shot' och avgöra om träff/miss,
+		// och sen gör den en emit av 'final:result' som denna komponenten (OpponentBattleboard) lyssnar på
 		socket.emit('player:shot', shotData)
 
 		// ShipA
@@ -124,6 +129,7 @@ export default function OpponentBattleboard({ id, hasShip }) {
 	socket.on('final:result', handleFinalResult)
 
 	useEffect(() => {
+		// **lyssna** (inte emitt:a) på place:ships som motståndarens Battleboard-komponent emitt:ar?
 		socket.emit('place:ships', shotData, status => {
 			console.log("STATUS from callback after placing ships on Opponent Battleboard:", status)
 
