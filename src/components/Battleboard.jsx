@@ -9,14 +9,15 @@ export default function Battleboard() {
 		const shipA = ships[0]
 
 		// STEG 4. Ta emot cell id från battleboard via servern. 
-		socket.on('receive:shot', function (data) {
-			
+		socket.on('receive:shot', function (cellId, otherPlayer) {
+
 			console.log("Ship A POSITION: ", shipA.position)
 
-			if(shipA.position.includes(data)) {
-				console.log("You clicked on SHIP A", shipA.position.includes(data))
+			if(shipA.position.includes(cellId)) {
+				console.log("You clicked on SHIP A", shipA.position.includes(cellId))
+				console.log("Opponent that hit me was ", otherPlayer)
 			} else {
-				console.log("You missed!", data)
+				console.log("You missed!", cellId)
 			} 
 		})
 	}, [ships, socket])
