@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
-	const [hit, setHit] = useState(false)
-	const [miss, setMiss] = useState(false)
+	const [hit, setHit] = useState(true)
+	const [miss, setMiss] = useState(true)
 
 
 	useEffect(() => {
@@ -16,19 +16,20 @@ export default function Battleboard() {
 
 			console.log("Ship A POSITION: ", shipA.position)
 
-			if(shipA.position.includes(cellId)) {
-				console.log("You clicked on SHIP A", shipA.position.includes(cellId))
+			if (shipA.position.includes(cellId)) {
+				console.log("Opponent clicked on SHIP A", shipA.position.includes(cellId))
+				// STEG 5. emit shot:result, hit = true
+				socket.emit('shot:result', cellId, hit)
 
-				//  STEG 5. emit shot:result, hit = true
-				socket.emit('shot:result', setHit(true))
 			} else {
-				console.log("You missed!", cellId)
-
 				// STEG 5.1. emit shot:result, hit = false
-				socket.emit('shot:result', setMiss(true))
+				socket.emit('shot:result', cellId, miss)
+				console.log("You missed!", )
+
+				// emit shot:result, hit = false
 			} 
 		})
-	}, [ships, socket, setHit])
+	}, [ships, socket])
 
 	/* const handleReceiveShot = useCallback((data) => {
 		const shipA = ships[0]
