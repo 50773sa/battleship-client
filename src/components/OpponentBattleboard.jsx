@@ -6,45 +6,49 @@ export default function OpponentBattleboard() {
 	const { ids, socket } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
-	const [id, setId] = useState()
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
 
-		setId(e.target.id)
-		console.log('STEP 1: I clicked on', id)
+		// setId(e.target.id)
+		const cellId = e.target.id
+		console.log('STEP 1: I clicked on', cellId)
 
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
-		socket.emit('player:shot', id)	
+		socket.emit('player:shot', cellId)	
 	}
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
-
 	useEffect(() => {
+		// STEG 8. Ta emot från BB & server
 		socket.on('final:result', function (data) {
-			console.log('ANSWER',  data)
+			console.log('Received answer from BB',  data)
 
 			if (data === true) {
 				setHit(true)
-			} 
-		},[socket])
-	 })
+
+			} else (
+				setMiss(true)
+			)
+		})
+	},[socket])
 
 	
 	return (
 		<div className='cell'>
-			{ids && ids.map((id, index) => 	
-				<div className='defaultCellColor' key={index} id={id}>			
+			{ids && ids.map((id, index) => 	{
+				return <div className='defaultCellColor' key={index} id={id}>		
+
 					<div className={
 						hit ? 'hit'
 						: miss ? 'miss'
 						: 'defaultCellColor'}
 						key={index} 
 						id={id} 
-						onClick={handleShotFired} 
+						onClick={handleShotFired}
 					/>
 				</div>				
-			)}	  
+			})}	  
 		</div> 
     )
     
