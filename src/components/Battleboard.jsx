@@ -1,12 +1,13 @@
 import { useGameContext } from '../contexts/GameContextProvider'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
+	const [hit, setHit] = useState(false)
+	const [miss, setMiss] = useState(false)
 
-	const BattleboardCell = ({ hasShip }) =>{
-		
+	const BattleboardCell = ({ hasShip }) =>{		
 		return (
 			<div className={ hasShip ? "isShip" : "defaultCellColor"} />			 
 		  )
@@ -16,34 +17,39 @@ export default function Battleboard() {
 		const shipA = ships[0]
 
 		// STEG 4. Ta emot cell id från battleboard via servern. 
-		socket.on('receive:shot', function (cellId, otherPlayer) {
+		socket.on('receive:shot', function (cellId) {
+
 
 			console.log("Ship A POSITION: ", shipA.position)
 
 			if(shipA.position.includes(cellId)) {
 				console.log("You clicked on SHIP A", shipA.position.includes(cellId))
-				console.log("Opponent that hit me was ", otherPlayer)
 
-				// emit shot:result, hit = true
+				//  STEG 5. emit shot:result, hit = true
+				socket.emit('shot:result', setHit(true))
 			} else {
 				console.log("You missed!", cellId)
 
-				// emit shot:result, hit = false
+				// STEG 5.1. emit shot:result, hit = false
+				socket.emit('shot:result', setMiss(true))
 			} 
 		})
-	}, [ships, socket])
+	}, [ships, socket, setHit])
+
 
 	/* const handleReceiveShot = useCallback((data) => {
 		const shipA = ships[0]
 		console.log("STEP 4: Receiving cell id in Battleboard: ", data)
 		console.log("Ship A: ", shipA.position.includes(data))
 		console.log("Ship A POSITION: ", shipA.position)
+
 		if(shipA.position.includes(data)) {
 			console.log("You clicked on SHIP A", shipA.position.includes(data))
 		} else {
 			console.log("You missed!", data)
 		} 
 	}, [])
+
 	// STEG 4. Ta emot cell id från battleboard via servern. 
 	socket.on('receive:shot', handleReceiveShot) */
 	
@@ -59,6 +65,7 @@ export default function Battleboard() {
 						hasShip = {hasShip} />
 				}
 			)}	
+
 		</div> 
     )
 }

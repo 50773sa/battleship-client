@@ -1,16 +1,15 @@
+import { useEffect, useState } from 'react'
 import { useGameContext } from '../contexts/GameContextProvider' 
 
 
 export default function OpponentBattleboard() {
-	const { ids, socket, otherPlayer } = useGameContext()
-
+	const { ids, socket } = useGameContext()
+	const [hit, setHit] = useState(false)
 
 	const OpponentBattleboardCell = ({ id }) => {		
 		return(
 			<div className='defaultCellColor' 
-				onClick={() => {
-					console.log(`Clicked ${id}`)
-			}} 
+				onClick={ handleShotFired } 
 			/>	
 		)
 	}	
@@ -19,22 +18,29 @@ export default function OpponentBattleboard() {
 		e.preventDefault()
 
 		const cellId = e.target.id
-		console.log(`STEP 1: I clicked on ${cellId}. Opponent is `, otherPlayer)
+		console.log(`STEP 1: I clicked on ${cellId}.`)
 
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
-		socket.emit('player:shot', cellId, otherPlayer)		
+		socket.emit('player:shot', cellId)		
 	}
 
+	
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
+	useEffect(() => {
+		socket.on('final:result', function (cellId) {
+			console.log('Received result fron battleboard', cellId)
+		})
+	}, [])
+
 
 	/* const data = {
 		player,
 		ships
 	}  */
 
-
 	return (
 		<div className='cell'>
+
 			{ids && ids.map((id, index) => 				
 					<OpponentBattleboardCell 
 						key={index} 
