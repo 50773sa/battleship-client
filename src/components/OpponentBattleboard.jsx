@@ -7,18 +7,21 @@ export default function OpponentBattleboard() {
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 
-	const OpponentBattleboardCell = ({ id }) => {		
+	const OpponentBattleboardCell = () => {			
 		return(
-			<div className='defaultCellColor' 
-				onClick={ handleShotFired } 
+			<div className= {
+						hit ? 'hit' 
+					: miss ? 'miss'
+					: 'defaultCellColor'}			
+				onClick = { handleShotFired } 
 			/>	
 		)
 	}	
 
-
 	const handleShotFired = (e) => {
 		e.preventDefault()
 
+		//console.log('e.target.id', e.target.id) //e.target.id är undefined
 		const cellId = e.target.id
 		console.log(`STEP 1: I clicked on ${cellId}`)
 
@@ -38,18 +41,20 @@ export default function OpponentBattleboard() {
 			} 
 			
 		})
-	})
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
     
 
 	return (
 		<div className='cell'>
 
-			{ids && ids.map((id, index) => 				
-					<OpponentBattleboardCell 
+			{ids && ids.map((id, index) => {		
+					return(<OpponentBattleboardCell 
 						key={index} 
-						id={id} 
+						id={id}
 						//hasShip={hasShip} 
-					/>				
+					/>)
+				}			
 			)}	  
 		</div> 
     )

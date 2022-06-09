@@ -9,7 +9,8 @@ export default function Battleboard() {
 
 	const BattleboardCell = ({ hasShip }) =>{		
 		return (
-			<div className={ hasShip ? "isShip" : "defaultCellColor"} />			 
+			<div className={ hasShip ? "isShip" 
+							: "defaultCellColor"} />			 
 		  )
 	}
 
@@ -35,6 +36,7 @@ export default function Battleboard() {
 				// emit shot:result, hit = false
 			} 
 		})
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ships, socket])
 
 	/* const handleReceiveShot = useCallback((data) => {
