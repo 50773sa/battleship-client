@@ -4,26 +4,26 @@ import { useEffect, useState } from 'react'
 
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
-	const [hit, setHit] = useState(true)
-	const [miss, setMiss] = useState(true)
+	const [hit, _setHit] = useState(true)
+	const [miss, _setMiss] = useState(false)
 
 
 	useEffect(() => {
 		const shipA = ships[0]
 
 		// STEG 4. Ta emot cell id från battleboard via servern. 
-		socket.on('receive:shot', function (cellId) {
+		socket.on('receive:shot', function (id) {
 
 			console.log("Ship A POSITION: ", shipA.position)
 
-			if (shipA.position.includes(cellId)) {
-				console.log("Opponent clicked on SHIP A", shipA.position.includes(cellId))
+			if (shipA.position.includes(id)) {
+				console.log("Opponent clicked on SHIP A", shipA.position.includes(id))
 				// STEG 5. emit shot:result, hit = true
-				socket.emit('shot:result', cellId, hit)
+				socket.emit('shot:result', id, hit)
 
 			} else {
 				// STEG 5.1. emit shot:result, hit = false
-				socket.emit('shot:result', cellId, miss)
+				socket.emit('shot:result', id, miss)
 				console.log("You missed!", )
 
 				// emit shot:result, hit = false
@@ -52,8 +52,8 @@ export default function Battleboard() {
 			 {ids && ids.map((id, index) => {
 					const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 					return ( 
-						<div className='defaultCellColor'>
-							<div hasShip = {hasShip}
+						<div className='defaultCellColor' key={index} id={id}>
+							<div 
 								className={
 								hasShip ? 'isShip'
 								:  'defaultCellColor'}	 
