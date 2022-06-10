@@ -198,16 +198,17 @@ header {
 	}
 
 	// handle shot
-	.hit{
+	.hit:disabled{
 		width: 20px;
 		height: 20px;
 		background-color: rgba(94, 255, 0, 0.582);
 		border-radius: 100%;
 		z-index: 9999;
+		
 
 	}
 
-	.miss {
+	.miss:disabled {
 		width: 20px;
 		height: 20px;
 		background-color: rgba(156, 13, 13, 0.886);
