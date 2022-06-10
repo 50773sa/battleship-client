@@ -3,9 +3,18 @@ import { useEffect, useState } from 'react'
 
 
 export default function OpponentBattleboard() {
-	const { ids, socket } = useGameContext()
+	const { ids, socket, ships } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
+
+	const shipA = ships[0]
+
+	// function to remove hitten object
+	const removeOneShipPos = (shipArr, pos) => {
+		let index = shipArr.toString().indexOf(pos)
+		shipArr.position.splice(index, 1)
+		return
+	}
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -26,12 +35,21 @@ export default function OpponentBattleboard() {
 
 			if (data === true) {
 				setHit(true)
+				return(
+					removeOneShipPos(shipA), 
+					console.log('SHIP AFTER SHOT', ships),
+					console.log('SHIPA', shipA.position),
+					console.log('SHIP A: LENGTH', shipA.position.length)
+				)
 
-			} else (
-				setMiss(true)
-			)
+			} 
+			
+			if (shipA.position.length === 0){
+				console.log('SHIP SUNK')
+				socket.emit('ship:sunk')
+			}	
 		})
-	},[socket])
+	},[socket, shipA, ships])
 
 	
 	return (
