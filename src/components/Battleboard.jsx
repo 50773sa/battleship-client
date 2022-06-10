@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
+
 	const [hit, _setHit] = useState(true)
 	const [miss, _setMiss] = useState(false)
 
@@ -19,19 +20,19 @@ export default function Battleboard() {
 		const shipA = ships[0]
 
 		// STEG 4. Ta emot cell id från battleboard via servern. 
-		socket.on('receive:shot', function (id) {
+		socket.on('receive:shot', function (data) {
 
 			console.log("Ship A POSITION: ", shipA.position)
 
-			if (shipA.position.includes(id)) {
-				console.log("Opponent clicked on SHIP A", shipA.position.includes(id))
+			if (shipA.position.includes(data)) {
+				console.log("Opponent clicked on SHIP A", shipA.position.includes(data))
 				// STEG 5. emit shot:result, hit = true
-				socket.emit('shot:result', id, hit)
+				socket.emit('shot:result', true)
 
 			} else {
 				// STEG 5.1. emit shot:result, hit = false
-				socket.emit('shot:result', id, miss)
-				console.log("You missed!", )
+				socket.emit('shot:result', false)
+				console.log("You missed!", data)
 
 				// emit shot:result, hit = false
 			} 
