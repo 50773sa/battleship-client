@@ -198,7 +198,7 @@ header {
 	}
 
 	// handle shot
-	.hit:disabled{
+	.hit {
 		width: 20px;
 		height: 20px;
 		background-color: rgba(94, 255, 0, 0.582);
@@ -209,7 +209,7 @@ header {
 
 	}
 
-	.miss:disabled {
+	.miss {
 		width: 20px;
 		height: 20px;
 		background-color: rgba(156, 13, 13, 0.886);

@@ -65,6 +65,8 @@ export default function Battleboard() {
 							<div 
 								className={
 								hasShip ? 'isShip'
+								: hit ? 'hit'
+								: miss? 'miss'
 								: 'defaultCellColor'}	 
 								key = {index} 
 								id = {id}			

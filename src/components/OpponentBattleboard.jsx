@@ -6,6 +6,7 @@ export default function OpponentBattleboard() {
 	const { ids, socket } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
+	const [clickId, setClickId] = useState(null)
 
 	/* const OpponentBattleboardCell = () => {			
 		return(
@@ -27,8 +28,9 @@ export default function OpponentBattleboard() {
 
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
 		socket.emit('player:shot', cellId)	
+		setClickId(cellId)
 	}
-
+console.log('click,', clickId)
 		// // STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
 		// socket.emit('player:shot', id)
 		
@@ -38,7 +40,7 @@ export default function OpponentBattleboard() {
 		// STEG 8. Ta emot från BB & server
 
 		socket.on('final:result', function (data) {
-			console.log('Received answer from BB',  data)
+			console.log('Received answer from BB', data)
 
 			if (data === true) {
 				setHit(true)
@@ -54,18 +56,22 @@ export default function OpponentBattleboard() {
 	return (
 		<div className='cell'>
 
-			{ids && ids.map((id, index) => 	{
-				return <div className='defaultCellColor' key={index} id={id}>		
+			{ids && ids.map((id, index) => {
+				const hasAction = (clickId === id) 
+				return (
+					<div className='defaultCellColor' key={index} id={id}>		
 
-					<div className={
-						hit ? 'hit'
-						: miss ? 'miss'
-						: 'defaultCellColor'}
-						key={index} 
-						id={id} 
-						onClick={handleShotFired}
-					/>
-				</div>				
+						<div className={ 
+							hasAction?
+							 	 hit ? 'hit'
+								: 'miss'
+							: 'defaultCellColor'}
+							key={index} 
+							id={id} 
+							onClick={handleShotFired}
+						/>
+					</div>
+				)		
 
 			})}	  
 
