@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react'
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
 
-	const [hit, _setHit] = useState(true)
+	const [hit, _setHit] = useState(false)
 	const [miss, _setMiss] = useState(false)
+	const [clickId, setClickId] = useState('')
 
 	/* const BattleboardCell = ({ hasShip }) =>{		
 		return (
@@ -36,9 +37,11 @@ export default function Battleboard() {
 
 				// emit shot:result, hit = false
 			} 
+			setClickId(data)
 		})
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ships, socket])
+	console.log('opponent clicked', clickId)
 
 	/* const handleReceiveShot = useCallback((data) => {
 		const shipA = ships[0]
@@ -59,14 +62,16 @@ export default function Battleboard() {
  	return (
 		<div className='cell'>
 			{ids && ids.map((id, index) => {
+					const hasAction = (clickId === id) 
 					const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 					return ( 
 						<div className='defaultCellColor' key={index} id={id}>
 							<div 
 								className={
 								hasShip ? 'isShip'
-								: hit ? 'hit'
-								: miss? 'miss'
+								: hasAction?
+							 	 	hit ? 'hit'
+									: 'miss'
 								: 'defaultCellColor'}	 
 								key = {index} 
 								id = {id}			

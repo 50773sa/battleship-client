@@ -6,7 +6,7 @@ export default function OpponentBattleboard() {
 	const { ids, socket } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
-	const [clickId, setClickId] = useState(null)
+	const [clickId, setClickId] = useState('')
 
 	/* const OpponentBattleboardCell = () => {			
 		return(
@@ -29,6 +29,8 @@ export default function OpponentBattleboard() {
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
 		socket.emit('player:shot', cellId)	
 		setClickId(cellId)
+		
+		
 	}
 console.log('click,', clickId)
 		// // STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
