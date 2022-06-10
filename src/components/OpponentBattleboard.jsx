@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 
 export default function OpponentBattleboard() {
-	const { ids, socket, ships } = useGameContext()
+	const { ids, socket, ships, opponentNumberOfShips, setOpponentNumberOfShips } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [miss, setMiss] = useState(false)
 
@@ -46,7 +46,8 @@ export default function OpponentBattleboard() {
 			
 			if (shipA.position.length === 0){
 				console.log('SHIP SUNK')
-				socket.emit('ship:sunk')
+				setOpponentNumberOfShips(opponentNumberOfShips -1)
+			
 			}	
 		})
 	},[socket, shipA, ships])
