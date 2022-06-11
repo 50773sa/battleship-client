@@ -1,53 +1,56 @@
 import { useGameContext } from '../contexts/GameContextProvider'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 
 export default function Battleboard() {
 	const { ships, ids, socket} = useGameContext()
+	const [hit,  setHit] = useState(false)
+	/* const [arrayOfHits, setArrayOfHits] = useState([])
+ 	const [arayOfMisses, setArayOfMisses] = useState([])  */
+	const [clickId, setClickId] = useState('') 
 
+	
 	useEffect(() => {
 		const shipA = ships[0]
 
 		// STEG 4. Ta emot cell id från battleboard via servern. 
-		socket.on('receive:shot', function (cellId, otherPlayer) {
-
-			console.log("Ship A POSITION: ", shipA.position)
+		socket.on('receive:shot', function(cellId) {
+			console.log("STEG 4: Ship A POSITION: ", shipA.position)
 
 			if(shipA.position.includes(cellId)) {
-				console.log("You clicked on SHIP A", shipA.position.includes(cellId))
-				console.log("Opponent that hit me was ", otherPlayer)
-			} else {
-				console.log("You missed!", cellId)
-			} 
+				console.log("STEG 5: Opponent clicked on SHIP A", shipA.position.includes(cellId))
+
+				console.log("STEG 5.1: Opponent hit!", cellId)
+				setHit(true)
+				} else {
+					console.log("STEG 5.1: Opponent missed!", cellId)
+					setHit(false)
+				} 
+
+				setClickId(cellId)
 		})
+
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ships, socket])
 
-	/* const handleReceiveShot = useCallback((data) => {
-		const shipA = ships[0]
-		console.log("STEP 4: Receiving cell id in Battleboard: ", data)
-		console.log("Ship A: ", shipA.position.includes(data))
-		console.log("Ship A POSITION: ", shipA.position)
+	// STEG 5. emit shot:result, hit = true
+	socket.emit('shot:result', hit) 
 
-		if(shipA.position.includes(data)) {
-			console.log("You clicked on SHIP A", shipA.position.includes(data))
-		} else {
-			console.log("You missed!", data)
-		} 
-	}, [])
-
-	// STEG 4. Ta emot cell id från battleboard via servern. 
-	socket.on('receive:shot', handleReceiveShot) */
-	
  	return (
 		<div className='cell'>
-			 {ids && ids.map((id, index) => {
-					const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
+			{ids && ids.map((id, index) => {
+				const hasAction = (clickId === id) 
+				const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 					return ( 
-						<div className='defaultCellColor'>
-							<div hasShip = {hasShip}
+						<div className='defaultCellColor' key={index} id={id}>
+							<div 
 								className={
 								hasShip ? 'isShip'
-								:  'defaultCellColor'}	 
+								: hasAction?
+							 	hit ? 'hit'
+								: 'miss'
+								: 'defaultCellColor'}	 
 								key = {index} 
 								id = {id}			
 							>
@@ -55,7 +58,7 @@ export default function Battleboard() {
 						</div>
 					)
 				}
-			)}	 		
+			)}	
 		</div> 
     )
 }
