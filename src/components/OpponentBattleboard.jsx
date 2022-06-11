@@ -2,11 +2,17 @@ import { useGameContext } from '../contexts/GameContextProvider'
 import { useEffect, useState } from 'react' 
 
 export default function OpponentBattleboard() {
-	const { ids, socket } = useGameContext()
+	const { ids, socket, ships, setOpponentNumberOfShips, opponentNumberOfShips, arrayOfShots } = useGameContext()
 	const [hit, setHit] = useState(false)
-	/* const [arrayOfHits, setArrayOfHits] = useState([])
- 	const [arayOfMisses, setArayOfMisses] = useState([])  */
 	const [clickId, setClickId] = useState('') 
+	const shipA = ships[0]
+
+	// function to remove hitten object
+	const removeOneShipPos = (shipArr, pos) => {
+		let index = shipArr.toString().indexOf(pos)
+		shipArr.position.splice(index, 1)
+		return
+	}
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -25,17 +31,30 @@ export default function OpponentBattleboard() {
 		socket.on('final:result', function (data) {
 			console.log("Received answer from BB: hit is", data)
 
-			if (data.hit === true) {
+			if (data === true) {
 				setHit(true)
 				console.log("SCORE! Its was a hit")
+				return(
+					removeOneShipPos(shipA), 
+					console.log('SHIPS AFTER HIT', ships),
+					console.log('SHIPA AFTER HIT', shipA.position),
+					console.log('SHIP A: LENGTH AFTER HIT', shipA.position.length)
+				)
 			} 
 
-			if (data.hit === false) {
+			if (data === false) {
 				setHit(false)
 				console.log("Better luck next time")
 			}
 		})
-	},[socket]) 
+
+		if (shipA.position.length === 0){
+			console.log('SHIP A SUNK')
+			/* setOpponentNumberOfShips(prevvalue => prevvalue -1)  */
+			setOpponentNumberOfShips(opponentNumberOfShips -1)
+		}
+
+	},[socket,opponentNumberOfShips, setOpponentNumberOfShips, shipA, ships]) 
 
 	return (
 		<div className='cell'>
@@ -52,6 +71,7 @@ export default function OpponentBattleboard() {
 							key={index} 
 							id={id} 
 							onClick={handleShotFired}
+							disabled={ arrayOfShots }
 						/>
 
 					</div>

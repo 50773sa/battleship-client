@@ -3,10 +3,8 @@ import { useEffect, useState } from 'react'
 
 
 export default function Battleboard() {
-	const { ships, ids, socket} = useGameContext()
+	const { ships, ids, socket, arrayOfShots, setArrayOfShots} = useGameContext()
 	const [hit,  setHit] = useState(false)
-	/* const [arrayOfHits, setArrayOfHits] = useState([])
- 	const [arayOfMisses, setArayOfMisses] = useState([])  */
 	const [clickId, setClickId] = useState('') 
 
 	
@@ -26,6 +24,16 @@ export default function Battleboard() {
 					console.log("STEG 5.1: Opponent missed!", cellId)
 					setHit(false)
 				} 
+
+				// check if id already is in the Array of shots
+				if(arrayOfShots.includes(cellId)) {
+					return 
+				} else {
+					// else -> push id of all shots into the array of shots
+					const removeCell = arrayOfShots.push(cellId)
+					setArrayOfShots(removeCell)
+					console.log("Array of shots in BB: ", arrayOfShots)
+				}
 
 				setClickId(cellId)
 		})
