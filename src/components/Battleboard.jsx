@@ -37,14 +37,14 @@ export default function Battleboard() {
 				}
 
 				setClickId(cellId)
+
+				// STEG 5. emit shot:result, hit = true
+				socket.emit('shot:result', hit) 
 		})
 
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ships, socket])
-
-	// STEG 5. emit shot:result, hit = true
-	socket.emit('shot:result', hit) 
 
  	return (
 		<div className='cell'>
