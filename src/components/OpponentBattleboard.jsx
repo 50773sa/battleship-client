@@ -2,7 +2,7 @@ import { useGameContext } from '../contexts/GameContextProvider'
 import { useEffect, useState } from 'react' 
 
 export default function OpponentBattleboard() {
-	const { ids, socket, ships, setOpponentNumberOfShips, opponentNumberOfShips, arrayOfShots } = useGameContext()
+	const { ids, socket, ships, setOpponentNumberOfShips, opponentNumberOfShips, arrayOfShots, setMyTurn, myTurn } = useGameContext()
 	const [hit, setHit] = useState(false)
 	const [clickId, setClickId] = useState('') 
 	const shipA = ships[0]
@@ -22,7 +22,8 @@ export default function OpponentBattleboard() {
 		
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
 		socket.emit('player:shot', cellId)
-		setClickId(cellId)		
+		setClickId(cellId)	
+		setMyTurn(false)
 	}
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
@@ -62,18 +63,18 @@ export default function OpponentBattleboard() {
 				const hasAction = (clickId === id) 
 				return (
 					<div className='defaultCellColor' key={index} id={id}>		
-					
-						<div className={ 
-							hasAction?
-							hit ? 'hit'
-							: 'miss'
-							: 'defaultCellColor'}
-							key={index} 
-							id={id} 
-							onClick={handleShotFired}
-							disabled={ arrayOfShots }
-						/>
-
+						{myTurn && (
+							<div className={ 
+								hasAction?
+								hit ? 'hit'
+								: 'miss'
+								: 'defaultCellColor'}
+								key={index} 
+								id={id} 
+								onClick={handleShotFired}
+								disabled={ arrayOfShots }
+							/>
+						)}
 					</div>
 				)		
 			})}	  
