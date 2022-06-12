@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react'
 
 export default function OpponentBattleboard() {
 	const { ids, socket, ships, setOpponentNumberOfShips, opponentNumberOfShips, arrayOfShots, setMyTurn, myTurn } = useGameContext()
-	const [hit, setHit] = useState(false)
+	/* const [hit, setHit] = useState(false) */
 	const [clickId, setClickId] = useState('') 
 	const shipA = ships[0]
+
+	const hit = Boolean
 
 	// function to remove hitten object
 	const removeOneShipPos = (shipArr, pos) => {
@@ -19,9 +21,11 @@ export default function OpponentBattleboard() {
 
 		const cellId = (e.target.id)
 		console.log(`STEP 1: I clicked on ${cellId}`)
+
+		let hit = false
 		
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
-		socket.emit('player:shot', cellId)
+		socket.emit('player:shot', cellId, hit)
 		setClickId(cellId)	
 		setMyTurn(false)
 	}
@@ -29,11 +33,11 @@ export default function OpponentBattleboard() {
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
  	useEffect(() => {
 		// STEG 8. Ta emot från BB & server
-		socket.on('final:result', function (data) {
-			console.log("Received answer from BB: hit is", data)
+		socket.on('final:result', function (cellId, hit) {
+			console.log(`Received answer from BB: cellId is ${cellId}, hit is ${hit}`)
 
-			if (data === true) {
-				setHit(true)
+			if (hit === true) {
+				
 				console.log("SCORE! Its was a hit")
 				return(
 					removeOneShipPos(shipA), 
@@ -41,10 +45,7 @@ export default function OpponentBattleboard() {
 					console.log('SHIPA AFTER HIT', shipA.position),
 					console.log('SHIP A: LENGTH AFTER HIT', shipA.position.length)
 				)
-			} 
-
-			if (data === false) {
-				setHit(false)
+			} else {
 				console.log("Better luck next time")
 			}
 		})
