@@ -2,19 +2,9 @@ import { useGameContext } from '../contexts/GameContextProvider'
 import { useEffect, useState } from 'react' 
 
 export default function OpponentBattleboard() {
-	const { ids, socket, ships, arrayOfShots, setMyTurn, myTurn } = useGameContext()
-	/* const [hit, setHit] = useState(false) */
+	const { ids, socket, ships, arrayOfShots, setMyTurn, myTurn, setOpponentNumberOfShips, opponentNumberOfShips } = useGameContext()
 	const [clickId, setClickId] = useState('') 
-	/* const shipA = ships[0] */
-
 	const hit = Boolean
-
-	// function to remove hitten object
-	/* const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.toString().indexOf(pos)
-		shipArr.position.splice(index, 1)
-		return
-	} */
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -30,30 +20,25 @@ export default function OpponentBattleboard() {
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
  	useEffect(() => {
-		// STEG 8. Ta emot från BB & server
+		// Ta emot från BB & server
 		socket.on('shot:result-received', function (cellId, hit) {
 			console.log(`Received answer from BB: cellId is ${cellId}, hit is ${hit}`)
 
 			if (hit === true) {
-				
 				console.log("SCORE! Its was a hit")
-				/* return(
-					removeOneShipPos(shipA), 
-					console.log('SHIPS AFTER HIT', ships),
-					console.log('SHIPA AFTER HIT', shipA.position),
-					console.log('SHIP A: LENGTH AFTER HIT', shipA.position.length)
-				) */
 			} else {
 				console.log("Better luck next time")
 			}
 		})
 
-		/* if (shipA.position.length === 0){
-			console.log('SHIP A SUNK')
-			setOpponentNumberOfShips(opponentNumberOfShips -1)
-		} */
+		socket.on('ship:sunk-reply', function (ship_id) {
+			console.log("Reply in OBB: Ship is DOWN", ship_id)
 
-	},[socket, ships]) 
+			/* setOpponentNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
+			setOpponentNumberOfShips(opponentNumberOfShips -1)
+		})
+
+	},[socket, ships, opponentNumberOfShips, setOpponentNumberOfShips]) 
 
 	return (
 		<div className='cell'>
