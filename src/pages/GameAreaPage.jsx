@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom' 
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
-import OpponentBattleboard from '../components/OpponentBattleboard'
+import OpponentBattleboard from '../components/OpponentBattleboard' 
 import Gameover from '../components/Gameover'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, /* ships, ids, */ myTurn, players, setPlayers, gameUsername, socket, playerNumberOfShips, opponentNumberOfShips} = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [showGameOver, /* setShowGameOver */] = useState(false)   
@@ -33,8 +33,6 @@ const GameAreaPage = () => {
 		
 	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
 
-	/* console.log('GAMEAREAPAGE', ships) */
-
 	//***** UPDATE PLAYERLIST *****/
 	const handleUpdatePlayers = useCallback((players) => {
 		setPlayers(players) 
@@ -54,26 +52,12 @@ const GameAreaPage = () => {
 				navigate('/')
 				return
 			}
-		
 			socket.on('player:list', handleUpdatePlayers)
-
 			return () => {
 				 console.log("Running cleanup")
-	
 				socket.off('player:list', handleUpdatePlayers)
-				/* socket.off('player:ships', handleUpdateShips)
-				socket.off('start:game', handleStartGame) */
 			} 
 	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
-	
-
-
-	// check if Gameover
-	// if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-	// 	setShowGameOver(true)
-	// }
-	// console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-	// console.log('gameover?', showGameOver)
 	
   	return (
         <main>
@@ -103,14 +87,7 @@ const GameAreaPage = () => {
 						<div className="box">
 
 							<Battleboard />
-							{/* <div className='cell'>
-								{ids && 
-									ids.map((id, i) => {
-										const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
-										return <Battleboard key = {i} id = {id} hasShip = {hasShip} />
-									}
-								)}
-							</div>	 */}
+					
 						</div> 
 					</div>	
 
@@ -125,18 +102,9 @@ const GameAreaPage = () => {
 
 
 						<div className="box">
-							
-								<OpponentBattleboard />
-							{/* <div className='cell'>
-									{ids && 
-									ids.map((id, i) => (
-										<OpponentBattleboard key = {i} id = {id} />
-									)
-									)} 
-								</div>*/}
-							
+							<OpponentBattleboard /> 
 						</div> 
-					</div>											
+					</div>								
 				</section>	
 			)}
 
