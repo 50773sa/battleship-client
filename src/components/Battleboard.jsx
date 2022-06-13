@@ -3,23 +3,31 @@ import { useEffect, useState } from 'react'
 
 
 export default function Battleboard() {
-
 	const { ships, ids, socket, arrayOfShots, setArrayOfShots, setMyTurn, playerNumberOfShips, setPlayerNumberOfShips} = useGameContext()
 	const [clickId, setClickId] = useState('') 
-
+	
 	const hit = Boolean
 
 	// function to remove hitten object
 	//*** PROBLEM: Tar bort den sista cellen i arrayn och inte exakt den som man klickat på ****/
 	const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.toString().indexOf(pos)
-		shipArr.position.splice(index, 1)
-		return
+		let index = shipArr.position.filter(posi => 
+			posi.match(pos) == null
+		)
+
+		console.log('index', index) //output (ex. Array [1A, 3A, 4A])
+		console.log('shipArr', shipArr) // output ships object
+		console.log('pos', pos) // output clicked cell id (ex. pos 2A)
+
+		shipArr.position = index // index återspeglas i shipArr(ship-object)
+
+		return index.length
+
 	}
 	
 	useEffect(() => {
 		const shipA = ships[0]
-		let hit = false
+		const hit = false
 
 		// Ta emot cell id från battleboard via servern. 
 		socket.on('receive:shot', function(cellId) {
@@ -30,12 +38,13 @@ export default function Battleboard() {
 			if(shipA.position.includes(cellId)) {
 				console.log("STEG 5: Opponent clicked on: ",cellId, shipA.position.includes(cellId))
 			
-				hit = true 
+				const hit = true
 
 				// emit shot:result, hit = true 
 				socket.emit('shot:result', cellId, hit) 
 
 				removeOneShipPos(shipA, cellId)
+
 				console.log('Ships-array after hit', ships)
 				console.log('ShipA after hit', shipA.position)
 				console.log('ShipA length after hit', shipA.position.length)
@@ -78,15 +87,14 @@ export default function Battleboard() {
 			{ids && ids.map((id, index) => {
 				const hasAction = (clickId === id) 
 				const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
-
 					return ( 
 						<div className='defaultCellColor' key={index} id={id}>
 							<div 
 								className={
 								hasShip ? 'isShip'
 								: hasAction?
-							 		hit ? 'hit'
-									: 'miss'
+							 	hit ? 'hit'
+								: 'miss'
 								: 'defaultCellColor'}	 
 								key = {index} 
 								id = {id}			
@@ -96,7 +104,6 @@ export default function Battleboard() {
 					)
 				}
 			)}	
- battleboards
 		</div> 
     )
 }

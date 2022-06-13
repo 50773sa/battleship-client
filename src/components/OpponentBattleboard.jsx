@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 export default function OpponentBattleboard() {
 	const { ids, socket, ships, arrayOfShots, setMyTurn, myTurn, setOpponentNumberOfShips, opponentNumberOfShips } = useGameContext()
 	const [clickId, setClickId] = useState('') 
-
+	// const hit = Boolean
 	const hit = Boolean
 
 	const handleShotFired = (e) => {
@@ -65,4 +65,3 @@ export default function OpponentBattleboard() {
 		</div> 
     )
 }
-

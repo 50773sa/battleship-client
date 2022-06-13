@@ -24,7 +24,7 @@ const GameContextProvider = ({ children }) => {
     const [shipPosition, setShipPosition] = useState(useGetShips())
     const [playerNumberOfShips, setPlayerNumberOfShips] = useState(4)
     const [opponentNumberOfShips, setOpponentNumberOfShips] = useState(4)
-
+    
     const [arrayOfShots, setArrayOfShots] = useState([])
 	const ids = useCellIds()
    	
@@ -65,7 +65,7 @@ const GameContextProvider = ({ children }) => {
 
         myTurn,
         setMyTurn,
-
+        
         arrayOfShots,
         setArrayOfShots,
 
