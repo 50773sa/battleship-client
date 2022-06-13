@@ -27,8 +27,7 @@ const GameContextProvider = ({ children }) => {
 
     const [arrayOfShots, setArrayOfShots] = useState([])
 	const ids = useCellIds()
-   
-	
+   	
 
     const values = {
         gameUsername,
