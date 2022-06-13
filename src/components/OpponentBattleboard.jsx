@@ -3,21 +3,17 @@ import { useEffect, useState } from 'react'
 
 
 export default function OpponentBattleboard() {
-	const { ids, socket, ships, opponentNumberOfShips, setOpponentNumberOfShips } = useGameContext()
+	const { ids, socket, ships, opponentNumberOfShips, setOpponentNumberOfShips,arrayOfShots, setMyTurn, myTurn } = useGameContext()
+	const [miss, setMiss] = useState([])
 	const [hit, setHit] = useState(false)
-	const [miss, setMiss] = useState(false)
+	const [clickId, setClickId] = useState([]) 
 
 	const shipA = ships[0]
 
-	// function to remove hitten object
-	const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.toString().indexOf(pos)
-		shipArr.position.splice(index, 1)
-		return
-	}
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
+	
 
 		// setId(e.target.id)
 		const cellId = e.target.id
@@ -25,6 +21,9 @@ export default function OpponentBattleboard() {
 
 		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
 		socket.emit('player:shot', cellId)	
+		setClickId(cellId)	
+	
+
 	}
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
@@ -33,43 +32,45 @@ export default function OpponentBattleboard() {
 		socket.on('final:result', function (data) {
 			console.log('Received answer from BB',  data)
 
-			if (data === true) {
+			if (data[0] === true) {
 				setHit(true)
 				return(
-					removeOneShipPos(shipA), 
-					console.log('SHIP AFTER SHOT', ships),
+					socket.emit('remove:cell', data[1] ), 
 					console.log('SHIPA', shipA.position),
 					console.log('SHIP A: LENGTH', shipA.position.length)
 				)
-
 			} 
 			
-			if (shipA.position.length === 0){
-				console.log('SHIP SUNK')
-				setOpponentNumberOfShips(opponentNumberOfShips -1)
-			
-			}	
+			else {
+				setMiss(true)
+			}
 		})
-	},[socket, shipA, ships])
+	},[socket, ships])
 
 	
 	return (
 		<div className='cell'>
-			{ids && ids.map((id, index) => 	{
-				return <div className='defaultCellColor' key={index} id={id}>		
-
-					<div className={
-						hit ? 'hit'
-						: miss ? 'miss'
-						: 'defaultCellColor'}
-						key={index} 
-						id={id} 
-						onClick={handleShotFired}
-					/>
-				</div>				
+			{ids && ids.map((id, index) => {
+				const hasAction = (clickId === id) 
+				return (
+					<div className='defaultCellColor' key={index} id={id}>		
+						{/* {myTurn && ( */}
+							<div className={ 
+								hasAction?
+								hit ? 'hit'
+								: 'miss'
+								: 'defaultCellColor'}
+								key={index} 
+								value={hasAction || hit || miss}
+								id={id} 
+								onClick={handleShotFired}
+								disabled={ arrayOfShots }
+							/>
+						{/* )} */}
+					</div>
+				)		
 			})}	  
 		</div> 
     )
-    
 
 }
