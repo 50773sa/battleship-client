@@ -35,7 +35,6 @@ export default function Battleboard() {
 				socket.emit('shot:result', cellId, hit) 
 
 				removeOneShipPos(shipA, cellId)
-
 				console.log('Ships-array after hit', ships)
 				console.log('ShipA after hit', shipA.position)
 				console.log('ShipA length after hit', shipA.position.length)
