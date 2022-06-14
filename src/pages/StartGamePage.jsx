@@ -75,6 +75,7 @@ const StartGamePage = () => {
 							<Form.Select
 								onChange={e => setRoom(e.target.value)}
 								required
+								defaultValue="game"
 								value={room}
 							>
 								{roomlist.length === 0 && <option disabled>Loading...</option>}
