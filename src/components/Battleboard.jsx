@@ -1,12 +1,12 @@
 import { useGameContext } from '../contexts/GameContextProvider'
 import { useEffect, useState, useCallback } from 'react'
+import classNames from 'classnames'
 
 
 export default function Battleboard() {
 	const { ships, ids, socket, setMyTurn, playerNumberOfShips, setPlayerNumberOfShips} = useGameContext()
-	const [clickId, setClickId] = useState('')  
-	const [hits, /* setHits */] = useState([]) 
-	const [misses, /* setMisses */] = useState([])
+	const [opponentHits, setOpponentHits ] = useState([]) 
+	const [opponentMisses, setOpponentMisses ] = useState([])
 
 	const removeOneShipPos = (shipArr, pos) => {
 		let index = shipArr.position.filter(posi => posi.match(pos) === null)
@@ -27,10 +27,9 @@ export default function Battleboard() {
 		
 			hit = true 
 
-			// spread av arrayOfHits och pusha in cellID
-			/* const removeCell = arrayOfShots.push(cellId)
-			setArrayOfShots(removeCell)
-			console.log("Array of shot in BB: ", arrayOfShots) */
+			setOpponentHits((opponentHits) => {
+				return [cellId, ...opponentHits]
+			}) 
 
 			// emit shot:result, hit = true 
 			socket.emit('shot:result', cellId, hit) 
@@ -53,42 +52,46 @@ export default function Battleboard() {
 			} else {
 				console.log("STEG 5.1: Opponent missed!", cellId, hit)
 
-				// spread av arrayOfMisses och pusha in cellID
-				/* const removeCell = arrayOfShots.push(cellId)
-				setArrayOfShots(removeCell)
-				console.log("Array of shot in BB: ", arrayOfShots) */
+				setOpponentMisses((opponentMisses) => {
+					return [cellId, ...opponentMisses]
+				}) 
 
 				// emit shot:result, hit = false
 				socket.emit('shot:result', cellId, hit) 
 			} 
-
-			setClickId(cellId)
-
 	}, [playerNumberOfShips, setMyTurn, setPlayerNumberOfShips, ships, socket])
 	
 	useEffect(() => {
 		// Ta emot cell id från battleboard via servern. 
 		socket.on('receive:shot', handleReceiveShot)
 
+		return () => {
+			socket.off('receive:shot', handleReceiveShot)
+		}
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [socket])
+
+	useEffect(() => {
+		console.log("Array of OPPONENT HITS in BB: ", opponentHits)
+		console.log("Array of OPPONENT MISSES in BB: ", opponentMisses) 
+	}, [opponentMisses, opponentHits])
 
  	return (
 		<div className='cell'>
 			{ids && ids.map((id, index) => {
-				const hasAction = (clickId === id) 
-				const isHit = hits.filter(pos => pos === id)
-				const isMiss = misses.filter(pos => pos === id)
+				const isHit = opponentHits.find(pos => pos === id)
+				const isMiss = opponentMisses.find(pos => pos === id) 
 				const hasShip = ships?.some(({ position }) => position?.some((posi) => posi === id))
 					return ( 
 						<div className='defaultCellColor' key={index} id={id} >	
 							<div 
-								className={`
-								${hasShip ? 'isShip' : ''}
-								${hasAction ? 'action' : ''}
-								${isHit ? 'hit' : ''}
-								${isMiss ? 'miss' : ''}
-								`}
+								className={classNames({
+									'isShip' : hasShip,
+									'hit' : isHit,
+									'miss' : isMiss, 
+									'defaultCellColor' : true
+								})}
 								key={index} 
 								id={id}		
 							>								
