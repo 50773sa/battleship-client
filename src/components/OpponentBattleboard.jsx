@@ -21,6 +21,7 @@ export default function OpponentBattleboard() {
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
  	useEffect(() => {
+
 		// Ta emot från BB & server
 		socket.on('shot:result-received', function (cellId, hit) {
 			console.log(`Received answer from BB: cellId is ${cellId}, hit is ${hit}`)
@@ -37,9 +38,10 @@ export default function OpponentBattleboard() {
 
 			/* setOpponentNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
 			setOpponentNumberOfShips(opponentNumberOfShips -1)
+			
 		})
-
-	},[socket, ships, opponentNumberOfShips, setOpponentNumberOfShips]) 
+		
+	},[socket, ships, opponentNumberOfShips, setOpponentNumberOfShips ]) 
 
 	return (
 		<div className='cell'>
@@ -65,3 +67,4 @@ export default function OpponentBattleboard() {
 		</div> 
     )
 }
+

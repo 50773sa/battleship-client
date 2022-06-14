@@ -9,12 +9,12 @@ export default function Battleboard() {
 	const hit = Boolean
 
 	// function to remove hitten object
-	//*** PROBLEM: Tar bort den sista cellen i arrayn och inte exakt den som man klickat på ****/
 	const removeOneShipPos = (shipArr, pos) => {
 		let index = shipArr.position.filter(posi => 
-			posi.match(pos) == null
+			posi.match(pos) == null // **** null? or empty string ''? 
 		)
-
+		
+		// index --> items ?
 		console.log('index', index) //output (ex. Array [1A, 3A, 4A])
 		console.log('shipArr', shipArr) // output ships object
 		console.log('pos', pos) // output clicked cell id (ex. pos 2A)
@@ -92,9 +92,9 @@ export default function Battleboard() {
 							<div 
 								className={
 								hasShip ? 'isShip'
-								: hasAction?
-							 	hit ? 'hit'
-								: 'miss'
+									: hasAction?
+									hit ? 'hit'
+									: 'miss'
 								: 'defaultCellColor'}	 
 								key = {index} 
 								id = {id}			
