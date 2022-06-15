@@ -53,23 +53,21 @@ const GameAreaPage = () => {
 				return
 			}
 			socket.on('player:list', handleUpdatePlayers)
+
+			// check if Gameover
+			if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
+				setShowGameOver(true)
+		
+				console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
+				console.log('gameover?', showGameOver)
+			}
+
 			return () => {
 				 console.log("Running cleanup")
 				socket.off('player:list', handleUpdatePlayers)
 			} 
-	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id])
+	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id, opponentNumberOfShips, playerNumberOfShips, showGameOver])
 
-
-		// check if Gameover
-		if( playerNumberOfShips === 0 || opponentNumberOfShips === 0){
-			setShowGameOver(true)
-	
-			console.log('check nr. of ships', playerNumberOfShips, ':', opponentNumberOfShips )
-			console.log('gameover?', showGameOver)
-		}
-	
-	
-	
   	return (
         <main>
 
