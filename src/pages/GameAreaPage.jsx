@@ -3,12 +3,20 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useGameContext } from '../contexts/GameContextProvider'
 import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard' 
+import Button from 'react-bootstrap/Button'
+
+
 
 const GameAreaPage = () => {
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket } = useGameContext()
 	const navigate = useNavigate()
 	const { room_id } = useParams()
 	const [gameOn, setGameOn] = useState(true)
+
+	const newGame = () => { 
+			// go back to start Page
+			navigate(`/`)
+	}
 
 	//** Save player object to 'player' and 'opponent' when page is mounted */
 	useEffect(() => {
@@ -97,17 +105,44 @@ const GameAreaPage = () => {
 					<div className="gameArea">
 						<p>Opponent: {otherPlayerName}</p>  
 						<p>Ships left: {opponentNumberOfShips}</p> 
+						
+							<div className="box">
 
-
-						<div className="box">
 							<OpponentBattleboard /> 
+
 						</div> 
+						
+
+						
 					</div>								
 				</section>	
 			)}
 		
 
-	
+			{/**** Game Over ****/}
+			{playerNumberOfShips === 0 && (
+				<div>
+					   <div className='popup-backdrop'>
+							<div className='popup'>
+								<h1>GAME OVER</h1>
+								<h2>Loose</h2>
+								<Button onClick={newGame}>NEW GAME</Button>
+							</div>						
+						</div>
+				</div>
+			)}
+			{/**** Game Over ****/}
+			{opponentNumberOfShips === 0 && (
+				<div>
+					 <div className='popup-backdrop'>
+							<div className='popup'>
+								<h1>GAME OVER</h1>
+								<h2>Win</h2>
+								<Button onClick={newGame}>NEW GAME</Button>
+							</div>						
+						</div>
+				</div>
+			)}
 		</main>
 	)
 }
