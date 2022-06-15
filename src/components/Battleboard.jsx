@@ -8,6 +8,7 @@ export default function Battleboard() {
 	const [opponentHits, setOpponentHits ] = useState([]) 
 	const [opponentMisses, setOpponentMisses ] = useState([])
 
+
 	/**
 	 *  Ships
 	 */
@@ -27,6 +28,7 @@ export default function Battleboard() {
 		shipArr.position = arrayItem
 		return arrayItem.length
 	}
+
 
 	/**
 	 *  Handle if received shot was hit or not
@@ -135,6 +137,7 @@ export default function Battleboard() {
 	
 	}, [setMyTurn, setPlayerNumberOfShips, shipA, shipB, shipC, shipD, socket])
 	
+	
 	useEffect(() => {
 		// listen for cellId from OBB via server
 		socket.on('receive:shot', handleReceiveShot)
@@ -146,11 +149,6 @@ export default function Battleboard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [socket])
 
-	useEffect(() => {
-		console.log("Array of OPPONENT HITS in BB: ", opponentHits)
-		console.log("Array of OPPONENT MISSES in BB: ", opponentMisses) 
-	}, [opponentMisses, opponentHits])
-	
 
  	return (
 		<div className='cell'>

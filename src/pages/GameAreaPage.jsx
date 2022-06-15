@@ -5,20 +5,24 @@ import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard' 
 import Button from 'react-bootstrap/Button'
 
-
-
 const GameAreaPage = () => {
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket } = useGameContext()
+	const [gameOn, setGameOn] = useState(true)
 	const navigate = useNavigate()
 	const { room_id } = useParams()
-	const [gameOn, setGameOn] = useState(true)
 
+    /**
+	 *  New Game button
+	 */
 	const newGame = () => { 
-			// go back to start Page
-			navigate(`/`)
+		// go back to start Page
+		navigate(`/`)
 	}
 
-	//** Save player object to 'player' and 'opponent' when page is mounted */
+	/**
+	 * Save player object to 'player' and 'opponent' when page is mounted
+	 */
+
 	useEffect(() => {
 		if (players.length === 2) {
 			const thisPlayer = players.find(player => player.id === socket.id)
@@ -38,45 +42,58 @@ const GameAreaPage = () => {
 		
 	}, [thisPlayer, otherPlayer, players, setOpponent, setOtherPlayer, setOtherPlayerName, setPlayer, setThisPlayer, setThisPlayerName, socket.id])  
 
-	//***** UPDATE PLAYERLIST *****/
+
+	/**
+	 *  Update playerList
+	 */
+
 	const handleUpdatePlayers = useCallback((players) => {
 		setPlayers(players) 
 	}, [setPlayers]) 
 
-	//********** PLAYER DISCONNECTS **********/
+
+	/**
+	 * Player disconnects
+	 */
+
 	const handleDisconnect = () => {
 		setGameOn(false)
 	}
 
-	//***** Listen for 'player:disconnected' event from server *****/
+	/**
+	 * Listen for 'player:disconnected' event from server
+	 */
+
 	socket.on('player:disconnected', handleDisconnect)
 
-	//**** Connect to game when component is mounted ****/
+	/**
+	 * Connect to game when component is mounted 
+	 */
+
 	useEffect(() => {
-			if (!gameUsername) {
-				navigate('/')
-				return
-			}
-			socket.on('player:list', handleUpdatePlayers)
+		if (!gameUsername) {
+			navigate('/')
+			return
+		}
+		socket.on('player:list', handleUpdatePlayers)
 
-
-			return () => {
-				 console.log("Running cleanup")
-				socket.off('player:list', handleUpdatePlayers)
-			} 
+		return () => {
+			console.log("Running cleanup")
+			socket.off('player:list', handleUpdatePlayers)
+		} 
 	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id, opponentNumberOfShips, playerNumberOfShips])
+
 
   	return (
         <main>
-
-			{/**** Player disconnected ****/}
+			{/* Player disconnected */}
 			{!gameOn && (
 				<div className="fullBgMsg">
 					<h3>Opponent disconnected</h3>
-			</div>
+				</div>
 			)}
 
-			{/****  Show waiting-page until opponent connects ****/}
+			{/* Show waiting-page until opponent connects */}
 			{players.length === 1 && (
 				<div className="fullBgMsg">
 					<h2>Hi {gameUsername}</h2>
@@ -84,7 +101,7 @@ const GameAreaPage = () => {
 				</div>
 			)} 
 
-			{/****  Show game-page when 2 players have connected ****/}
+			{/*  Show game-page when 2 players have connected */}
 			{players.length === 2 && (
 				<section className='gameAreaWrapper'>
 					<div className="gameArea">
@@ -107,40 +124,37 @@ const GameAreaPage = () => {
 						<p>Opponent: {otherPlayerName}</p>  
 						<p>Ships left: {opponentNumberOfShips}</p> 
 						
-							<div className="box">
+						<div className="box">
 
 							<OpponentBattleboard /> 
 
 						</div> 
-						
-
-						
 					</div>								
 				</section>	
 			)}
 
-			{/**** Game Over ****/}
+			{/*  Game Over - player */}
 			{playerNumberOfShips === 0 && (
 				<div>
-					   <div className='popup-backdrop'>
-							<div className='popup'>
-								<h1>GAME OVER</h1>
-								<h2>Loose</h2>
-								<Button onClick={newGame}>NEW GAME</Button>
-							</div>						
-						</div>
+					<div className='popup-backdrop'>
+						<div className='popup'>
+							<h1>GAME OVER</h1>
+							<h2>You Lost 😫</h2>
+							<Button onClick={newGame}>NEW GAME</Button>
+						</div>						
+					</div>
 				</div>
 			)}
-			{/**** Game Over ****/}
+			{/* Game Over - opponent */}
 			{opponentNumberOfShips === 0 && (
 				<div>
-					 <div className='popup-backdrop'>
-							<div className='popup'>
-								<h1>GAME OVER</h1>
-								<h2>Win</h2>
-								<Button onClick={newGame}>NEW GAME</Button>
-							</div>						
-						</div>
+					<div className='popup-backdrop'>
+						<div className='popup'>
+							<h1>GAME OVER</h1>
+							<h2>You Won! 🥳</h2>
+							<Button onClick={newGame}>NEW GAME</Button>
+						</div>						
+					</div>
 				</div>
 			)}
 		</main>

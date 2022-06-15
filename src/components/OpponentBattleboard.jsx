@@ -7,6 +7,11 @@ export default function OpponentBattleboard() {
 	const [hits, setHits ] = useState([]) 
 	const [misses, setMisses ] = useState([])
 
+
+	/**
+	 * Handle shot fired
+	 */
+
 	const handleShotFired = (e) => {
 		e.preventDefault()
 
@@ -16,12 +21,16 @@ export default function OpponentBattleboard() {
 		}
 
 		const cellId = (e.target.id)
-		console.log(`STEP 1: I clicked on ${cellId}`)
 		
-		// STEG 1. Skicka id på den ruta som spelaren klickat på till servern. 
+		// emit to server
 		socket.emit('player:shot', cellId)
 		setMyTurn(false)
 	}
+
+
+	/**
+	 * Handle ship sunk (reply)
+	 */
 
 	const handleShipSunkReply = useCallback((ship_id) => {
 		console.log("Reply in OBB: Ship is DOWN", ship_id)
@@ -29,21 +38,21 @@ export default function OpponentBattleboard() {
 		setOpponentNumberOfShips(prevvalue => prevvalue -1)  
 	}, [setOpponentNumberOfShips])
 
-	// when mounted, listen for final:result event and update this battleboard with hit/miss
+	
+	/**
+	 *  When mounted - Handle shot result (received)
+	 */
+
  	useEffect(() => {
 		const handleShotResultReceived = (cellId, hit) => {
-			console.log(`Received answer from BB: cellId is ${cellId}, hit is ${hit}`)
 
 			if (hit === true) {
-				console.log("SCORE! Its was a hit")
 			 	setHits((hits) => {
 					return [cellId, ...hits]
-					})  
+				})  
 					
 			} else if (hit === false) {
-				console.log("Better luck next time")
 				setMisses((misses) => {
-					console.log("Look at me running")
 					return [cellId, ...misses]
 				}) 
 			}
@@ -60,11 +69,7 @@ export default function OpponentBattleboard() {
 		}
 
 	},[socket, hits, misses, handleShipSunkReply]) 
-
-	useEffect(() => {
-		console.log("Array of my HITS in OBB: ", hits)
-		console.log("Array of my MISSES in OBB: ", misses) 
-	}, [hits, misses])
+	
 
 	return (
 		<div className={classNames({
