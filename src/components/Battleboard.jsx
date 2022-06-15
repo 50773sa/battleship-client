@@ -1,6 +1,6 @@
-import { useGameContext } from '../contexts/GameContextProvider'
-import { useEffect, useState, useCallback } from 'react'
 import classNames from 'classnames'
+import { useCallback, useEffect, useState } from 'react'
+import { useGameContext } from '../contexts/GameContextProvider'
 
 
 export default function Battleboard() {
@@ -9,12 +9,13 @@ export default function Battleboard() {
 	const [opponentMisses, setOpponentMisses ] = useState([])
 
 	const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.position.filter(posi => posi.match(pos) === null)
-		shipArr.position = index
-		return index.length
+		let arrayItem = shipArr.position.filter(posi => posi.match(pos) === null)
+		shipArr.position = arrayItem
+		return arrayItem.length
 	}
 
 	const handleReceiveShot = useCallback((cellId) => {
+
 		let hit = false
 
 		setMyTurn(true)
@@ -126,6 +127,7 @@ export default function Battleboard() {
 						// emitta till servern att hela skeppet skjutits ner
 						socket.emit('ship:sunk', shipD)
 					}
+
 			} else {
 				console.log("STEG 5.1: Opponent missed!", cellId, hit)
 	
@@ -135,7 +137,9 @@ export default function Battleboard() {
 
 				// emit shot:result, hit = false
 				socket.emit('shot:result', cellId, hit) 
+
 			} 
+
 		
 	}, [setMyTurn, setPlayerNumberOfShips, ships, socket])
 	
