@@ -24,6 +24,8 @@ const StartGamePage = () => {
 
 			if (!status.success) {
 				setGameFull(true)
+				setPlayers('') 
+				setRoom('')
 				return
 			}
 
@@ -32,16 +34,8 @@ const StartGamePage = () => {
 			navigate(`/game/${room}`)
 		})
 	}
-	// useEffect(() => {
-	// 	return()=>{
-	// 		console.log("Running cleanup in Startpage")
-	// 		socket.off('get-room-list')
-	// 		socket.off('game:mounted')
-	// 	}
-	// },[socket])
 
 	useEffect(() => {
-		setGameFull(false)
 		socket.emit('get-room-list', rooms => {
 			setRoomlist(rooms)
 		})

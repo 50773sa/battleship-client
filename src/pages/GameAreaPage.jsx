@@ -57,11 +57,9 @@ const GameAreaPage = () => {
 				navigate('/')
 				return
 			}
-			socket.on('player:list', handleUpdatePlayers)
-
-
+			socket.on('player:list', handleUpdatePlayers)			
 			return () => {
-				 console.log("Running cleanup")
+				console.log("Running cleanup")
 				socket.off('player:list', handleUpdatePlayers)
 			} 
 	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id, opponentNumberOfShips, playerNumberOfShips])
