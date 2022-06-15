@@ -19,15 +19,15 @@ function Gameover() {
 
     console.log('players 1 ships nr.', playerNumberOfShips)
     console.log('player 2 ships nr. ', opponentNumberOfShips)
-    console.log('winner', {thisPlayerName} )
+    console.log('winner', thisPlayerName )
 
 
     if(opponentNumberOfShips === 0){
-      console.log('winner', {thisPlayerName})
-      setWinner({thisPlayerName})
+      console.log('winner', thisPlayerName)
+      setWinner(thisPlayerName)
     } else if(playerNumberOfShips === 0){
-      console.log('winner', {otherPlayerName})
-      setWinner({otherPlayerName})
+      console.log('winner', otherPlayerName)
+      setWinner(otherPlayerName)
     }
     
   return (
