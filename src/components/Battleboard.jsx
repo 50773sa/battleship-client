@@ -15,56 +15,135 @@ export default function Battleboard() {
 	}
 
 	const handleReceiveShot = useCallback((cellId) => {
-		let i
-		let ship 
+
 		let hit = false
 
-		for( i = 0; i < ships.length; i++){
-			ship = ships[i]
-			console.log(ship)
-		}
-		
-		console.log("Ships POSITION: ", ship.position)
-		
 		setMyTurn(true)
-		
-			if(ship.position.includes(cellId)) {
-			console.log("STEG 5: Opponent clicked on: ",cellId, ship.position.includes(cellId))
-		
-			hit = true 
 
+		const shipA = ships[0]
+		const shipB = ships[1]
+		const shipC = ships[2]
+		const shipD = ships[3]
+
+		if(shipA.position.includes(cellId)) {
+			console.log("STEG 5: Opponent clicked on: ",cellId, shipA.position.includes(cellId))
+			
+			hit = true 
+	
 			setOpponentHits((opponentHits) => {
 				return [cellId, ...opponentHits]
 			}) 
-
+	
 			// emit shot:result, hit = true 
 			socket.emit('shot:result', cellId, hit) 
+	
+			removeOneShipPos(shipA, cellId)
+			console.log('Ships-array after hit', ships)
+			console.log('ShipA after hit', shipA.position)
+			console.log('ShipA length after hit', shipA.position.length)
+	
+				if (shipA.position.length === 0){
+					console.log('ShipA SUNK')
+	
+					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
+					setPlayerNumberOfShips(playerNumberOfShips -1)
+	
+					// emitta till servern att hela skeppet skjutits ner
+					socket.emit('ship:sunk', shipA)
+				}	
 
-			removeOneShipPos(ship, cellId)
-			// console.log('Ships-array after hit', ships)
-			// console.log('ShipA after hit', shipA.position)
-			// console.log('ShipA length after hit', shipA.position.length)
-
-			if (ship.position.length === 0){
-				console.log('ShipA SUNK')
-
-				/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-				setPlayerNumberOfShips(playerNumberOfShips -1)
-
-				// emitta till servern att hela skeppet skjutits ner
-				socket.emit('ship:sunk', ship)
-			}
+		} else if (shipB.position.includes(cellId)) {
+			console.log("STEG 5: Opponent clicked on: ",cellId, shipB.position.includes(cellId))
+				
+			hit = true 
+		
+			setOpponentHits((opponentHits) => {
+				return [cellId, ...opponentHits]
+			}) 
+		
+			// emit shot:result, hit = true 
+			socket.emit('shot:result', cellId, hit) 
+		
+			removeOneShipPos(shipB, cellId)
+			console.log('Ships-array after hit', ships)
+			console.log('ShipB after hit', shipB.position)
+			console.log('ShipB length after hit', shipB.position.length)
+		
+				if (shipB.position.length === 0){
+					console.log('ShipB SUNK')
+		
+					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
+					setPlayerNumberOfShips(playerNumberOfShips -1)
+		
+					// emitta till servern att hela skeppet skjutits ner
+					socket.emit('ship:sunk', shipB)
+				}
+	
+		} else if (shipC.position.includes(cellId)) {
+			console.log("STEG 5: Opponent clicked on: ",cellId, shipC.position.includes(cellId))
+				
+			hit = true 
+		
+			setOpponentHits((opponentHits) => {
+				return [cellId, ...opponentHits]
+			}) 
+		
+			// emit shot:result, hit = true 
+			socket.emit('shot:result', cellId, hit) 
+		
+			removeOneShipPos(shipC, cellId)
+			console.log('Ships-array after hit', ships)
+			console.log('ShipC after hit', shipC.position)
+			console.log('ShipC length after hit', shipC.position.length)
+		
+				if (shipC.position.length === 0){
+					console.log('ShipC SUNK')
+		
+					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
+					setPlayerNumberOfShips(playerNumberOfShips -1)
+		
+					// emitta till servern att hela skeppet skjutits ner
+					socket.emit('ship:sunk', shipC)
+				}
+			} else if (shipD.position.includes(cellId)) {
+				console.log("STEG 5: Opponent clicked on: ",cellId, shipD.position.includes(cellId))
+					
+				hit = true 
+			
+				setOpponentHits((opponentHits) => {
+					return [cellId, ...opponentHits]
+				}) 
+			
+				// emit shot:result, hit = true 
+				socket.emit('shot:result', cellId, hit) 
+			
+				removeOneShipPos(shipD, cellId)
+				console.log('Ships-array after hit', ships)
+				console.log('ShipD after hit', shipD.position)
+				console.log('ShipD length after hit', shipD.position.length)
+			
+					if (shipD.position.length === 0){
+						console.log('ShipD SUNK')
+			
+						/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
+						setPlayerNumberOfShips(playerNumberOfShips -1)
+			
+						// emitta till servern att hela skeppet skjutits ner
+						socket.emit('ship:sunk', shipD)
+					}
 
 			} else {
 				console.log("STEG 5.1: Opponent missed!", cellId, hit)
-
+	
 				setOpponentMisses((opponentMisses) => {
 					return [cellId, ...opponentMisses]
 				}) 
 
 				// emit shot:result, hit = false
 				socket.emit('shot:result', cellId, hit) 
-			}
+
+			} 
+
 		
 	}, [playerNumberOfShips, setMyTurn, setPlayerNumberOfShips, ships, socket])
 	
