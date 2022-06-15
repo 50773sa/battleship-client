@@ -199,19 +199,16 @@ header {
 
 	// handle shot
 	.hit {
-		width: 20px;
-		height: 20px;
+		width: 60%;
+		height: 60%;
 		background-color: rgba(94, 255, 0, 0.582);
 		border-radius: 100%;
 		z-index: 9999;
-		
-
-
 	}
 
 	.miss {
-		width: 20px;
-		height: 20px;
+		width: 60%;
+		height: 60%;
 		background-color: rgba(156, 13, 13, 0.886);
 		border-radius: 100%;
 
