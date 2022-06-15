@@ -4,7 +4,7 @@ import classNames from 'classnames'
 
 
 export default function Battleboard() {
-	const { ships, ids, socket, setMyTurn, playerNumberOfShips, setPlayerNumberOfShips} = useGameContext()
+	const { ships, ids, socket, setMyTurn, setPlayerNumberOfShips} = useGameContext()
 	const [opponentHits, setOpponentHits ] = useState([]) 
 	const [opponentMisses, setOpponentMisses ] = useState([])
 
@@ -44,8 +44,7 @@ export default function Battleboard() {
 				if (shipA.position.length === 0){
 					console.log('ShipA SUNK')
 	
-					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-					setPlayerNumberOfShips(playerNumberOfShips -1)
+					setPlayerNumberOfShips(prevvalue => prevvalue -1)   
 	
 					// emitta till servern att hela skeppet skjutits ner
 					socket.emit('ship:sunk', shipA)
@@ -71,8 +70,7 @@ export default function Battleboard() {
 				if (shipB.position.length === 0){
 					console.log('ShipB SUNK')
 		
-					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-					setPlayerNumberOfShips(playerNumberOfShips -1)
+					setPlayerNumberOfShips(prevvalue => prevvalue -1) 
 		
 					// emitta till servern att hela skeppet skjutits ner
 					socket.emit('ship:sunk', shipB)
@@ -98,8 +96,7 @@ export default function Battleboard() {
 				if (shipC.position.length === 0){
 					console.log('ShipC SUNK')
 		
-					/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-					setPlayerNumberOfShips(playerNumberOfShips -1)
+					setPlayerNumberOfShips(prevvalue => prevvalue -1)  
 		
 					// emitta till servern att hela skeppet skjutits ner
 					socket.emit('ship:sunk', shipC)
@@ -124,8 +121,7 @@ export default function Battleboard() {
 					if (shipD.position.length === 0){
 						console.log('ShipD SUNK')
 			
-						/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-						setPlayerNumberOfShips(playerNumberOfShips -1)
+						setPlayerNumberOfShips(prevvalue => prevvalue -1) 
 			
 						// emitta till servern att hela skeppet skjutits ner
 						socket.emit('ship:sunk', shipD)
@@ -141,7 +137,7 @@ export default function Battleboard() {
 				socket.emit('shot:result', cellId, hit) 
 			} 
 		
-	}, [playerNumberOfShips, setMyTurn, setPlayerNumberOfShips, ships, socket])
+	}, [setMyTurn, setPlayerNumberOfShips, ships, socket])
 	
 	useEffect(() => {
 		// Ta emot cell id från battleboard via servern. 
