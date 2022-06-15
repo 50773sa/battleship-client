@@ -6,7 +6,7 @@ import OpponentBattleboard from '../components/OpponentBattleboard'
 import Button from 'react-bootstrap/Button'
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull } = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips } = useGameContext()
 	const [gameOn, setGameOn] = useState(true)
 	const navigate = useNavigate()
 	const { room_id } = useParams()
@@ -16,8 +16,11 @@ const GameAreaPage = () => {
 	 */
 	const newGame = () => { 
 		// go back to start Page
-		navigate(`/`)
+		navigate("/")
 		socket.emit('new:game')
+
+		setPlayerNumberOfShips(4)
+		setOpponentNumberOfShips(4)
 	}
 
 	/**
