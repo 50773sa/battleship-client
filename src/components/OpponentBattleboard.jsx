@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 import classNames from 'classnames'
 
 export default function OpponentBattleboard() {
-	const { ids, socket, setMyTurn, myTurn, setOpponentNumberOfShips, opponentNumberOfShips } = useGameContext() 
+	const { ids, socket, setMyTurn, myTurn, setOpponentNumberOfShips } = useGameContext() 
 	const [hits, setHits ] = useState([]) 
 	const [misses, setMisses ] = useState([])
 
@@ -26,9 +26,8 @@ export default function OpponentBattleboard() {
 	const handleShipSunkReply = useCallback((ship_id) => {
 		console.log("Reply in OBB: Ship is DOWN", ship_id)
 
-		/* setOpponentNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
-		setOpponentNumberOfShips(opponentNumberOfShips -1)
-	}, [opponentNumberOfShips, setOpponentNumberOfShips])
+		setOpponentNumberOfShips(prevvalue => prevvalue -1)  
+	}, [setOpponentNumberOfShips])
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
  	useEffect(() => {
