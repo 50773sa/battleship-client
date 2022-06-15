@@ -32,8 +32,16 @@ const StartGamePage = () => {
 			navigate(`/game/${room}`)
 		})
 	}
+	// useEffect(() => {
+	// 	return()=>{
+	// 		console.log("Running cleanup in Startpage")
+	// 		socket.off('get-room-list')
+	// 		socket.off('game:mounted')
+	// 	}
+	// },[socket])
 
 	useEffect(() => {
+		setGameFull(false)
 		socket.emit('get-room-list', rooms => {
 			setRoomlist(rooms)
 		})
@@ -41,7 +49,13 @@ const StartGamePage = () => {
 		socket.on('game:mounted', (welcome) => {
 			console.log(welcome); 
 		  })
+
+		return () => {
+			socket.off('game:mounted')
+	   } 
 	}, [socket])
+
+	
 
 	return (
 		<>
