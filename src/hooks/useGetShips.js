@@ -11,30 +11,22 @@ function useGetShips() {
       {
         name: "shipA",
         block: 4,
-        position: [], 
-        isSunk: false,  
-        className: 'isShip'     
+        position: [],   
       },
       {
         name: "shipB",
         block: 3,
-        position: [], 
-        isSunk: false,  
-        className: 'isShip'          
+        position: [],          
       },
       {
         name: "shipC",
         block: 2,
-        position: [], 
-        isSunk: false,  
-        className: 'isShip'          
+        position: [],         
       },
       {
         name: "shipD",
         block: 2,
-        position: [], 
-        isSunk: false,   
-        className: 'isShip'         
+        position: [],       
       }
     ]
 
