@@ -132,6 +132,7 @@ const GameAreaPage = () => {
 					</div>								
 				</section>	
 			)}
+		
 
 			{/*  Game Over - player */}
 			{playerNumberOfShips === 0 && (
