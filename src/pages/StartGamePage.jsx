@@ -109,4 +109,3 @@ const StartGamePage = () => {
 }
 
 export default StartGamePage
-

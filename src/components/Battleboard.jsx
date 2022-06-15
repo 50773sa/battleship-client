@@ -1,32 +1,35 @@
-import { useGameContext } from '../contexts/GameContextProvider'
-import { useEffect, useState, useCallback } from 'react'
 import classNames from 'classnames'
+import { useCallback, useEffect, useState } from 'react'
+import { useGameContext } from '../contexts/GameContextProvider'
 
 
 export default function Battleboard() {
-
 	const { ships, ids, socket, setMyTurn, playerNumberOfShips, setPlayerNumberOfShips} = useGameContext()
 	const [opponentHits, setOpponentHits ] = useState([]) 
 	const [opponentMisses, setOpponentMisses ] = useState([])
 
 	const removeOneShipPos = (shipArr, pos) => {
-		let index = shipArr.position.filter(posi => posi.match(pos) === null)
-		shipArr.position = index
-		return index.length
-
+		let arrayItem = shipArr.position.filter(posi => posi.match(pos) === null)
+		shipArr.position = arrayItem
+		return arrayItem.length
 	}
 
 	const handleReceiveShot = useCallback((cellId) => {
-		const shipA = ships[0]
-		const hit = false
+		let i
+		let ship 
+		let hit = false
 
-		console.log("Ship A POSITION: ", shipA.position)
-
+		for( i = 0; i < ships.length; i++){
+			ship = ships[i]
+			console.log(ship)
+		}
+		
+		console.log("Ships POSITION: ", ship.position)
+		
 		setMyTurn(true)
-
-
-		if(shipA.position.includes(cellId)) {
-			console.log("STEG 5: Opponent clicked on: ",cellId, shipA.position.includes(cellId))
+		
+			if(ship.position.includes(cellId)) {
+			console.log("STEG 5: Opponent clicked on: ",cellId, ship.position.includes(cellId))
 		
 			hit = true 
 
@@ -34,24 +37,22 @@ export default function Battleboard() {
 				return [cellId, ...opponentHits]
 			}) 
 
-
 			// emit shot:result, hit = true 
 			socket.emit('shot:result', cellId, hit) 
 
+			removeOneShipPos(ship, cellId)
+			// console.log('Ships-array after hit', ships)
+			// console.log('ShipA after hit', shipA.position)
+			// console.log('ShipA length after hit', shipA.position.length)
 
-			removeOneShipPos(shipA, cellId)
-			console.log('Ships-array after hit', ships)
-			console.log('ShipA after hit', shipA.position)
-			console.log('ShipA length after hit', shipA.position.length)
-
-			if (shipA.position.length === 0){
+			if (ship.position.length === 0){
 				console.log('ShipA SUNK')
 
 				/* setPlayerNumberOfShips(prevvalue => prevvalue -1)  */ // prevState???
 				setPlayerNumberOfShips(playerNumberOfShips -1)
 
 				// emitta till servern att hela skeppet skjutits ner
-				socket.emit('ship:sunk', shipA)
+				socket.emit('ship:sunk', ship)
 			}
 
 			} else {
@@ -63,7 +64,8 @@ export default function Battleboard() {
 
 				// emit shot:result, hit = false
 				socket.emit('shot:result', cellId, hit) 
-			} 
+			}
+		
 	}, [playerNumberOfShips, setMyTurn, setPlayerNumberOfShips, ships, socket])
 	
 	useEffect(() => {
@@ -91,7 +93,6 @@ export default function Battleboard() {
 					return ( 
 						<div className='defaultCellColor' key={index} id={id} >	
 							<div 
-
 								className={classNames({
 									'isShip' : hasShip,
 									'hit' : isHit,
@@ -101,7 +102,6 @@ export default function Battleboard() {
 								key={index} 
 								id={id}		
 							>								
-
 							</div>
 						</div>
 					)

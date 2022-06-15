@@ -130,4 +130,3 @@ const GameAreaPage = () => {
 }
 
 export default GameAreaPage
-

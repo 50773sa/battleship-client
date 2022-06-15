@@ -3,11 +3,9 @@ import { useEffect, useState, useCallback } from 'react'
 import classNames from 'classnames'
 
 export default function OpponentBattleboard() {
-
 	const { ids, socket, setMyTurn, myTurn, setOpponentNumberOfShips, opponentNumberOfShips } = useGameContext() 
 	const [hits, setHits ] = useState([]) 
 	const [misses, setMisses ] = useState([])
-
 
 	const handleShotFired = (e) => {
 		e.preventDefault()
@@ -34,9 +32,7 @@ export default function OpponentBattleboard() {
 
 	// when mounted, listen for final:result event and update this battleboard with hit/miss
  	useEffect(() => {
-
 		const handleShotResultReceived = (cellId, hit) => {
-
 			console.log(`Received answer from BB: cellId is ${cellId}, hit is ${hit}`)
 
 			if (hit === true) {
@@ -71,7 +67,6 @@ export default function OpponentBattleboard() {
 		console.log("Array of my MISSES in OBB: ", misses) 
 	}, [hits, misses])
 
-
 	return (
 		<div className={classNames({
 			'cell': true,
@@ -98,4 +93,3 @@ export default function OpponentBattleboard() {
 		</div> 
     )
 }
-
