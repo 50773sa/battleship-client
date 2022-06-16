@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button'
 
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips } = useGameContext()
+	const { ships, setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips } = useGameContext()
 	const [gameOn, setGameOn] = useState(true)
 	const navigate = useNavigate()
 	const { room_id } = useParams()
@@ -20,9 +20,11 @@ const GameAreaPage = () => {
 		// go back to start Page
 		navigate("/")
 		socket.emit('new:game')
+		console.log("ready for new game")
 
 		setPlayerNumberOfShips(4)
 		setOpponentNumberOfShips(4)
+		console.log("Ships position: ", ships)
 	}
 
 	/**
@@ -97,12 +99,8 @@ const GameAreaPage = () => {
 			{/* Player disconnected */}
 			{!gameOn && (
 				<div className="fullBgMsg">	
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>Opponent disconnected</h1>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
-					</div>
+					<h2>Opponent disconnected</h2>
+					<Button onClick={newGame}>NEW GAME</Button>				
 				</div>
 			)}
 
@@ -111,8 +109,27 @@ const GameAreaPage = () => {
 				<div className="fullBgMsg">
 					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
+					<Button onClick={newGame}>EXIT</Button>
 				</div>
 			)} 
+
+			{/*  Game Over - player */}
+			{playerNumberOfShips === 0 && (
+				<div className="fullBgMsg">
+					<h2>GAME OVER</h2>
+					<h3>You Lost 😫</h3>
+					<Button onClick={newGame}>NEW GAME</Button>	
+				</div>
+			)}
+
+			{/* Game Over - opponent */}
+			{opponentNumberOfShips === 0 && (
+				<div className="fullBgMsg">
+					<h2>GAME OVER</h2>
+					<h3>You Won! 🥳</h3>
+					<Button onClick={newGame}>NEW GAME</Button>
+				</div>
+			)}
 
 			{/*  Show game-page when 2 players have connected */}
 			{players.length === 2 && (
@@ -144,32 +161,6 @@ const GameAreaPage = () => {
 						</div> 
 					</div>								
 				</section>	
-			)}
-		
-
-			{/*  Game Over - player */}
-			{playerNumberOfShips === 0 && (
-				<div>
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>GAME OVER</h1>
-							<h2>You Lost 😫</h2>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
-					</div>
-				</div>
-			)}
-			{/* Game Over - opponent */}
-			{opponentNumberOfShips === 0 && (
-				<div>
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>GAME OVER</h1>
-							<h2>You Won! 🥳</h2>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
-					</div>
-				</div>
 			)}
 		</main>
 	)

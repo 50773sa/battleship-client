@@ -5,13 +5,27 @@ import Button from 'react-bootstrap/Button'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 const StartGamePage = () => {
-	const { setMyTurn, setPlayers, setGameUsername, socket, gameFull, setGameFull } = useGameContext()
+	const { setMyTurn, setPlayers, setGameUsername, socket, gameFull, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips, ships } = useGameContext()
 	const [username, setUsername] = useState('')
 	const [room, setRoom] = useState()
 	const [roomlist, setRoomlist] = useState([])
 	const usernameIndexRef = useRef()
 	const navigate = useNavigate()
 
+	/**
+	 *  BACK button
+	 */
+	 const back = () => { 
+		window.location.reload(false);
+		// go back to start Page
+		navigate("/")
+		socket.emit('new:game')
+		console.log("ready for new game")
+
+		setPlayerNumberOfShips(4)
+		setOpponentNumberOfShips(4)
+		console.log("Ships position: ", ships)
+	}
 	/**
 	 *  Handle submit
 	 */
@@ -36,6 +50,7 @@ const StartGamePage = () => {
 
 
 	useEffect(() => {
+
 		socket.emit('get-room-list', rooms => {
 			setRoomlist(rooms)
 		})
@@ -50,7 +65,9 @@ const StartGamePage = () => {
 			{/* Don´t let a third player join game */}
 			{gameFull && (
 				<div className="fullBgMsg">
-					<h3>Game is full. Please try again later </h3>
+					<h2>Game is full</h2>	
+					<h3>Please try again later</h3>
+					<Button onClick={back}>BACK</Button>
 				</div>
 			)}
 
