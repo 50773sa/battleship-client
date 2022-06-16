@@ -36,6 +36,7 @@ const StartGamePage = () => {
 
 
 	useEffect(() => {
+
 		socket.emit('get-room-list', rooms => {
 			setRoomlist(rooms)
 		})
