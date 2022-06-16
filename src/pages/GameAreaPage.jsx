@@ -25,11 +25,6 @@ const GameAreaPage = () => {
 		setOpponentNumberOfShips(4)
 	}
 
-	function refreshPage() {
-		console.log('CLICKED')
-		window.location.reload()
-	}
-
 	/**
 	 * Save player object to 'player' and 'opponent' when page is mounted
 	 */
