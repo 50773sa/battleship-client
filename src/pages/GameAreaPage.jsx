@@ -98,12 +98,8 @@ const GameAreaPage = () => {
 			{/* Player disconnected */}
 			{!gameOn && (
 				<div className="fullBgMsg">	
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>Opponent disconnected</h1>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
-					</div>
+					<h2>Opponent disconnected</h2>
+					<Button onClick={newGame}>NEW GAME</Button>				
 				</div>
 			)}
 
@@ -112,6 +108,7 @@ const GameAreaPage = () => {
 				<div className="fullBgMsg">
 					<h2>Hi {gameUsername}</h2>
 					<h3>Waiting for another player</h3>
+					<Button onClick={newGame}>EXIT</Button>
 				</div>
 			)} 
 
@@ -151,24 +148,28 @@ const GameAreaPage = () => {
 			{/*  Game Over - player */}
 			{playerNumberOfShips === 0 && (
 				<div>
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>GAME OVER</h1>
-							<h2>You Lost 😫</h2>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
+					<div className="fullBgMsg">
+						<div className='popup-backdrop'>
+							<div className='popup'>
+								<h1>GAME OVER</h1>
+								<h2>You Lost 😫</h2>
+								<Button onClick={newGame}>NEW GAME</Button>
+							</div>						
+						</div>
 					</div>
 				</div>
 			)}
 			{/* Game Over - opponent */}
 			{opponentNumberOfShips === 0 && (
 				<div>
-					<div className='popup-backdrop'>
-						<div className='popup'>
-							<h1>GAME OVER</h1>
-							<h2>You Won! 🥳</h2>
-							<Button onClick={newGame}>NEW GAME</Button>
-						</div>						
+					<div className="fullBgMsg">
+						<div className='popup-backdrop'>
+							<div className='popup'>
+								<h1>GAME OVER</h1>
+								<h2>You Won! 🥳</h2>
+								<Button onClick={newGame}>NEW GAME</Button>
+							</div>						
+						</div>
 					</div>
 				</div>
 			)}
