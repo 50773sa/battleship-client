@@ -112,6 +112,24 @@ const GameAreaPage = () => {
 				</div>
 			)} 
 
+			{/*  Game Over - player */}
+			{playerNumberOfShips === 0 && (
+				<div className="fullBgMsg">
+					<h2>GAME OVER</h2>
+					<h3>You Lost 😫</h3>
+					<Button onClick={newGame}>NEW GAME</Button>	
+				</div>
+			)}
+
+			{/* Game Over - opponent */}
+			{opponentNumberOfShips === 0 && (
+				<div className="fullBgMsg">
+					<h2>GAME OVER</h2>
+					<h3>You Won! 🥳</h3>
+					<Button onClick={newGame}>NEW GAME</Button>
+				</div>
+			)}
+
 			{/*  Show game-page when 2 players have connected */}
 			{players.length === 2 && (
 				<section className='gameAreaWrapper'>
@@ -142,36 +160,6 @@ const GameAreaPage = () => {
 						</div> 
 					</div>								
 				</section>	
-			)}
-		
-
-			{/*  Game Over - player */}
-			{playerNumberOfShips === 0 && (
-				<div>
-					<div className="fullBgMsg">
-						<div className='popup-backdrop'>
-							<div className='popup'>
-								<h1>GAME OVER</h1>
-								<h2>You Lost 😫</h2>
-								<Button onClick={newGame}>NEW GAME</Button>
-							</div>						
-						</div>
-					</div>
-				</div>
-			)}
-			{/* Game Over - opponent */}
-			{opponentNumberOfShips === 0 && (
-				<div>
-					<div className="fullBgMsg">
-						<div className='popup-backdrop'>
-							<div className='popup'>
-								<h1>GAME OVER</h1>
-								<h2>You Won! 🥳</h2>
-								<Button onClick={newGame}>NEW GAME</Button>
-							</div>						
-						</div>
-					</div>
-				</div>
 			)}
 		</main>
 	)
