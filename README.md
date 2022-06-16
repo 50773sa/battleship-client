@@ -1,15 +1,17 @@
 # BattleShip game
-##The game is still under construction... deadline is 2/6-2022
 
 This is the Readme-file for the client repository. The repository for the backend server is located [here](https://github.com/marialovgren/battleship-server)
 
-(link to game)
+Link to game: 
+https://battleship-fed-21m.netlify.app/game/game
 
+Please notice that this game can onlt be played by 2 people at the same time. There are no dynamic rooms. 
 
 ### Languages and Frameworks used:
 - Node.js
 - Socket.io
 - React
+
 ## Table of contents
 
 - [Assignment](#assignment)
@@ -19,10 +21,6 @@ This is the Readme-file for the client repository. The repository for the backen
 ## Assignment
 - Create a 2-player Battleship game where the goal is to sink the opponents ships. Each player has 4 ships in 3 different sizes. 
 - The assignment must be completed in a group of 3 students 
-
-#### Basic requirements
-
-
 
 #### The game must follow this structure:
 1. Start game - waiting for opponent
@@ -39,6 +37,7 @@ The ships will be placed randomly to the game board at the beguinning of the gam
 #### Time limit
 
 - 3 weeks
+
 ## Tools
 
 - VS Code
