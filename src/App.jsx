@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 // pages and components
 import StartGamePage from './pages/StartGamePage';
 import GameAreaPage from './pages/GameAreaPage';
+import NotFound from './pages/NotFound';
 import Header from './components/Header'
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
 			<Routes>
 				<Route path="/" element={<StartGamePage />} />
 				<Route path="/game/:room_id" element={<GameAreaPage />} />
+				<Route path="*" element={<NotFound />} />
 			</Routes> 
 			</div>
 		</div>  
