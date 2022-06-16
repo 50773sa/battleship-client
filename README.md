@@ -46,6 +46,14 @@ The ships will be placed randomly to the game board at the beguinning of the gam
 
 ## Printscreens
 
-<img src="" width=100%>
+Startpage
+<img src="https://github.com/marialovgren/battleship-client/blob/main/src/assets/Screenshot%202022-06-16%20at%2014.36.46.png" width=100%>
 
-<img src="" width=100%>
+Waiting for another player 
+<img src="https://github.com/marialovgren/battleship-client/blob/main/src/assets/Screenshot%202022-06-16%20at%2014.35.38.png" width=100%>
+
+Game-screen
+<img src="https://github.com/marialovgren/battleship-client/blob/main/src/assets/Screenshot%202022-06-16%20at%2014.36.11.png" width=100%>
+
+Game-over
+<img src="https://github.com/marialovgren/battleship-client/blob/main/src/assets/Screenshot%202022-06-16%20at%2014.36.34.png" width=100%>
