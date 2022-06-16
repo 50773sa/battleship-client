@@ -16,8 +16,10 @@ const NotFound = () => {
 
     return (
         <div className="fullBgMsg">
-            <h1>Oops, Page Not Found...</h1>
-            <Button onClick={newGame}>≪ Go Back</Button>
+            <div>
+                <h1>Oops, Page Not Found...</h1>
+                <Button onClick={newGame}>≪ Go Back</Button>
+            </div>
         </div>
     )
 }
