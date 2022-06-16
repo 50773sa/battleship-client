@@ -5,11 +5,10 @@ import Button from 'react-bootstrap/Button'
 import { useGameContext } from '../contexts/GameContextProvider'
 
 const StartGamePage = () => {
-	const { setMyTurn, setPlayers, setGameUsername, socket } = useGameContext()
+	const { setMyTurn, setPlayers, setGameUsername, socket, gameFull, setGameFull } = useGameContext()
 	const [username, setUsername] = useState('')
 	const [room, setRoom] = useState()
 	const [roomlist, setRoomlist] = useState([])
-	const [gameFull, setGameFull] = useState(false)
 	const usernameIndexRef = useRef()
 	const navigate = useNavigate()
 

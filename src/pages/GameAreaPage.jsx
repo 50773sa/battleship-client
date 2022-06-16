@@ -6,7 +6,7 @@ import OpponentBattleboard from '../components/OpponentBattleboard'
 import Button from 'react-bootstrap/Button'
 
 const GameAreaPage = () => {
-	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket } = useGameContext()
+	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips } = useGameContext()
 	const [gameOn, setGameOn] = useState(true)
 	const navigate = useNavigate()
 	const { room_id } = useParams()
@@ -16,7 +16,11 @@ const GameAreaPage = () => {
 	 */
 	const newGame = () => { 
 		// go back to start Page
-		navigate(`/`)
+		navigate("/")
+		socket.emit('new:game')
+
+		setPlayerNumberOfShips(4)
+		setOpponentNumberOfShips(4)
 	}
 
 	/**
@@ -58,6 +62,7 @@ const GameAreaPage = () => {
 
 	const handleDisconnect = () => {
 		setGameOn(false)
+	
 	}
 
 	/**
@@ -80,16 +85,22 @@ const GameAreaPage = () => {
 		return () => {
 			console.log("Running cleanup")
 			socket.off('player:list', handleUpdatePlayers)
+			setGameFull(false)
 		} 
-	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id, opponentNumberOfShips, playerNumberOfShips])
+	}, [socket, navigate, gameUsername, handleUpdatePlayers, room_id, opponentNumberOfShips, playerNumberOfShips, setGameFull])
 
 
   	return (
         <main>
 			{/* Player disconnected */}
 			{!gameOn && (
-				<div className="fullBgMsg">
-					<h3>Opponent disconnected</h3>
+				<div className="fullBgMsg">	
+					<div className='popup-backdrop'>
+						<div className='popup'>
+							<h1>Opponent disconnected</h1>
+							<Button onClick={newGame}>NEW GAME</Button>
+						</div>						
+					</div>
 				</div>
 			)}
 
