@@ -5,6 +5,7 @@ import Battleboard from '../components/Battleboard'
 import OpponentBattleboard from '../components/OpponentBattleboard' 
 import Button from 'react-bootstrap/Button'
 
+
 const GameAreaPage = () => {
 	const { setPlayer, setOpponent, thisPlayer, setThisPlayer, thisPlayerName, setThisPlayerName, otherPlayer, setOtherPlayer, otherPlayerName, setOtherPlayerName, playerNumberOfShips, opponentNumberOfShips, myTurn, players, setPlayers, gameUsername, socket, setGameFull, setPlayerNumberOfShips, setOpponentNumberOfShips } = useGameContext()
 	const [gameOn, setGameOn] = useState(true)
@@ -21,6 +22,11 @@ const GameAreaPage = () => {
 
 		setPlayerNumberOfShips(4)
 		setOpponentNumberOfShips(4)
+	}
+
+	function refreshPage() {
+		console.log('CLICKED')
+		window.location.reload()
 	}
 
 	/**
@@ -51,7 +57,7 @@ const GameAreaPage = () => {
 	 *  Update playerList
 	 */
 
-	const handleUpdatePlayers = useCallback((players) => {
+	const handleUpdatePlayers = useCallback((players,) => {
 		setPlayers(players) 
 	}, [setPlayers]) 
 
