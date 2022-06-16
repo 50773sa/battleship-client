@@ -15,6 +15,7 @@ const GameAreaPage = () => {
 	 *  New Game button
 	 */
 	const newGame = () => { 
+		window.location.reload(false);
 		// go back to start Page
 		navigate("/")
 		socket.emit('new:game')
