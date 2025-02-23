@@ -57,3 +57,30 @@ Game-screen
 
 Game-over
 <img src="https://github.com/marialovgren/battleship-client/blob/main/src/assets/Screenshot%202022-06-16%20at%2014.36.34.png" width=100%>
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/50773sa/battleship-client.git
+```
+
+Go to the project directory
+
+```bash
+  cd battleship-client
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the client
+
+```bash
+  npm run start
+```
